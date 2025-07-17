@@ -14,11 +14,10 @@ RUN ng version
 # so that we don't have to reinstall dependencies if only application code changes
 COPY package*.json ./
 # Install dependencies
-RUN npm install
+RUN npm ci --no-cache
 
 # Copy the rest of the application files
 COPY . .
-
 
 # Development stage
 FROM base AS dev
@@ -30,11 +29,6 @@ CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "1000"]
 # Production build stage
 FROM base AS build
 WORKDIR /app
-
-# Adjust permissions for the new user
-RUN chown -R appuser:appuser /app
-# Switch to non-root user
-USER appuser
 
 RUN ng build
 CMD ["npm", "run", "serve:ssr"]
