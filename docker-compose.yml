@@ -1,0 +1,32 @@
+name: lynx-portfolio-angular
+services:
+  dev:
+    build: 
+      context: .
+      target: dev
+    container_name: dev
+    ports:
+      - "${DEV_PORT:-4200}:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && ng serve --host 0.0.0.0 --poll=1000"
+    profiles: ["dev"]
+  prod:
+    build: 
+      context: .
+      target: build
+    container_name: prod
+    ports:
+      - "${PROD_PORT:-4000}:4000"
+    profiles: ["prod"]
+  prod-no-ssr:
+    build: 
+      context: .
+      target: prod-no-ssr
+    container_name: prod-no-ssr
+    ports:
+      - "${PROD_PORT:-4000}:80"
+    profiles: ["prod-no-ssr"]
