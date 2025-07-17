@@ -18,7 +18,9 @@ help:
 	@echo "$(GREEN)Available commands:$(NC)"
 	@echo "  dev           - Start development server"
 	@echo "  prod          - Start production server with SSR"
+	@echo "  prod-detached - Start production server with SSR in detached mode"
 	@echo "  prod-no-ssr   - Start production server without SSR"
+	@echo "  prod-no-ssr-detached - Start production server without SSR in detached mode"
 	@echo "  stop          - Stop all containers"
 	@echo "  clean         - Clean containers and volumes"
 	@echo "  logs          - Show container logs"
@@ -36,9 +38,17 @@ prod:
 	@echo "$(CYAN)🏗️ Starting production server with SSR...$(NC)"
 	@set "COMPOSE_BAKE=true" && docker-compose -p $(PROJECT_NAME) --profile prod up --build
 
+prod-detached:
+	@echo "$(CYAN)🏗️ Starting production server with SSR...$(NC)"
+	@set "COMPOSE_BAKE=true" && docker-compose -p $(PROJECT_NAME) --profile prod up --build -d
+
 prod-no-ssr:
 	@echo "$(CYAN)🏗️ Starting production server without SSR...$(NC)"
 	@set "COMPOSE_BAKE=true" && docker-compose -p $(PROJECT_NAME) --profile production-no-ssr up --build
+
+prod-no-ssr-detached:
+	@echo "$(CYAN)🏗️ Starting production server without SSR...$(NC)"
+	@set "COMPOSE_BAKE=true" && docker-compose -p $(PROJECT_NAME) --profile production-no-ssr up --build -d
 
 stop:
 	@echo "$(CYAN)🛑 Stopping containers...$(NC)"
@@ -91,4 +101,4 @@ debug:
 	@echo "$(CYAN)🐛 Debug mode - checking for compilation errors...$(NC)"
 	docker-compose exec dev ng build --configuration development || echo "$(RED)❌ Build failed - check logs above$(NC)"
 
-.PHONY: help create dev prod prod-no-ssr stop clean logs rebuild install install-dev shell test-migration status wsl-check debug
+.PHONY: help create dev prod prod-detached prod-no-ssr prod-no-ssr-detached stop clean logs rebuild install install-dev status wsl-check debug

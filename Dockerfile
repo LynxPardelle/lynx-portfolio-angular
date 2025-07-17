@@ -14,7 +14,7 @@ RUN ng version
 # so that we don't have to reinstall dependencies if only application code changes
 COPY package*.json ./
 # Install dependencies
-RUN npm install --no-cache
+RUN npm install
 
 # Copy the rest of the application files
 COPY . .
