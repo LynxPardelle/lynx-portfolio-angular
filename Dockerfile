@@ -89,10 +89,15 @@ RUN set -e; \
 COPY --chown=appuser:appgroup package*.json ./
 
 # Install Angular CLI globally and all dependencies (including dev dependencies)
+# Use npm ci for faster, reliable, reproducible builds
 RUN npm install -g @angular/cli@19.2.15 && \
     npm cache clean --force && \
-    npm ci --no-audit --no-fund && \
+    npm ci --no-audit --no-fund --prefer-offline && \
     npm cache clean --force
+
+# Create .angular cache directory for better build performance
+RUN mkdir -p .angular/cache && \
+    chown -R appuser:appgroup .angular
 
 # -----------------------------------------------------------------------------
 # Development Stage - Hot-reload development environment
@@ -129,12 +134,12 @@ FROM dev-dependencies AS build
 # Set production environment
 ENV NODE_ENV=production
 ENV NG_CLI_ANALYTICS=false
+ENV CI=true
 
 # Copy source code
 COPY --chown=appuser:appgroup . .
 
-# Build the application for production with SSR
-# Note: Keep dev dependencies during build, prune afterwards
+# Build the application for production with SSR and optimizations
 RUN ng build --configuration=production
 
 # Clean up development dependencies and cache after build
@@ -163,12 +168,15 @@ FROM dev-dependencies AS build-no-ssr
 # Set production environment
 ENV NODE_ENV=production
 ENV NG_CLI_ANALYTICS=false
+ENV CI=true
 
 # Copy source code
 COPY --chown=appuser:appgroup . .
 
-# Build the application for production without SSR
-RUN ng build --configuration=production --prerender=false --ssr=false && \
+# Build the application for production without SSR with optimizations
+RUN ng build --configuration=production \
+    --prerender=false \
+    --ssr=false && \
     npm cache clean --force
 
 # -----------------------------------------------------------------------------

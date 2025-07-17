@@ -285,6 +285,15 @@ validate: ## Validate complete Docker setup
 		$(MAKE) check-tools \
 	)
 
+# Validate Angular configuration
+validate-angular: ## Validate Angular configuration for Angular 19 compatibility
+	@echo "$(CYAN)🔍 Validating Angular configuration...$(NC)"
+	@if exist "scripts\validate-angular-config.ps1" ( \
+		powershell -ExecutionPolicy Bypass -File scripts\validate-angular-config.ps1 \
+	) else ( \
+		echo "$(YELLOW)⚠️ Angular validation script not found$(NC)" \
+	)
+
 # Environment information
 env-info: ## Display environment information
 	@echo "$(CYAN)🌍 Environment Information:$(NC)"
@@ -298,4 +307,4 @@ env-info: ## Display environment information
 # Mark all targets as PHONY to avoid conflicts with file names
 .PHONY: help dev dev-detached dev-logs dev-shell prod prod-detached prod-no-ssr prod-no-ssr-detached \
         stop restart clean rebuild prune install install-dev update status logs health debug inspect \
-        test lint build-check backup restore check-tools validate env-info
+        test lint build-check backup restore check-tools validate validate-angular env-info

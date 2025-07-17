@@ -5,10 +5,16 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration=production",
+    "build:prod-ssr": "ng build --configuration=production",
+    "build:prod-static": "ng build --configuration=production --prerender=false --ssr=false",
+    "build:fast": "ng build --configuration=production --source-map=false",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:lynx-portfolio": "node dist/lynx-portfolio/server/server.mjs",
-    "serve:ssr": "npm run serve:ssr:lynx-portfolio"
+    "serve:ssr": "npm run serve:ssr:lynx-portfolio",
+    "prerender": "ng run lynx-portfolio:prerender",
+    "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/lynx-portfolio/browser/stats.json"
   },
   "author": {
     "name": "LynxPardelle",

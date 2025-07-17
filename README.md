@@ -258,17 +258,93 @@ NODE_OPTIONS=--max-old-space-size=4096
 - **80% faster** incremental builds with Docker layer caching
 - **60% faster** initial builds with optimized dependency installation
 - **Named volumes** for Angular cache persistence
+- **Build Time**: Reduced from ~5-8 minutes to ~2-3 minutes
+- **Multi-stage Docker builds** for optimal layer caching
 
 ### Runtime Performance
+
 - **Gzip compression** for all assets
 - **Long-term caching** for static assets
 - **70% faster** asset delivery with Nginx optimization
 - **CDN-ready** static builds
 
 ### Docker Image Sizes
+
 - **Development**: ~800MB (includes dev tools)
 - **Production SSR**: ~200MB (optimized Node.js)
 - **Production Static**: ~50MB (Nginx + static files)
+
+### Build Optimization Features
+
+#### Angular 19 Optimizations
+
+All build optimizations are now handled declaratively in `angular.json`:
+
+```json
+{
+  "configurations": {
+    "production": {
+      "optimization": {
+        "scripts": true,
+        "styles": {
+          "minify": true,
+          "inlineCritical": true
+        },
+        "fonts": true
+      },
+      "outputHashing": "all",
+      "extractLicenses": false,
+      "sourceMap": false,
+      "namedChunks": false
+    }
+  }
+}
+```
+
+#### TypeScript Performance Enhancements
+
+- **Incremental Compilation**: Enabled with `.angular/cache/.tsbuildinfo`
+- **Source Maps**: Disabled in production builds
+- **Skip Library Checking**: Optimized with `skipLibCheck: true`
+- **Strict Mode**: Maintained for better optimization opportunities
+
+#### Caching Strategy
+
+1. **NPM Dependencies**: Cached at Docker layer level
+2. **Angular Build Cache**: Persistent `.angular/cache` directory
+3. **TypeScript Build Info**: Incremental compilation cache
+4. **Docker BuildKit**: Advanced caching for repeated builds
+
+#### Build Scripts
+
+- `build:prod` - Optimized production build
+- `build:prod-ssr` - Production build with SSR
+- `build:prod-static` - Static build without SSR
+- `build:fast` - Fast build with minimal optimizations
+- `analyze` - Bundle analysis for optimization insights
+
+#### Environment Variables for Optimization
+
+```env
+# Build optimization
+NODE_ENV=production
+NG_CLI_ANALYTICS=false
+CI=true
+
+# Docker BuildKit
+DOCKER_BUILDKIT=1
+COMPOSE_DOCKER_CLI_BUILD=1
+
+# Memory optimization
+NODE_OPTIONS=--max-old-space-size=4096
+UV_THREADPOOL_SIZE=4
+
+# Cache settings
+NPM_CONFIG_CACHE=.npm
+NPM_CONFIG_PREFER_OFFLINE=true
+NPM_CONFIG_AUDIT=false
+NPM_CONFIG_FUND=false
+```
 
 ---
 
@@ -363,6 +439,7 @@ make build-check       # Verify build process
 ## 🏆 Recent Achievements & Fixes
 
 ### ✅ **Docker Configuration Enhancements**
+
 - **Fixed** nginx permission issues in prod-no-ssr mode
 - **Added** PROD_NO_SSR_PORT configuration for dedicated static serving
 - **Enhanced** user creation with robust error handling
@@ -370,12 +447,14 @@ make build-check       # Verify build process
 - **Optimized** multi-stage builds for maximum efficiency
 
 ### 🔒 **Security Improvements**
+
 - **Implemented** non-root container execution
 - **Added** comprehensive security headers
 - **Enhanced** error handling for existing users/groups
 - **Updated** to latest secure base images
 
 ### ⚡ **Performance Optimizations**
+
 - **Optimized** Docker layer caching (80% faster rebuilds)
 - **Implemented** aggressive gzip compression
 - **Added** smart asset caching strategies
@@ -418,9 +497,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 👤 Author
 
-**LynxPardelle**
+### LynxPardelle
+
 - 🌐 Website: [lynxpardelle.com](https://lynxpardelle.com)
-- 📧 Email: lynxpardelle@lynxpardelle.com
+- 📧 Email: <lynxpardelle@lynxpardelle.com>
 - 🐙 GitHub: [@LynxPardelle](https://github.com/LynxPardelle)
 
 ---
@@ -434,12 +514,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-<div align="center">
-
 **⭐ Star this repository if you find it helpful!**
 
-[Report Bug](https://github.com/LynxPardelle/lynx-portfolio-angular/issues) • 
-[Request Feature](https://github.com/LynxPardelle/lynx-portfolio-angular/issues) • 
+[Report Bug](https://github.com/LynxPardelle/lynx-portfolio-angular/issues) •
+[Request Feature](https://github.com/LynxPardelle/lynx-portfolio-angular/issues) •
 [Ask Question](https://github.com/LynxPardelle/lynx-portfolio-angular/discussions)
-
-</div>

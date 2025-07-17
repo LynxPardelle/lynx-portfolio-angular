@@ -58,6 +58,8 @@ services:
       args:
         <<: *common-variables
         NODE_ENV: production
+      cache_from:
+        - node:22-alpine
     container_name: ${APP_NAME:-lynx-portfolio}-prod
     ports:
       - "${PROD_PORT:-6162}:4000"
@@ -83,6 +85,8 @@ services:
       args:
         <<: *common-variables
         NODE_ENV: production
+      cache_from:
+        - node:22-alpine
     container_name: ${APP_NAME:-lynx-portfolio}-prod-no-ssr
     ports:
       - "${PROD_NO_SSR_PORT:-6163}:80"
