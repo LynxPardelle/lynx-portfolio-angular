@@ -1,32 +1,113 @@
+# =============================================================================
+# Docker Compose Configuration for Lynx Portfolio Angular Application
+# =============================================================================
+# This compose file provides multiple deployment profiles:
+# - dev: Development environment with hot-reload
+# - prod: Production environment with SSR
+# - prod-no-ssr: Production environment with static files and Nginx
+# =============================================================================
+
 name: lynx-portfolio-angular
+
+# Define reusable configuration
+x-common-variables: &common-variables
+  UID: ${UID:-1000}
+  GID: ${GID:-1000}
+  NODE_ENV: ${NODE_ENV:-development}
+
 services:
+  # Development service with hot-reload
   dev:
     build: 
       context: .
-      target: dev
-    container_name: dev
+      target: development
+      args:
+        <<: *common-variables
+    container_name: ${APP_NAME:-lynx-portfolio}-dev
     ports:
-      - "${DEV_PORT:-4200}:4200"
+      - "${DEV_PORT:-6161}:4200"
     volumes:
-      - .:/app
+      # Mount source code for hot-reload (excludes node_modules for performance)
+      - .:/app:cached
       - /app/node_modules
+      - angular_cache:/app/.angular
     environment:
+      - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-    command: sh -c "npm install && ng serve --host 0.0.0.0 --poll=1000"
+      - NG_CLI_ANALYTICS=false
+      - CI=true
+    # Override default command for development with additional options
+    command: >
+      ng serve --host 0.0.0.0 --port 4200 --poll=1000 --disable-host-check --open=false
+    # Health check for development container
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4200/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Restart policy
+    restart: unless-stopped
     profiles: ["dev"]
+
+  # Production service with SSR
   prod:
     build: 
       context: .
       target: build
-    container_name: prod
+      args:
+        <<: *common-variables
+        NODE_ENV: production
+    container_name: ${APP_NAME:-lynx-portfolio}-prod
     ports:
-      - "${PROD_PORT:-4000}:4000"
+      - "${PROD_PORT:-6162}:4000"
+    environment:
+      - NODE_ENV=production
+      - NG_CLI_ANALYTICS=false
+    # Health check for production SSR container
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Restart policy for production
+    restart: unless-stopped
     profiles: ["prod"]
+
+  # Production service without SSR (static files with Nginx)
   prod-no-ssr:
     build: 
       context: .
-      target: prod-no-ssr
-    container_name: prod-no-ssr
+      target: production-no-ssr
+      args:
+        <<: *common-variables
+        NODE_ENV: production
+    container_name: ${APP_NAME:-lynx-portfolio}-prod-no-ssr
     ports:
-      - "${PROD_PORT:-4000}:80"
+      - "${PROD_NO_SSR_PORT:-6163}:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    # Health check for Nginx container
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    # Restart policy for production
+    restart: unless-stopped
     profiles: ["prod-no-ssr"]
+
+# Named volumes for better performance and persistence
+volumes:
+  # Angular cache volume for better build performance
+  angular_cache:
+    driver: local
+
+# Network configuration (optional - Docker creates default network)
+networks:
+  default:
+    name: ${APP_NAME:-lynx-portfolio}-network
+    driver: bridge

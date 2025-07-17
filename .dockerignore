@@ -1,10 +1,77 @@
-node_modules
-dist
-.git
-.dockerignore
-Dockerfile
-docker-compose.yml
-.gitignore
-README.md
+# =============================================================================
+# Docker Ignore File for Lynx Portfolio Angular Application
+# =============================================================================
+# This file excludes unnecessary files from the Docker build context
+# to improve build performance and reduce image size
+# =============================================================================
+
+# Dependencies and build artifacts
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Development and build tools
+.vscode/
+.idea/
+*.log
+*.tmp
 .env
-.example-env
+.env.*
+!.env.example
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Docker files (not needed in container)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation and project files
+README*.md
+*.md
+docs/
+.editorconfig
+
+# Testing
+karma.conf.js
+*.spec.ts
+*.test.ts
+e2e/
+cypress/
+jest.config.js
+.nyc_output/
+
+# Linting and formatting
+.eslintrc*
+.prettierrc*
+.stylelintrc*
+tslint.json
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.swp
+*.swo
+*~
+.tmp/
+temp/
+
+# Package manager files
+yarn.lock
+pnpm-lock.yaml
+
+# IDE and editor files
+*.sublime-*
+.vscode/
+.idea/
+
+# Backup files
+*.bak
+*.backup
