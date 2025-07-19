@@ -18,11 +18,12 @@ ARG UID=1000
 ARG GID=1000
 
 # Install security updates and required system packages
-RUN apk update && apk upgrade && \
-    apk add --no-cache \
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache \
     dumb-init \
-    curl \
-    && rm -rf /var/cache/apk/*
+    curl
+RUN rm -rf /var/cache/apk/*
 
 # Create application directory with proper permissions
 WORKDIR /app
@@ -48,12 +49,12 @@ RUN set -e; \
 COPY --chown=appuser:appgroup package*.json ./
 
 # Install Angular CLI globally with specific version for consistency
-RUN npm install -g @angular/cli@19.2.15 && \
-    npm cache clean --force
+RUN npm install -g @angular/cli@19.2.15
+RUN npm cache clean --force
 
 # Install dependencies with optimizations
-RUN npm ci --only=production --no-audit --no-fund && \
-    npm cache clean --force
+RUN npm install --only=production --no-audit --no-fund
+RUN npm cache clean --force
 
 # -----------------------------------------------------------------------------
 # Development Dependencies Stage - For development builds
@@ -63,11 +64,12 @@ RUN npm ci --only=production --no-audit --no-fund && \
 FROM node:22-alpine AS dev-dependencies
 
 # Install system dependencies and security updates
-RUN apk update && apk upgrade && \
-    apk add --no-cache \
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache \
     dumb-init \
-    curl \
-    && rm -rf /var/cache/apk/*
+    curl
+RUN rm -rf /var/cache/apk/*
 
 # Set working directory
 WORKDIR /app
@@ -89,15 +91,15 @@ RUN set -e; \
 COPY --chown=appuser:appgroup package*.json ./
 
 # Install Angular CLI globally and all dependencies (including dev dependencies)
-# Use npm ci for faster, reliable, reproducible builds
-RUN npm install -g @angular/cli@19.2.15 && \
-    npm cache clean --force && \
-    npm ci --no-audit --no-fund --prefer-offline && \
-    npm cache clean --force
+# Use npm install to handle package-lock.json regeneration
+RUN npm install -g @angular/cli@19.2.15
+RUN npm cache clean --force
+RUN npm install --no-audit --no-fund
+RUN npm cache clean --force
 
 # Create .angular cache directory for better build performance
-RUN mkdir -p .angular/cache && \
-    chown -R appuser:appgroup .angular
+RUN mkdir -p .angular/cache
+RUN chown -R appuser:appgroup .angular
 
 # -----------------------------------------------------------------------------
 # Development Stage - Hot-reload development environment
@@ -143,8 +145,8 @@ COPY --chown=appuser:appgroup . .
 RUN ng build --configuration=production
 
 # Clean up development dependencies and cache after build
-RUN npm prune --production && \
-    npm cache clean --force
+RUN npm prune --production
+RUN npm cache clean --force
 
 # Change to non-root user
 USER appuser
@@ -176,8 +178,8 @@ COPY --chown=appuser:appgroup . .
 # Build the application for production without SSR with optimizations
 RUN ng build --configuration=production \
     --prerender=false \
-    --ssr=false && \
-    npm cache clean --force
+    --ssr=false
+RUN npm cache clean --force
 
 # -----------------------------------------------------------------------------
 # Production No-SSR Stage - Nginx static file server
@@ -185,9 +187,10 @@ RUN ng build --configuration=production \
 FROM nginx:mainline-alpine3.22 AS production-no-ssr
 
 # Install security updates
-RUN apk update && apk upgrade && \
-    apk add --no-cache curl && \
-    rm -rf /var/cache/apk/*
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache curl
+RUN rm -rf /var/cache/apk/*
 
 # Create non-root user for nginx with robust error handling
 RUN set -e; \
@@ -212,8 +215,8 @@ COPY --from=build-no-ssr --chown=nginx-app:nginx-app /app/dist/lynx-portfolio/br
 COPY --chown=nginx-app:nginx-app nginx.conf /etc/nginx/nginx.conf
 
 # Create nginx cache directories with proper permissions
-RUN mkdir -p /var/cache/nginx /var/log/nginx /tmp && \
-    chown -R nginx-app:nginx-app /var/cache/nginx /var/log/nginx /tmp /usr/share/nginx/html
+RUN mkdir -p /var/cache/nginx /var/log/nginx /tmp
+RUN chown -R nginx-app:nginx-app /var/cache/nginx /var/log/nginx /tmp /usr/share/nginx/html
 
 # Remove default nginx files
 RUN rm -f /etc/nginx/conf.d/default.conf

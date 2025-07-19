@@ -159,7 +159,7 @@ export class ArticleComponent implements OnInit {
   ngOnInit(): void {
     this.getMain();
     this._router.params.subscribe((params) => {
-      this.article._id = params.id || '';
+      this.article._id = params['id'] || '';
       if (this.article._id !== undefined && this.article._id !== '') {
         this.getArticle();
       } else {
