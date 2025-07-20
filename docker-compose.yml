@@ -38,7 +38,7 @@ services:
       - CI=true
     # Override default command for development with additional options
     command: >
-      ng serve --host 0.0.0.0 --port 4200 --poll=1000 --disable-host-check --open=false
+      ng serve --host 0.0.0.0 --port 4200 --poll=1000
     # Health check for development container
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4200/"]

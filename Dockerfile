@@ -126,7 +126,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 # Use dumb-init to handle signals properly and start development server
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll", "1000", "--disable-host-check"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll", "1000"]
 
 # -----------------------------------------------------------------------------
 # Build Stage - Production build with SSR
