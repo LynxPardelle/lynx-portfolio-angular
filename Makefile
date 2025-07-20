@@ -7,7 +7,6 @@
 
 # Global setup and variables
 PROJECT_NAME=lynx-portfolio-angular
-COMPOSE_FILE=docker-compose.yml
 
 # Load environment variables from .env file if it exists
 ifneq (,$(wildcard ./.env))

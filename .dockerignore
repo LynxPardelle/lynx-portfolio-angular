@@ -194,8 +194,6 @@ temp/
 # Scripts that are not needed in container
 scripts/validate-docker-setup.ps1
 scripts/validate-docker-setup.sh
-scripts/typecheck.sh
-scripts/build-optimized.ps1
 
 # Makefile (not needed in container)
 Makefile
