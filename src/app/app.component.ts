@@ -210,6 +210,9 @@ export class AppComponent implements OnInit, DoCheck {
 
     afterEveryRender(() => {
       this.cssCreate();
+      setTimeout(() => {
+        this.cssCreate();
+      }, this._befService.timeBetweenReCreate + 50);
     });
   }
 
