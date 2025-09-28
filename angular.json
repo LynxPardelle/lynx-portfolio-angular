@@ -20,9 +20,7 @@
             "outputPath": "dist/lynx-portfolio",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -34,9 +32,8 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": false,
+            "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
             }
@@ -69,26 +66,12 @@
                   "inlineCritical": true
                 },
                 "fonts": true
-              },
-              "extractLicenses": false,
-              "sourceMap": false,
-              "namedChunks": false
-            },
-            "ssr-dev": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "ssr": {
-                "entry": "src/server.ts"
-              },
-              "prerender": false
+              }
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "ssr": false,
-              "prerender": false
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -125,14 +108,13 @@
             ],
             "styles": [
               "src/styles.scss"
-            ],
-            "scripts": []
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": "9c3b998a-c444-47bf-b6a5-97fabac8c6c2"
+    "analytics": false
   }
 }

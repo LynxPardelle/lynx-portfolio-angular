@@ -50,40 +50,6 @@ services:
     restart: unless-stopped
     profiles: ["dev"]
 
-  # SSR Development service (for testing SSR functionality)
-  dev-ssr:
-    build: 
-      context: .
-      target: development
-      args:
-        <<: *common-variables
-    container_name: ${APP_NAME:-lynx-portfolio}-dev-ssr
-    ports:
-      - "${DEV_SSR_PORT:-6164}:4200"
-    volumes:
-      # Mount source code for hot-reload (excludes node_modules for performance)
-      - .:/app:cached
-      - /app/node_modules
-      - angular_cache:/app/.angular
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - NG_CLI_ANALYTICS=false
-      - CI=true
-    # Override default command for SSR development
-    command: >
-      ng serve --configuration=ssr-dev --host 0.0.0.0 --port 4200 --poll=1000
-    # Health check for SSR development container
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4200/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    # Restart policy
-    restart: unless-stopped
-    profiles: ["dev-ssr"]
-
   # Production service with SSR
   prod:
     build: 

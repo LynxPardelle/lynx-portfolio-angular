@@ -1,8 +1,10 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, isDevMode, mergeApplicationConfig } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling, withPreloading, PreloadAllModules, NoPreloading } from '@angular/router';
 import { provideHttpClient, withInterceptors, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServerRendering } from '@angular/platform-server';
+import { appConfig } from './app.config';
+import { serverRoutes } from './app.routes.server';
 
 // State Management (NgRx)
 import { provideStore } from '@ngrx/store';
@@ -44,7 +46,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
  * This configuration replicates the client config but excludes
  * client-specific providers that cause conflicts during SSR prerendering
  */
-export const config: ApplicationConfig = {
+const serverConfig: ApplicationConfig = {
   providers: [
     // Core Angular providers with optimizations
     provideZoneChangeDetection({ 
@@ -119,3 +121,5 @@ export const config: ApplicationConfig = {
     )
   ]
 };
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);

@@ -5,6 +5,7 @@ import {
   HostListener,
   afterNextRender,
   afterRender,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
@@ -37,6 +38,8 @@ import { LoadMain } from './state/actions/main.actions';
 import { IdentitySelector } from './state/selectors/sesion.selector';
 @Component({
   selector: 'app-root',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
     RouterLink,
