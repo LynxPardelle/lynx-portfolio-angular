@@ -423,7 +423,7 @@ export class BookComponent implements OnInit {
   checkImgWNH(file: BookImg) {
     try {
       let img = new Image();
-      img.src = this.urlMain + 'get-file/' + file.img.location;
+      img.src = this.urlMain + 'get-file/' + file.img._id;
       img.onload = () => {
         let width = 100;
         if (this.windowWidth >= 768) {

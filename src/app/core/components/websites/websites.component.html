@@ -144,7 +144,7 @@
         >
           @if (website && website.desktopImg && website.desktopImg.location) {
           <img
-            src="{{ urlMain + 'get-file/' + website.desktopImg.location }}"
+            src="{{ urlMain + 'get-file/' + website.desktopImg._id }}"
             alt="{{ website.desktopImg.title }}"
             class="bef bef-rounded-5px {{
               windowWidth < 767
@@ -154,7 +154,7 @@
           />
           } @if (website && website.tabletImg && website.tabletImg.location) {
           <img
-            src="{{ urlMain + 'get-file/' + website.tabletImg.location }}"
+            src="{{ urlMain + 'get-file/' + website.tabletImg._id }}"
             alt="{{ website.tabletImg.title }}"
             class="bef bef-rounded-5px {{
               windowWidth < 767
@@ -164,7 +164,7 @@
           />
           } @if (website && website.mobileImg && website.mobileImg.location) {
           <img
-            src="{{ urlMain + 'get-file/' + website.mobileImg.location }}"
+            src="{{ urlMain + 'get-file/' + website.mobileImg._id }}"
             alt="{{ website.mobileImg.title }}"
             class="bef bef-rounded-5px {{
               windowWidth < 767
@@ -388,7 +388,7 @@
       @if (webSite && webSite.desktopImg && webSite.desktopImg.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + webSite.desktopImg.location }}"
+        src="{{ urlMain + 'get-file/' + webSite.desktopImg._id }}"
         alt="{{ webSite.desktopImg.title }}"
       />
       }
@@ -412,7 +412,7 @@
       @if (webSite && webSite.tabletImg && webSite.tabletImg.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + webSite.tabletImg.location }}"
+        src="{{ urlMain + 'get-file/' + webSite.tabletImg._id }}"
         alt="{{ webSite.tabletImg.title }}"
       />
       }
@@ -436,7 +436,7 @@
       @if (webSite && webSite.mobileImg && webSite.mobileImg.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + webSite.mobileImg.location }}"
+        src="{{ urlMain + 'get-file/' + webSite.mobileImg._id }}"
         alt="{{ webSite.mobileImg.title }}"
       />
       }

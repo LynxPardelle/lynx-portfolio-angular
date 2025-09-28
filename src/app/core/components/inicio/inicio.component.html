@@ -391,7 +391,7 @@
       @if (main && main.logo && main.logo.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + main.logo.location }}"
+        src="{{ urlMain + 'get-file/' + main.logo._id }}"
         alt="{{ main.logo.title }}"
       />
       }
@@ -415,7 +415,7 @@
       @if (main && main.backgroundImg && main.backgroundImg.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + main.backgroundImg.location }}"
+        src="{{ urlMain + 'get-file/' + main.backgroundImg._id }}"
         alt="{{ main.backgroundImg.title }}"
       />
       }
@@ -439,7 +439,7 @@
       @if (main && main.CVImage && main.CVImage.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + main.CVImage.location }}"
+        src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
         alt="{{ main.CVImage.title }}"
       />
       }
@@ -463,7 +463,7 @@
       @if (main && main.CVBackground && main.CVBackground.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + main.CVBackground.location }}"
+        src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
         alt="{{ main.CVBackground.title }}"
       />
       }

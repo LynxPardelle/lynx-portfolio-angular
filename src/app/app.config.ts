@@ -94,10 +94,6 @@ export const appConfig: ApplicationConfig = {
         isolate: false,
         useDefaultLang: true,
         defaultLanguage: 'en',
-        missingTranslationHandler: environment.production ? undefined : {
-          provide: 'MissingTranslationHandler',
-          useValue: (params: any) => console.warn('Missing translation:', params),
-        },
       }),
       
       // Third-party libraries

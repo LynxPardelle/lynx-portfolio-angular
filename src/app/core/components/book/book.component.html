@@ -145,7 +145,7 @@
       {
       <img
         class="obj-fit-cover w-100"
-        src="{{ urlMain + 'get-file/' + bookimg.img.location }}"
+        src="{{ urlMain + 'get-file/' + bookimg.img._id }}"
         alt="{{ lang === 'es' ? bookimg.title : bookimg.titleEng }}"
         title="{{ lang === 'es' ? bookimg.title : bookimg.titleEng }}"
       />
@@ -213,7 +213,7 @@
       @if (bookImg && bookImg.img && bookImg.img.location) {
       <img
         class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + bookImg.img.location }}"
+        src="{{ urlMain + 'get-file/' + bookImg.img._id }}"
         alt="{{ lang === 'es' ? bookImg.title : bookImg.titleEng }}"
       />
       }

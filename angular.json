@@ -36,7 +36,7 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": false,
             "ssr": {
               "entry": "src/server.ts"
             }
@@ -74,10 +74,21 @@
               "sourceMap": false,
               "namedChunks": false
             },
+            "ssr-dev": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "ssr": {
+                "entry": "src/server.ts"
+              },
+              "prerender": false
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "ssr": false,
+              "prerender": false
             }
           },
           "defaultConfiguration": "production"

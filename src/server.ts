@@ -50,7 +50,10 @@ app.get('**', (req, res, next) => {
       providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
     })
     .then((html) => res.send(html))
-    .catch((err) => next(err));
+    .catch((err) => {
+      console.error('SSR Error:', err);
+      next(err);
+    });
 });
 
 /**

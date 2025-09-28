@@ -43,7 +43,7 @@
   @if (main && main.CVBackground && main.CVBackground.location) {
   <img
     id="CVBG"
-    src="{{ urlMain + 'get-file/' + main.CVBackground.location }}"
+    src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
     alt="{{
       lang === 'es' ? main.CVBackground.title : main.CVBackground.titleEng
     }}"
@@ -62,7 +62,7 @@
   @if (main && main.CVImage && main.CVImage.location) {
   <img
     id="CVImage"
-    src="{{ urlMain + 'get-file/' + main.CVImage.location }}"
+    src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
     alt="{{ lang === 'es' ? main.CVImage.title : main.CVImage.titleEng }}"
     title="{{ lang === 'es' ? main.CVImage.title : main.CVImage.titleEng }}"
     class="obj-fit-cover d-block mx-auto my-3 bef bef-rounded-15px bef-boxShadow-0__0__5px__tlight {{
@@ -535,7 +535,7 @@
         @if (main && main.CVImage && main.CVImage.location) {
         <img
           class="bef bef-wmx-75 d-block mx-auto bef-hmx-25vh my-3"
-          src="{{ urlMain + 'get-file/' + main.CVImage.location }}"
+          src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
           alt="{{ main.CVImage.title }}"
         />
         }
@@ -559,7 +559,7 @@
         @if (main && main.CVBackground && main.CVBackground.location) {
         <img
           class="bef bef-wmx-75 d-block mx-auto bef-hmx-25vh my-3"
-          src="{{ urlMain + 'get-file/' + main.CVBackground.location }}"
+          src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
           alt="{{ main.CVBackground.title }}"
         />
         }

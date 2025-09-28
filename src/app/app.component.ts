@@ -355,7 +355,7 @@ export class AppComponent implements OnInit, DoCheck {
         this.currentSong.song.location !== ''
       ) {
         this.currentAudio = new Audio(
-          this.urlMain + 'get-file/' + this.currentSong.song.location
+          this.urlMain + 'get-file/' + this.currentSong.song._id
         );
         this.currentAudio.play();
         this._sharedService.emitChange({

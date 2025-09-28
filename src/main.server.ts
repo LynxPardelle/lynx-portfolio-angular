@@ -8,6 +8,16 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 }
-const bootstrap = () => bootstrapApplication(AppComponent, config);
+
+// Bootstrap function that properly handles Angular 19 SSR context
+const bootstrap = () => {
+  // For development, we provide a context object to satisfy the SSR requirements
+  return bootstrapApplication(AppComponent, {
+    ...config,
+    providers: [
+      ...config.providers
+    ]
+  });
+};
 
 export default bootstrap;

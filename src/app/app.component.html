@@ -1,7 +1,7 @@
 @if (main && main.backgroundImg && main.backgroundImg.location){
 <div
   class="position-fixed top-0 start-0 bef bef-wmn-100vw bef-hmn-100vh bef-z-MIN20 bef-backgroundColor-abyss bef-backgroundSize-cover bef-backgroundPosition-center__center bef-backgroundRepeat-noMINrepeat bef-backgroundImage-{{
-    befysize('url(' + urlMain + 'get-file/' + main.backgroundImg.location + ')')
+    befysize('url(' + urlMain + 'get-file/' + main.backgroundImg._id + ')')
   }}
   "
 ></div>
@@ -21,7 +21,7 @@
     >
       @if (main && main.logo && main.logo.location) {
       <img
-        src="{{ urlMain + 'get-file/' + main.logo.location }}"
+        src="{{ urlMain + 'get-file/' + main.logo._id }}"
         alt="{{ lang === 'es' ? main.logo.title : main.logo.titleEng }}"
         title="{{
           lang === 'es'
@@ -274,7 +274,7 @@
             currentSong.song &&
               currentSong.song.location &&
               currentSong.song.location !== ''
-              ? urlMain + 'get-file/' + currentSong.song.location
+              ? urlMain + 'get-file/' + currentSong.song._id
               : currentSong.link && currentSong.link !== ''
               ? currentSong.link
               : ''
@@ -288,7 +288,7 @@
             (currentSong.song &&
             currentSong.song.location &&
             currentSong.song.location !== ''
-              ? urlMain + 'get-file/' + currentSong.song.location
+              ? urlMain + 'get-file/' + currentSong.song._id
               : currentSong.link && currentSong.link !== ''
               ? currentSong.link
               : '')
@@ -297,7 +297,7 @@
         [isDisabled]="
           (!currentSong.song ||
             copiedToClipBoard !==
-              urlMain + 'get-file/' + currentSong.song.location) &&
+              urlMain + 'get-file/' + currentSong.song._id) &&
           copiedToClipBoard !== currentSong.link
         "
       >
