@@ -58,17 +58,19 @@ services:
       args:
         <<: *common-variables
         NODE_ENV: production
+        PROD_PORT: ${PROD_PORT:-4000}
       cache_from:
         - node:22-alpine
     container_name: ${APP_NAME:-lynx-portfolio}-prod
     ports:
-      - "${PROD_PORT:-6162}:4000"
+      - "${PROD_PORT:-4000}:${PROD_PORT:-4000}"
     environment:
       - NODE_ENV=production
       - NG_CLI_ANALYTICS=false
+      - PROD_PORT=${PROD_PORT:-4000}
     # Health check for production SSR container
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:${PROD_PORT:-4000}/"]
       interval: 30s
       timeout: 10s
       retries: 3

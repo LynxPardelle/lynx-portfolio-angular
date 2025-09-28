@@ -152,11 +152,11 @@ RUN npm cache clean --force
 USER appuser
 
 # Expose SSR port
-EXPOSE 4000
+EXPOSE ${PROD_PORT:-4000}
 
 # Health check for SSR application
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:4000/ || exit 1
+    CMD curl -f http://localhost:${PROD_PORT:-4000}/ || exit 1
 
 # Start SSR server with proper signal handling
 ENTRYPOINT ["dumb-init", "--"]
