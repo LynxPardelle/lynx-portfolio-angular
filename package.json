@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:lynx-portfolio": "node dist/lynx-portfolio/server/server.mjs"
+    "serve:ssr:lynx-portfolio": "node dist/lynx-portfolio/server/server.mjs",
+    "serve:ssr": "npm run serve:ssr:lynx-portfolio"
   },
   "author": {
     "name": "LynxPardelle",
