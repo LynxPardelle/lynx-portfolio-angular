@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 // RxJs 
@@ -30,10 +30,9 @@ import { LoadMain } from 'src/app/state/actions/main.actions';
   styleUrls: ['./blog.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-    RouterModule,
-  ],
+    RouterModule
+],
 })
 export class BlogComponent implements OnInit {
   public identity: any;

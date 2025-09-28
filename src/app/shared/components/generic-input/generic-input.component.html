@@ -1,28 +1,29 @@
-<label
-  *ngIf="
-    !type.includes('select') &&
-    labelTitle !== '' &&
-    (type === 'checkbox' ||
-      (thingFather[thing] && thingFather[thing].length > 0))
-  "
+@if (
+  !type.includes('select') &&
+  labelTitle !== '' &&
+  (type === 'checkbox' ||
+  (thingFather[thing] && thingFather[thing].length > 0))
+  ) {
+  <label
   [exist]="
     !type.includes('select') &&
     labelTitle !== '' &&
     thingFather[thing] &&
     thingFather[thing].length > 0
   "
-  (ngInit)="cssCreate()"
-  [ngClass]="labelClasses"
-  for="{{ thing }}"
->
-  {{ labelTitle }}
-</label>
+    (ngInit)="cssCreate()"
+    [ngClass]="labelClasses"
+    for="{{ thing }}"
+    >
+    {{ labelTitle }}
+  </label>
+}
 <!-- <p *ngIf="type === 'date'" [ngClass]="inputClasses">
-  {{ thingFather[thing] | date }}
+{{ thingFather[thing] | date }}
 </p> -->
 <div class="{{ inputContainerClasses }}">
-  <ng-container [ngSwitch]="type">
-    <ng-container *ngSwitchCase="'textarea'">
+  @switch (type) {
+    @case ('textarea') {
       <textarea
         [ngClass]="
           disabled && !!inputDisabledClasses && inputDisabledClasses !== ''
@@ -39,10 +40,10 @@
         [disabled]="disabled"
         [readonly]="readonly"
         required
-      >
+        >
       </textarea>
-    </ng-container>
-    <ng-container *ngSwitchCase="'checkbox'">
+    }
+    @case ('checkbox') {
       <button
         class="btn bef bef-w-25px bef-h-25px bef-rounded-5px mat-elevation-z1"
         [ngClass]="
@@ -56,20 +57,20 @@
         (click)="changeValue(!thingFather[thing])"
         [disabled]="disabled || readonly"
       ></button>
-    </ng-container>
-    <ng-container *ngSwitchCase="'radio'">
+    }
+    @case ('radio') {
       <div
         class="bef bef-w-250px d-flex justify-content-evenly align-items-center"
-      >
-        @for (op of options; track op; let $last = $last) {
-        <div
-          [exist]="$last"
-          (ngInit)="cssCreate()"
-          class="d-flex flex-column justify-content-center align-items-center"
         >
-          <p class="text-center text-capitalize">{{ op.option }}</p>
-          <button
-            class="btn bef bef-w-25px bef-h-25px bef-rounded-100px mat-elevation-z2"
+        @for (op of options; track op; let $last = $last) {
+          <div
+            [exist]="$last"
+            (ngInit)="cssCreate()"
+            class="d-flex flex-column justify-content-center align-items-center"
+            >
+            <p class="text-center text-capitalize">{{ op.option }}</p>
+            <button
+              class="btn bef bef-w-25px bef-h-25px bef-rounded-100px mat-elevation-z2"
             [class]="
               (disabled && !!disabledClassButton && disabledClassButton !== ''
                 ? disabledClassButton
@@ -82,14 +83,14 @@
                 ? op.disabledClasses
                 : ' bef-btn-white ')
             "
-            (click)="changeValue(op.click)"
-            [disabled]="disabled || readonly"
-          ></button>
-        </div>
+              (click)="changeValue(op.click)"
+              [disabled]="disabled || readonly"
+            ></button>
+          </div>
         }
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'select'">
+    }
+    @case ('select') {
       <generic-dropdown
         [labelTitle]="labelTitle"
         [placeholder]="placeholder"
@@ -101,8 +102,8 @@
         (clickedTitle)="clickedTitle.emit($event)"
         (clicked)="clicked.emit($event)"
       ></generic-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchCase="'select-withSearcher'">
+    }
+    @case ('select-withSearcher') {
       <generic-dropdown
         [labelTitle]="labelTitle"
         [placeholder]="placeholder"
@@ -117,8 +118,8 @@
         (clicked)="clicked.emit($event)"
         (changesInput)="changesInput.emit($event)"
       ></generic-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchCase="'multiselect-withSearcher'">
+    }
+    @case ('multiselect-withSearcher') {
       <generic-dropdown
         class="w-100"
         [labelTitle]="labelTitle"
@@ -135,8 +136,8 @@
         (clicked)="clicked.emit($event)"
         (changesInput)="changesInput.emit($event)"
       ></generic-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
+    }
+    @default {
       <input
         [ngClass]="
           disabled && !!inputDisabledClasses && inputDisabledClasses !== ''
@@ -163,39 +164,39 @@
         [disabled]="disabled"
         [readOnly]="readonly"
         [required]="getRequired()"
-      />
-    </ng-container>
-  </ng-container>
-  @for (button of buttons; track button) {
-  <ng-container>
-    <generic-button
-      [type]="button.type ? button.type : 'customHTML'"
-      [classButton]="button.classButton ? button.classButton : ''"
+        />
+      }
+    }
+    @for (button of buttons; track button) {
+      <ng-container>
+        <generic-button
+          [type]="button.type ? button.type : 'customHTML'"
+          [classButton]="button.classButton ? button.classButton : ''"
       [disabledClassButton]="
         button.disabledClassButton ? button.disabledClassButton : ''
       "
-      [customHtml]="button.customHtml ? button.customHtml : ''"
-      [disabled]="button.disabled !== undefined ? button.disabled : false"
-      [tooltip]="button.tooltip ? button.tooltip : ''"
-      [placement]="button.placement ? button.placement : 'auto'"
-      [tooltipClass]="button.tooltipClass ? button.tooltipClass : ''"
-      (clicked)="clicked.emit($event)"
-    ></generic-button>
-  </ng-container>
+          [customHtml]="button.customHtml ? button.customHtml : ''"
+          [disabled]="button.disabled !== undefined ? button.disabled : false"
+          [tooltip]="button.tooltip ? button.tooltip : ''"
+          [placement]="button.placement ? button.placement : 'auto'"
+          [tooltipClass]="button.tooltipClass ? button.tooltipClass : ''"
+          (clicked)="clicked.emit($event)"
+        ></generic-button>
+      </ng-container>
+    }
+  </div>
+  @if (!!hrActive) {
+    <hr [class]="hrClasses" />
   }
-</div>
-@if (!!hrActive) {
-<hr [class]="hrClasses" />
-}
-@for (span of spans; track span; let last$ = $last) {
-<ng-container
-  [exist]="last$"
-  (ngInit)="cssCreate()"
->
-  @if (evalThing(span.evalThing)) {
-  <span [class]="'bef ' + span.spanClass">
-    {{ span.text }}
-  </span>
+  @for (span of spans; track span; let last$ = $last) {
+    <ng-container
+      [exist]="last$"
+      (ngInit)="cssCreate()"
+      >
+      @if (evalThing(span.evalThing)) {
+        <span [class]="'bef ' + span.spanClass">
+          {{ span.text }}
+        </span>
+      }
+    </ng-container>
   }
-</ng-container>
-}

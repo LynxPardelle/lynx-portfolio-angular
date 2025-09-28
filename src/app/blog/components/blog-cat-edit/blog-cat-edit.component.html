@@ -2,27 +2,27 @@
   Selecciona la categoría del artículo
 </h3>
 <div class="d-flex justify-content-evenly align-items-center flex-wrap">
-  <div
-    *ngFor="let cat of cats; let i = index; let last$ = last"
-    [exist]="last$"
-    (ngInit)="cssCreate()"
-    class="p-2 text-center bef bef-lh-1_5 bef-bw-0_25rem bef-bs-solid bef-r-25px"
+  @for (cat of cats; track cat; let i = $index; let last$ = $last) {
+    <div
+      [exist]="last$"
+      (ngInit)="cssCreate()"
+      class="p-2 text-center bef bef-lh-1_5 bef-bw-0_25rem bef-bs-solid bef-r-25px"
     [ngClass]="{
       'bef-bc-success': !!catBringer(cat, true),
       'bef-bc-transparent': !catBringer(cat, true)
     }"
-  >
-    <label
-      (click)="onClickChangeCat(cats[i]._id)"
+      >
+      <label
+        (click)="onClickChangeCat(cats[i]._id)"
       class="d-block badge rounded-pill bef bef-mb-1rem bef-p-0_5rem__1rem bef-bg-{{
       !!cat.buttonColor ? befisize(cat.buttonColor) : 'dark'
     }} bef-text-{{ !!cat.titleColor ? befisize(cat.titleColor) : 'light' }}"
-    >
-      {{ cat.title }}
-    </label>
-    <!-- Edit/Delete Buttons Cat -->
-    <generic-group-buttons
-      [buttonComboClass]="'d-flex justify-content-center'"
+        >
+        {{ cat.title }}
+      </label>
+      <!-- Edit/Delete Buttons Cat -->
+      <generic-group-buttons
+        [buttonComboClass]="'d-flex justify-content-center'"
       [buttons]="[
         {
           type: 'edit┼cat┼' + cats[i]._id,
@@ -42,6 +42,7 @@
       (clicked)="onClickButton($event)"
     ></generic-group-buttons>
   </div>
+}
 </div>
 <!-- Crear o editar Categoría -->
 <div class="d-block my-3">
@@ -59,27 +60,27 @@
         spanClass: 'bef-text-fullRed'
       }
     ]"
-    [labelClasses]="'bef-text-tlight'"
-    [inputClasses]="'bef-text-fullYellow w-100 border-0 bg-transparent'"
-    [inputContainerClasses]="'d-flex bef bef-w-100per align-items-center'"
-    [hrClasses]="'bef-bg-tlight'"
-    (changesInput)="(null)"
-  ></generic-input>
-  <!-- Color fondo -->
-  <label
-    for="cat.buttonColor"
+  [labelClasses]="'bef-text-tlight'"
+  [inputClasses]="'bef-text-fullYellow w-100 border-0 bg-transparent'"
+  [inputContainerClasses]="'d-flex bef bef-w-100per align-items-center'"
+  [hrClasses]="'bef-bg-tlight'"
+  (changesInput)="(null)"
+></generic-input>
+<!-- Color fondo -->
+<label
+  for="cat.buttonColor"
     class="btn d-block w-75 mx-auto my-2 bef bef-bg-{{
       !!cat.buttonColor ? befisize(cat.buttonColor) : 'dark'
     }} bef-text-{{ !!cat.titleColor ? befisize(cat.titleColor) : 'light' }}"
   >
-    Color del fondo de la categoría
-    <input
-      type="color"
-      id="cat.buttonColor"
-      name="cat.buttonColor"
-      value="cat.buttonColor"
-      [(ngModel)]="cat.buttonColor"
-      (ngModelChange)="cssCreate()"
+  Color del fondo de la categoría
+  <input
+    type="color"
+    id="cat.buttonColor"
+    name="cat.buttonColor"
+    value="cat.buttonColor"
+    [(ngModel)]="cat.buttonColor"
+    (ngModelChange)="cssCreate()"
     />
   </label>
   <!-- Color texto -->
@@ -88,7 +89,7 @@
     class="btn d-block w-75 mx-auto my-2 bef bef-bg-{{
       !!cat.buttonColor ? befisize(cat.buttonColor) : 'dark'
     }} bef-text-{{ !!cat.titleColor ? befisize(cat.titleColor) : 'light' }}"
-  >
+    >
     Color de las letras de la categoría
     <input
       type="color"
@@ -97,10 +98,10 @@
       value="cat.titleColor"
       [(ngModel)]="cat.titleColor"
       (ngModelChange)="cssCreate()"
-    />
-  </label>
-  <generic-group-buttons
-    [buttonComboClass]="'d-flex justify-content-center'"
+      />
+    </label>
+    <generic-group-buttons
+      [buttonComboClass]="'d-flex justify-content-center'"
     [buttons]="
       !!cat._id
         ? [
@@ -133,6 +134,6 @@
             }
           ]
     "
-    (clicked)="onClickButton($event)"
-  ></generic-group-buttons>
+  (clicked)="onClickButton($event)"
+></generic-group-buttons>
 </div>

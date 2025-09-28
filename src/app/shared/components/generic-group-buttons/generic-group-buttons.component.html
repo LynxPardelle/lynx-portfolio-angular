@@ -1,9 +1,10 @@
-<div *ngIf="buttons.length > 0" [ngClass]="buttonComboClass">
-  <generic-button
-    *ngFor="let button of buttons; let i = index; let $last = last"
-    [exist]="$last"
-    (ngInit)="cssCreate()"
-    [type]="button.type ? button.type : 'customHTML ' + i"
+@if (buttons.length > 0) {
+  <div [ngClass]="buttonComboClass">
+    @for (button of buttons; track button; let i = $index) {
+      <generic-button
+        [exist]="$last"
+        (ngInit)="cssCreate()"
+        [type]="button.type ? button.type : 'customHTML ' + i"
     [classButton]="
       button.classButton
         ? button.classButton
@@ -25,11 +26,13 @@
         ? button.type
         : 'Button ' + i
     "
-    [disabled]="button.disabled ? button.disabled : false"
-    [tooltip]="button.tooltip ? button.tooltip : ''"
-    [placement]="button.placement ? button.placement : 'auto'"
-    [tooltipClass]="button.tooltipClass ? button.tooltipClass : ''"
-    (clicked)="clicked.emit($event)"
-    (buttonId)="buttonId.emit({ id: $event, index: i })"
-  ></generic-button>
-</div>
+        [disabled]="button.disabled ? button.disabled : false"
+        [tooltip]="button.tooltip ? button.tooltip : ''"
+        [placement]="button.placement ? button.placement : 'auto'"
+        [tooltipClass]="button.tooltipClass ? button.tooltipClass : ''"
+        (clicked)="clicked.emit($event)"
+        (buttonId)="buttonId.emit({ id: $event, index: i })"
+      ></generic-button>
+    }
+  </div>
+}

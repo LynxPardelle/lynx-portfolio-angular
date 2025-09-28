@@ -2,27 +2,27 @@
   Selecciona las sub-categorías del artículo
 </h3>
 <div class="d-flex justify-content-evenly align-items-center flex-wrap">
-  <div
-    *ngFor="let subCat of subCats; let i = index; let last$ = last"
-    [exist]="last$"
-    (ngInit)="cssCreate()"
-    class="p-2 text-center bef bef-lh-1_5 bef-bw-0_25rem bef-bs-solid bef-r-25px"
+  @for (subCat of subCats; track subCat; let i = $index; let last$ = $last) {
+    <div
+      [exist]="last$"
+      (ngInit)="cssCreate()"
+      class="p-2 text-center bef bef-lh-1_5 bef-bw-0_25rem bef-bs-solid bef-r-25px"
     [ngClass]="{
       'bef-bc-success': !!subCatBringer(subCat, true),
       'bef-bc-transparent': !subCatBringer(subCat, true)
     }"
-  >
-    <label
-      (click)="onClickChangeSubCat(subCats[i]._id)"
+      >
+      <label
+        (click)="onClickChangeSubCat(subCats[i]._id)"
       class="d-block badge rounded-pill bef bef-mb-1rem bef-p-0_5rem__1rem {{
         'bef-text-' + subCat.titleColor.replace('#', 'HASH') + ' bef-bg-' + subCat.buttonColor.replace('#', 'HASH')
       }}"
-    >
-      {{ subCat.title }}
-    </label>
-    <!-- Edit/Delete Buttons Cat -->
-    <generic-group-buttons
-      [buttonComboClass]="'d-flex justify-content-center'"
+        >
+        {{ subCat.title }}
+      </label>
+      <!-- Edit/Delete Buttons Cat -->
+      <generic-group-buttons
+        [buttonComboClass]="'d-flex justify-content-center'"
       [buttons]="[
         {
           type: 'edit┼subCat┼' + subCats[i]._id,
@@ -42,6 +42,7 @@
       (clicked)="onClickButton($event)"
     ></generic-group-buttons>
   </div>
+}
 </div>
 <!-- Crear o editar SubCategoría -->
 <div class="d-block my-3">
@@ -59,27 +60,27 @@
         spanClass: 'bef-text-fullRed'
       }
     ]"
-    [labelClasses]="'bef-text-tlight'"
-    [inputClasses]="'bef-text-fullYellow w-100 border-0 bg-transparent'"
-    [inputContainerClasses]="'d-flex bef bef-w-100per align-items-center'"
-    [hrClasses]="'bef-bg-tlight'"
-    (changesInput)="(null)"
-  ></generic-input>
-  <!-- Color fondo -->
-  <label
-    for="subCat.buttonColor"
+  [labelClasses]="'bef-text-tlight'"
+  [inputClasses]="'bef-text-fullYellow w-100 border-0 bg-transparent'"
+  [inputContainerClasses]="'d-flex bef bef-w-100per align-items-center'"
+  [hrClasses]="'bef-bg-tlight'"
+  (changesInput)="(null)"
+></generic-input>
+<!-- Color fondo -->
+<label
+  for="subCat.buttonColor"
     class="btn d-block w-75 mx-auto my-2 bef bef-bg-{{
       subCat.buttonColor.replace('#', 'HASH') || 'dark'
     }} bef-text-{{ subCat.titleColor.replace('#', 'HASH') || 'light' }}"
   >
-    Color del fondo de la sub-categoría
-    <input
-      type="color"
-      id="subCat.buttonColor"
-      name="subCat.buttonColor"
-      value="subCat.buttonColor"
-      [(ngModel)]="subCat.buttonColor"
-      (ngModelChange)="cssCreate()"
+  Color del fondo de la sub-categoría
+  <input
+    type="color"
+    id="subCat.buttonColor"
+    name="subCat.buttonColor"
+    value="subCat.buttonColor"
+    [(ngModel)]="subCat.buttonColor"
+    (ngModelChange)="cssCreate()"
     />
   </label>
   <!-- Color texto -->
@@ -88,7 +89,7 @@
     class="btn d-block w-75 mx-auto my-2 bef bef-bg-{{
       subCat.buttonColor.replace('#', 'HASH') || 'dark'
     }} bef-text-{{ subCat.titleColor.replace('#', 'HASH') || 'light' }}"
-  >
+    >
     Color de las letras de la sub-categoría
     <input
       type="color"
@@ -97,10 +98,10 @@
       value="subCat.titleColor"
       [(ngModel)]="subCat.titleColor"
       (ngModelChange)="cssCreate()"
-    />
-  </label>
-  <generic-group-buttons
-    [buttonComboClass]="'d-flex justify-content-center'"
+      />
+    </label>
+    <generic-group-buttons
+      [buttonComboClass]="'d-flex justify-content-center'"
     [buttons]="
       !!subCat._id
         ? [
@@ -133,6 +134,6 @@
             }
           ]
     "
-    (clicked)="onClickButton($event)"
-  ></generic-group-buttons>
+  (clicked)="onClickButton($event)"
+></generic-group-buttons>
 </div>

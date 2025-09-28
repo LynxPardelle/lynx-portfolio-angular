@@ -4,7 +4,7 @@ import {
   OnInit,
   HostListener,
   afterNextRender,
-  afterRender,
+  afterEveryRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
@@ -203,7 +203,7 @@ export class AppComponent implements OnInit, DoCheck {
       this.cssCreate();
     });
 
-    afterRender(() => {
+    afterEveryRender(() => {
       this.cssCreate();
     });
   }

@@ -1,8 +1,8 @@
+import { provideServerRendering } from '@angular/ssr';
 import { ApplicationConfig, provideZoneChangeDetection, isDevMode, mergeApplicationConfig } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling, withPreloading, PreloadAllModules, NoPreloading } from '@angular/router';
 import { provideHttpClient, withInterceptors, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideServerRendering } from '@angular/platform-server';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 
