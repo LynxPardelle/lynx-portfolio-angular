@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -16,7 +16,9 @@ import * as MainActions from '../actions/main.actions';
 import { environment } from 'src/environments/environment';
 @Injectable()
 export class MainEffects {
+  private actions$: Actions = inject(Actions);
   private readonly api = environment.api + '/main';
+  private _http: HttpClient = inject(HttpClient);
 
   LoadMainn$ = createEffect(() =>
     this.actions$.pipe(
@@ -44,6 +46,4 @@ export class MainEffects {
       })
     )
   );
-
-  constructor(private actions$: Actions, private _http: HttpClient) {}
 }

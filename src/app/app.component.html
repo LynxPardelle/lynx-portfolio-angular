@@ -222,7 +222,7 @@
       class="d-flex bef bef-bg-tdark__OPA__0_75 bef-boxShadow-0__0__10px__fullRed bef-rounded-50px p-3 justify-content-between align-items-center"
     >
       @if(currentSong.song && currentSong.song.location &&
-      currentSong.song.location !== '' && currentAudio.paused !== false)
+      currentSong.song.location !== '' && currentAudio && currentAudio.paused !== false)
       {<button
         (click)="playAudio(currentSong)"
         class="btn w-10 bef bef-text-fullRed bef-boxShadow-0__0__10px__fullRed bef-p-6px bef-mx-6px rounded-circle"
@@ -239,7 +239,7 @@
             d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
           />
         </svg></button
-      >} @if(currentAudio.paused === false){
+      >} @if(currentAudio && currentAudio.paused === false){
       <button
         class="btn w-10 bef bef-text-fullRed bef-boxShadow-0__0__10px__fullRed bef-p-6px bef-mx-6px rounded-circle"
         (click)="pause()"

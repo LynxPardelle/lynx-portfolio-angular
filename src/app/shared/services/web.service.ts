@@ -581,7 +581,7 @@ export class WebService {
       this.identity.role &&
       this.identity.role === 'ROLE_ADMIN'
       */
-    if (true) {
+    if (typeof document !== 'undefined') {
       console.trace();
       if (line && line !== '') {
         console.log('%cline: ' + line + ' = ', style);

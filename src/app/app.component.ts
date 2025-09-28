@@ -6,13 +6,16 @@ import {
   afterNextRender,
   afterEveryRender,
   ChangeDetectionStrategy,
+  Inject,
+  PLATFORM_ID,
+  inject,
 } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, isPlatformBrowser } from '@angular/common';
 /* RXJS */
 import { lastValueFrom, Observable } from 'rxjs';
 /* Environment */
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 /* Services */
 import { MainService } from './core/services/main.service';
 import { WebService } from './shared/services/web.service';
@@ -108,10 +111,12 @@ export class AppComponent implements OnInit, DoCheck {
   /* Utility */
   public windowWidth = 0;
   public copiedToClipBoard: string = '';
-  public currentAudio: any;
+  public currentAudio: any = null;
   /* State */
   public main$: Observable<IMain | undefined>;
   public identity$: Observable<any | undefined>;
+  private platformId = inject(PLATFORM_ID);
+
   constructor(
     private _mainService: MainService,
     private _befService: BefService,
@@ -355,7 +360,8 @@ export class AppComponent implements OnInit, DoCheck {
         this.currentSong &&
         this.currentSong.song &&
         this.currentSong.song.location &&
-        this.currentSong.song.location !== ''
+        this.currentSong.song.location !== '' &&
+        isPlatformBrowser(this.platformId)
       ) {
         this.currentAudio = new Audio(
           this.urlMain + 'get-file/' + this.currentSong.song._id

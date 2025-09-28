@@ -12,8 +12,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 // NGX-Translate
 import { importProvidersFrom } from '@angular/core';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader';
 
 // Third-party libraries
 import { NgxUploaderModule } from '@angular-ex/uploader';
@@ -35,8 +34,8 @@ import { MainEffects } from './state/effects/main.effects';
 import { environment } from '../environments/environment';
 
 // Factory function for TranslateHttpLoader
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+export function HttpLoaderFactory(): TranslateHttpLoader {
+  return new TranslateHttpLoader();
 }
 
 export const appConfig: ApplicationConfig = {
@@ -48,8 +47,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideRouter(
       routes,
-      // Router optimizations
-      withEnabledBlockingInitialNavigation(),
+      // Router optimizations - removed withEnabledBlockingInitialNavigation to avoid conflict with hydration
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
         anchorScrolling: 'enabled',
@@ -82,18 +80,25 @@ export const appConfig: ApplicationConfig = {
       connectInZone: true,
     }),
     
+    // Translate HTTP Loader Configuration
+    {
+      provide: TRANSLATE_HTTP_LOADER_CONFIG,
+      useValue: {
+        prefix: './assets/i18n/',
+        suffix: '.json'
+      }
+    },
+    
     // Third-party modules as providers
     importProvidersFrom(
-      // NGX-Translate with optimizations
+      // NGX-Translate with loader configuration
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
         },
         isolate: false,
-        useDefaultLang: true,
-        defaultLanguage: 'en',
+        fallbackLang: 'en',
       }),
       
       // Third-party libraries
