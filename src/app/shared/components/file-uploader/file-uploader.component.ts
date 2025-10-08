@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 /* Environment */
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 
 /* Services */
 import { MainService } from '../../../core/services/main.service';
@@ -18,7 +18,6 @@ import { WebService } from '../../services/web.service';
 
 /* NGX-Bootstrap */
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { NgxBootstrapExpandedFeaturesService as BefService } from 'ngx-bootstrap-expanded-features';
 
 /* NGXUploader */
 import {
@@ -74,8 +73,6 @@ export class FileUploaderComponent implements OnInit {
     private _mainService: MainService,
     private _webService: WebService,
     private modalService: BsModalService,
-    private _befService: BefService,
-    private _http: HttpClient,
   ) {
     /* Identity */
     this.identity = this._mainService.getIdentity();
@@ -102,7 +99,6 @@ export class FileUploaderComponent implements OnInit {
 
   /* Basic */
   ngOnInit(): void {
-    this.cssCreate();
   }
 
   /* Utility */
@@ -383,11 +379,5 @@ export class FileUploaderComponent implements OnInit {
     this.removeAllFiles();
     this.fileProgress = [];
     modalRef.hide();
-  }
-
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
   }
 }

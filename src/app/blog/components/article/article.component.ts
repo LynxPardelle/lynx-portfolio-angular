@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 /* RxJs */
 import { Observable, map } from 'rxjs';
 /* Environment */
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 /* Interfaces */
 import {
   IArticle,
@@ -11,19 +11,18 @@ import {
   IArticleSection,
   IArticleSubCat,
 } from '../../interfaces/blog';
-import { IMain } from 'src/app/core/interfaces/main';
+import { IMain } from '../../../core/interfaces/main';
 /* Services */
-import { NgxBootstrapExpandedFeaturesService as BefService } from 'ngx-bootstrap-expanded-features';
 import { BlogService } from '../../services/blog.service';
-import { WebService } from 'src/app/shared/services/web.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
-import { MainService } from 'src/app/core/services/main.service';
+import { WebService } from '../../../shared/services/web.service';
+import { SharedService } from '../../../shared/services/shared.service';
+import { MainService } from '../../../core/services/main.service';
 /* State */
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
-import { IButton } from 'src/app/shared/interfaces/button';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
+import { IButton } from '../../../shared/interfaces/button'
 
 @Component({
   selector: 'app-article',
@@ -104,13 +103,12 @@ export class ArticleComponent implements OnInit {
     private _mainService: MainService,
 
     private _webService: WebService,
-    private _befService: BefService,
     private _blogService: BlogService,
 
     private _sharedService: SharedService,
     private store: Store<AppState>
   ) {
-    this._sharedService.changeEmitted$.subscribe((sharedContent) => {
+    this._sharedService.changeEmitted$.subscribe((sharedContent:any) => {
       if (
         typeof sharedContent === 'object' &&
         sharedContent.from !== 'blog' &&
@@ -181,7 +179,6 @@ export class ArticleComponent implements OnInit {
       next: (m) => {
         if (m !== undefined) {
           this.main = m;
-          this.cssCreate();
         }
       },
       error: (e) => console.error(e),
@@ -281,7 +278,7 @@ export class ArticleComponent implements OnInit {
       ) {
         this.buttonsToEdit.push({
           type: bt.type,
-          classButton: 'btn mx-2 bef-w-50px bef-h-50px bef-bg-fullYellow',
+          classButton: 'btn mx-2 ank-w-50px ank-h-50px ank-bg-fullYellow',
           customHtml: bt.type,
           tooltip: bt.title,
         });
@@ -434,11 +431,6 @@ export class ArticleComponent implements OnInit {
       return text;
     } else {
       return text;
-    }
-  }
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
     }
   }
 }

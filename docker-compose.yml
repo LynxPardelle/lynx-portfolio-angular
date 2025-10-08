@@ -16,16 +16,17 @@ x-common-variables: &common-variables
   NODE_ENV: ${NODE_ENV:-development}
 
 services:
-  # Development service with hot-reload (SSR disabled for stability)
+  # Development service with SSR enabled
   dev:
     build: 
       context: .
       target: development
       args:
         <<: *common-variables
+        NODE_ENV: development
     container_name: ${APP_NAME:-lynx-portfolio}-dev
     ports:
-      - "${DEV_PORT:-6161}:4200"
+      - "${DEV_PORT:-6161}:${DEV_PORT:-6161}"
     volumes:
       # Mount source code for hot-reload (excludes node_modules for performance)
       - .:/app:cached
@@ -33,15 +34,14 @@ services:
       - angular_cache:/app/.angular
     environment:
       - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
       - NG_CLI_ANALYTICS=false
-      - CI=true
-    # Override default command for development with additional options
+      - PROD_PORT=${DEV_PORT:-6161}
+    # Override command to build and serve with SSR for development
     command: >
-      ng serve --host 0.0.0.0 --port 4200 --poll=1000
+      sh -c "ng build --configuration=development && npm run serve:ssr"
     # Health check for development container
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4200/"]
+      test: ["CMD", "curl", "-f", "http://localhost:${DEV_PORT:-6161}/"]
       interval: 30s
       timeout: 10s
       retries: 3

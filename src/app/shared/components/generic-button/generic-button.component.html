@@ -1,5 +1,5 @@
 <button
-  class="btn cursor-pointer bef"
+  class="btn cursor-pointer ank"
   [ngClass]="classButton"
   (click)="clicked.emit(type)"
   [disabled]="disabled"
@@ -7,6 +7,5 @@
   [tooltip]="tooltip"
   [placement]="placement"
   [containerClass]="tooltipClass"
-  (mouseover)="cssCreate()"
   [innerHTML]="getHtml() | safeHtml"
 ></button>

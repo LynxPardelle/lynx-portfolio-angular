@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api: 
-  'http://localhost:6164/api',
+  'http://host.docker.internal:6164/api',
   /*
   'https://api.lynxpardelle.com/api',
   */

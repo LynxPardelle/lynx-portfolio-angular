@@ -1,13 +1,13 @@
 <!-- Edit/Delete Buttons -->
 @if (identity && identity.role == 'ROLE_ADMIN') {
 <div
-  class="position-fixed end-0 bef bef-z-15 {{
-    windowWidth < 767 ? 'bef-top-150px' : 'bef-top-15per'
+  class="position-fixed end-0 ank ank-z-15 {{
+    windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per'
   }}"
 >
   @if (edit === false) {
   <button
-    class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+    class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
     (click)="editChange()"
   >
     <svg
@@ -29,7 +29,7 @@
   </button>
   } @if (edit == true) {
   <button
-    class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+    class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
     (click)="editChange()"
   >
     X
@@ -38,26 +38,26 @@
 </div>
 }
 
-<h2 class="text-center bef bef-my-3rem">Music</h2>
+<h2 class="text-center ank ank-my-3rem">Music</h2>
 
 <section>
   <!-- Songs -->
   @if (songs && songs.length > 0) {
   <article
-    class="bef bef-bg-tdark__OPA__0_75 bef-boxShadow-4px__0__4px__midRed p-3"
+    class="ank ank-bg-tdark__OPA__0_75 ank-boxShadow-4px__0__4px__midRed p-3"
   >
     <h3 class="text-center">Best Songs</h3>
 
     <div class="d-flex flex-wrap p-3">
       @for (songi of songs; track songi._id; let i = $index) {
       <div
-        class="bef bef-w-90per bef-w-md-45per bef-mt-md-1rem bef-mb-md-3rem mx-auto d-flex align-items-center justify-content-between bef-text-tlight"
+        class="ank ank-w-90per ank-w-md-45per ank-mt-md-1rem ank-mb-md-3rem mx-auto d-flex align-items-center justify-content-between ank-text-tlight"
       >
         <a
           href="{{ songi.link }}"
           target="_blank"
           rel="noopener noreferrer"
-          class="btn bef bef-w-80per m-0 text-start bef-text-tlight"
+          class="btn ank ank-w-80per m-0 text-start ank-text-tlight"
         >
           {{ songi.title }}
         </a>
@@ -72,7 +72,7 @@
         ) {
         <button
           (click)="playAudio(songi)"
-          class="btn w-10 bef bef-text-tlight"
+          class="btn w-10 ank ank-text-tlight"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@
           currentAudio.paused === false
         ) {
         <button
-          class="btn w-10 bef bef-text-tlight rounded-circle"
+          class="btn w-10 ank ank-text-tlight rounded-circle"
           (click)="pause()"
         >
           <svg
@@ -128,7 +128,7 @@
                 : ''
             )
           "
-          class="btn w-10 bef bef-text-tlight"
+          class="btn w-10 ank ank-text-tlight"
           tooltip="{{
             (lang === 'en'
               ? 'Copied to ClipBoard: '
@@ -171,7 +171,7 @@
         >
           @if (songi._id !== song._id) {
           <button
-            class="btn bef bef-bg-transparent bef-text-tlight mr-2"
+            class="btn ank ank-bg-transparent ank-text-tlight mr-2"
             (click)="SongEdit(songi)"
           >
             <svg
@@ -194,14 +194,14 @@
           }
           @if (songi._id === song._id) {
           <button
-            class="btn bef bef-bg-transparent bef-text-tlight mr-2 font-weight-normal float-right"
+            class="btn ank ank-bg-transparent ank-text-tlight mr-2 font-weight-normal float-right"
             (click)="SongEdit(songi)"
           >
             X
           </button>
           }
           <button
-            class="btn bef-bg-transparent bef-text-tlight mr-2"
+            class="btn ank-bg-transparent ank-text-tlight mr-2"
             (click)="deleteSong(songi._id)"
           >
             <svg
@@ -233,18 +233,18 @@
     <div class="d-flex flex-wrap justify-content-between p-3">
       @for (albumi of albums; track albumi._id; let ix = $index) {
       <div
-        class="bef bef-m-md-2_5vw mx-auto my-4 bef bef-w-90vw bef-w-md-40vw d-flex align-items-center justify-content-between bef-text-tlight position-relative"
+        class="ank ank-m-md-2_5vw mx-auto my-4 ank ank-w-90vw ank-w-md-40vw d-flex align-items-center justify-content-between ank-text-tlight position-relative"
       >
         <!-- Edit/Delete Buttons -->
         @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
         <div
-          class="position-absolute end-0 bef bef-top-20per bef-z-10 {{
-            windowWidth <= 767 ? 'bef-top-50px' : 'bef-top-5per'
+          class="position-absolute end-0 ank ank-top-20per ank-z-10 {{
+            windowWidth <= 767 ? 'ank-top-50px' : 'ank-top-5per'
           }}"
         >
           @if (albumi._id !== album._id) {
           <button
-            class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+            class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
             (click)="AlbumEdit(albumi)"
           >
             <svg
@@ -267,7 +267,7 @@
           }
           @if (albumi._id === album._id) {
           <button
-            class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+            class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
             (click)="AlbumEdit(albumi)"
           >
             X
@@ -300,7 +300,7 @@
           albumi.img.location !== ''
         ) {
         <img
-          class="bef bef-w-40vw bef-h-40vw bef-w-md-18_75vw bef-h-md-18_75vw {{
+          class="ank ank-w-40vw ank-h-40vw ank-w-md-18_75vw ank-h-md-18_75vw {{
             ix % 2 === 0 ? 'order-1' : 'order-2'
           }}"
           src="{{ urlMain + 'get-file/' + albumi.img._id }}"
@@ -308,32 +308,32 @@
         />
         }
         <div
-          class="bef bef-w-40vw bef-w-md-18_75vw bef-h-40vw bef-h-md-18_75vw d-flex {{
+          class="ank ank-w-40vw ank-w-md-18_75vw ank-h-40vw ank-h-md-18_75vw d-flex {{
               ix % 2 === 1 ?
             'order-1': 
             'order-2'
           }}"
         >
           <a
-            class="bef bef-w-33per m-3 align-self-start"
+            class="ank ank-w-33per m-3 align-self-start"
             href="{{ albumi.tidal }}"
             target="_blank"
             rel="noopener noreferrer"
           >
             <img
-              class="bef bef-w-100per bef-h-100per"
+              class="ank ank-w-100per ank-h-100per"
               src="/assets/images/Tidal-logo.jpg"
               alt="Tidal"
             />
           </a>
           <a
-            class="bef bef-w-33per m-3 align-self-end"
+            class="ank ank-w-33per m-3 align-self-end"
             href="{{ albumi.spotify }}"
             target="_blank"
             rel="noopener noreferrer"
           >
             <img
-              class="bef bef-w-100per bef-h-100per"
+              class="ank ank-w-100per ank-h-100per"
               src="/assets/images/Spotify.png"
               alt="Spotify"
             />
@@ -359,9 +359,9 @@
 
   <!-- Title Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="title">Título</label>
+    <label class="ank ank-text-tlight mb-1 d-block" for="title">Título</label>
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="title"
       #title="ngModel"
@@ -371,7 +371,7 @@
     />
     @if (!title.valid && title.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       El título es obligatorio.
     </span>
@@ -380,11 +380,11 @@
 
   <!-- Spotify Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="spotify"
+    <label class="ank ank-text-tlight mb-1 d-block" for="spotify"
       >Spotify</label
     >
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="spotify"
       #spotify="ngModel"
@@ -394,7 +394,7 @@
     />
     @if (!spotify.valid && spotify.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       EL link del spotify es obligatorio.
     </span>
@@ -403,9 +403,9 @@
 
   <!-- Tidal Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="tidal">Tidal</label>
+    <label class="ank ank-text-tlight mb-1 d-block" for="tidal">Tidal</label>
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="tidal"
       #tidal="ngModel"
@@ -415,7 +415,7 @@
     />
     @if (!tidal.valid && tidal.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       EL link del tidal es obligatorio.
     </span>
@@ -430,12 +430,12 @@
   >
     <!-- img Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de imagen
       </h3>
       @if (album && album.img && album.img.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + album.img._id }}"
         alt="{{ album.title }}"
       />
@@ -458,7 +458,7 @@
   <button
     [disabled]="!album.title || album.title === ''"
     (click)="onSubmit('album')"
-    class="bef btn bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+    class="ank btn ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
   >
     @if (album._id && album._id !== '') {
       Editar
@@ -484,9 +484,9 @@
 
   <!-- Title Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="title">Título</label>
+    <label class="ank ank-text-tlight mb-1 d-block" for="title">Título</label>
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="title"
       #title="ngModel"
@@ -496,7 +496,7 @@
     />
     @if (!title.valid && title.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       El título es obligatorio.
     </span>
@@ -505,9 +505,9 @@
 
   <!-- Title Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="link">Link</label>
+    <label class="ank ank-text-tlight mb-1 d-block" for="link">Link</label>
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="link"
       #link="ngModel"
@@ -517,7 +517,7 @@
     />
     @if (!link.valid && link.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       El link es obligatorio.
     </span>
@@ -530,12 +530,12 @@
   >
     <!-- img Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de imagen
       </h3>
       @if (song && song.coverArt && song.coverArt.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + song.coverArt._id }}"
         alt="{{ song.title }}"
       />
@@ -554,7 +554,7 @@
 
     <!-- song Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de la canción
       </h3>
       @if (song.song && song.song.location && song.song.location !== '') {
@@ -586,7 +586,7 @@
   <button
     [disabled]="!song.title || song.title === ''"
     (click)="onSubmit('song')"
-    class="bef btn bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+    class="ank btn ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
   >
     @if (song._id && song._id !== '') {
       Editar

@@ -4,29 +4,26 @@ import { FormsModule } from '@angular/forms';
 /* RxJs */
 import { Observable } from 'rxjs';
 /* Environment */
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 /* Interfaces */
 import { IMain } from '../../interfaces/main';
 /* Models */
 import { Main, Video } from '../../models/main';
 /* Services */
 import { MainService } from '../../services/main.service';
-import { WebService } from 'src/app/shared/services/web.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
-import { NgxBootstrapExpandedFeaturesService as BefService } from 'ngx-bootstrap-expanded-features';
+import { WebService } from '../../../shared/services/web.service';
+import { SharedService } from '../../../shared/services/shared.service';
 /* Extras */
 import Swal from 'sweetalert2';
 /* State */
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
 /* Shared Components */
-import { FileUploaderComponent } from 'src/app/shared/components/file-uploader/file-uploader.component';
+import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
 /* Pipes */
-import { SafeHtmlPipe } from 'src/app/shared/pipes/safe-html';
-/* Directives */
-import { NgInitDirective } from 'src/app/shared/directives/ng-init.directive';
+import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
 /* Libraries */
 import { YouTubePlayerModule } from '@angular/youtube-player';
 @Component({
@@ -39,7 +36,6 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
     FormsModule,
     FileUploaderComponent,
     SafeHtmlPipe,
-    NgInitDirective,
     YouTubePlayerModule,
   ],
 })
@@ -67,9 +63,7 @@ export class DemoreelComponent implements OnInit {
   public main$: Observable<IMain | undefined>;
   constructor(
     private _mainService: MainService,
-
     private _webService: WebService,
-    private _befService: BefService,
     private _location: Location,
     private _sharedService: SharedService,
     private store: Store<AppState>
@@ -139,7 +133,6 @@ export class DemoreelComponent implements OnInit {
       next: (m) => {
         if (m !== undefined) {
           this.main = m;
-          this.cssCreate();
         }
       },
       error: (e) => console.error(e),
@@ -200,10 +193,10 @@ export class DemoreelComponent implements OnInit {
             text: '',
             icon: 'success',
             customClass: {
-              popup: 'bef bef-bg-fullRed',
-              title: 'bef bef-text-fullYellow',
-              closeButton: 'bef bef-text-fullYellow',
-              confirmButton: 'bef bef-text-fullYellow',
+              popup: 'ank ank-bg-fullRed',
+              title: 'ank ank-text-fullYellow',
+              closeButton: 'ank ank-text-fullYellow',
+              confirmButton: 'ank ank-text-fullYellow',
             },
           });
         } else {
@@ -222,10 +215,10 @@ export class DemoreelComponent implements OnInit {
             text: '',
             icon: 'success',
             customClass: {
-              popup: 'bef bef-bg-fullRed',
-              title: 'bef bef-text-fullYellow',
-              closeButton: 'bef bef-text-fullYellow',
-              confirmButton: 'bef bef-text-fullYellow',
+              popup: 'ank ank-bg-fullRed',
+              title: 'ank ank-text-fullYellow',
+              closeButton: 'ank ank-text-fullYellow',
+              confirmButton: 'ank ank-text-fullYellow',
             },
           });
         }
@@ -235,10 +228,10 @@ export class DemoreelComponent implements OnInit {
           text: '',
           icon: 'info',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       }
@@ -287,10 +280,10 @@ export class DemoreelComponent implements OnInit {
           text: '',
           icon: 'success',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       } else if (result.isDenied) {
@@ -299,10 +292,10 @@ export class DemoreelComponent implements OnInit {
           text: '',
           icon: 'info',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       }
@@ -331,10 +324,10 @@ export class DemoreelComponent implements OnInit {
           ${errorMessage}`,
         icon: 'error',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
+          popup: 'ank ank-bg-fullRed',
           title: 'text-titleM',
-          closeButton: 'bef bef-text-fullYellow',
-          confirmButton: 'bef bef-text-fullYellow',
+          closeButton: 'ank ank-text-fullYellow',
+          confirmButton: 'ank ank-text-fullYellow',
         },
       });
     }
@@ -380,10 +373,10 @@ export class DemoreelComponent implements OnInit {
           ${errorMessage}`,
         icon: 'error',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
-          title: 'bef bef-text-tdark',
-          closeButton: 'bef bef-bg-fullYellow',
-          confirmButton: 'bef bef-bg-fullGreen',
+          popup: 'ank ank-bg-fullRed',
+          title: 'ank ank-text-tdark',
+          closeButton: 'ank ank-bg-fullYellow',
+          confirmButton: 'ank ank-bg-fullGreen',
         },
       });
 
@@ -434,11 +427,5 @@ export class DemoreelComponent implements OnInit {
 
   checkWindowWidth(downUp: string, width: number) {
     return this._webService.checkWindowWidth(downUp, width);
-  }
-
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
   }
 }

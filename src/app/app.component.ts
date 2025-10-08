@@ -20,7 +20,7 @@ import { environment } from '../environments/environment';
 import { MainService } from './core/services/main.service';
 import { WebService } from './shared/services/web.service';
 import { SharedService } from './shared/services/shared.service';
-import { NgxBootstrapExpandedFeaturesService as BefService } from 'ngx-bootstrap-expanded-features';
+import { NgxAngoraService } from 'ngx-angora-css';
 /* Models */
 import { Main, Song } from './core/models/main';
 /* Interfaces */
@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, DoCheck {
 
   constructor(
     private _mainService: MainService,
-    private _befService: BefService,
+    private _ankService: NgxAngoraService,
     private _translate: TranslateService,
     private _webService: WebService,
     private _location: Location,
@@ -200,19 +200,23 @@ export class AppComponent implements OnInit, DoCheck {
 
     this.store.dispatch(LoadMain());
     afterNextRender(() => {
-      this._befService.checkSheet();
-      this._befService.values.importantActive = true;
-      this._befService.pushColors(this.colors);
-      this._befService.pushCssNamesParsed(this.customCssNamesParsed);
-      // this._befService.changeDebugOption();
+      this._ankService.checkSheet();
+      this._ankService.values.importantActive = true;
+      this._ankService.pushColors(this.colors);
+      this._ankService.pushCssNamesParsed(this.customCssNamesParsed);
+      // this._ankService.changeDebugOption();
       this.cssCreate();
     });
 
     afterEveryRender(() => {
-      this.cssCreate();
+      this._webService.consoleLog(
+        'Render again',
+        this.document + ' 45',
+        this.customConsoleCSS
+      );
       setTimeout(() => {
         this.cssCreate();
-      }, this._befService.timeBetweenReCreate + 50);
+      }, this._ankService.timeBetweenReCreate * 1.5);
     });
   }
 
@@ -240,22 +244,22 @@ export class AppComponent implements OnInit, DoCheck {
     this.getMain();
     this.getIdentity();
     this.bgDefaultClasses = [
-      'position-fixed top-0 start-0 bef bef-w-100vw bef-h-100vh bef-z-MIN20 bef-backgroundColor-abyss bef-mixBlendMode-hue',
-      'bef-backgroundImage-' +
+      'position-fixed top-0 start-0 ank ank-w-100vw ank-h-100vh ank-z-MIN20 ank-backgroundColor-abyss ank-mixBlendMode-hue',
+      'ank-backgroundImage-' +
         this.befysize(
           'url("' +
             environment.url +
             '/assets/images/image5DarkForest90deg.jpg")'
         ) +
-        ' position-fixed top-0 start-0 bef bef-w-100vw bef-h-100vh bef-backgroundSize-cover bef-o-0_5 bef-mixBlendMode-lighten bef-z-MIN15 bef-backgroundPosition-center__center bef-backgroundRepeat-noMINrepeat',
-      'bef-backgroundImage-' +
+        ' position-fixed top-0 start-0 ank ank-w-100vw ank-h-100vh ank-backgroundSize-cover ank-o-0_5 ank-mixBlendMode-lighten ank-z-MIN15 ank-backgroundPosition-center__center ank-backgroundRepeat-noMINrepeat',
+      'ank-backgroundImage-' +
         this.befysize(
           'url("' +
             environment.url +
             '/assets/images/image5DarkForest90deg.jpg")'
         ) +
-        ' position-fixed top-0 start-0 bef bef-w-100vw bef-h-100vh bef-backgroundSize-cover bef-o-0_5 bef-mixBlendMode-lighten bef-z-MIN10 bef-backgroundPosition-center__center bef-backgroundRepeat-noMINrepeat bef-transform-scaleXSDMIN1ED',
-      'position-fixed top-0 start-0 bef bef-w-100vw bef-h-100vh bef-backgroundColor-HASHDD5555 bef-mixBlendMode-hue bef-z-MIN5',
+        ' position-fixed top-0 start-0 ank ank-w-100vw ank-h-100vh ank-backgroundSize-cover ank-o-0_5 ank-mixBlendMode-lighten ank-z-MIN10 ank-backgroundPosition-center__center ank-backgroundRepeat-noMINrepeat ank-transform-scaleXSDMIN1ED',
+      'position-fixed top-0 start-0 ank ank-w-100vw ank-h-100vh ank-backgroundColor-HASHDD5555 ank-mixBlendMode-hue ank-z-MIN5',
     ];
   }
 
@@ -449,12 +453,12 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   befysize(string: string) {
-    return this._befService.befysize(string);
+    return this._ankService.befysize(string);
   }
 
   cssCreate() {
     if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
+      this._ankService.cssCreate();
     }
   }
 }

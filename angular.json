@@ -78,6 +78,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "lynx-portfolio:build:development"
+          },
           "configurations": {
             "production": {
               "buildTarget": "lynx-portfolio:build:production"

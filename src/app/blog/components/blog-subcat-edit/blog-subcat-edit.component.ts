@@ -3,10 +3,9 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { IArticle, IArticleSubCat } from '../../interfaces/blog';
 /* Services */
 import { BlogService } from '../../services/blog.service';
+import { WebService } from '../../../shared/services/web.service';
 /* Extras */
 import Swal from 'sweetalert2';
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
-import { WebService } from 'src/app/shared/services/web.service';
 @Component({
   selector: 'blog-subcat-edit',
   templateUrl: './blog-subcat-edit.component.html',
@@ -31,12 +30,10 @@ export class BlogSubcatEditComponent implements OnInit {
   @Output() getArticleSubCats = new EventEmitter<any>();
   constructor(
     private _blogService: BlogService,
-    private _webService: WebService,
-    private _befService: NgxBootstrapExpandedFeaturesService
+    private _webService: WebService
   ) {}
 
   ngOnInit(): void {
-    this.cssCreate();
   }
 
   onSubmitSubCatDelete(cat: IArticleSubCat) {
@@ -242,13 +239,6 @@ export class BlogSubcatEditComponent implements OnInit {
         break;
       default:
         break;
-    }
-  }
-
-  cssCreate(): void {
-    if (typeof window !== 'undefined') {
-      console.log('cssCreate');
-      this._befService.cssCreate();
     }
   }
 }

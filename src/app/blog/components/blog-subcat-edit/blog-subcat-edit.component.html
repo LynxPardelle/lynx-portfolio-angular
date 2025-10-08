@@ -1,21 +1,19 @@
-<h3 class="text-center bef-my-1_5rem bef-text-tlight">
+<h3 class="text-center ank-my-1_5rem ank-text-tlight">
   Selecciona las sub-categorías del artículo
 </h3>
 <div class="d-flex justify-content-evenly align-items-center flex-wrap">
   @for (subCat of subCats; track subCat; let i = $index; let last$ = $last) {
     <div
-      [exist]="last$"
-      (ngInit)="cssCreate()"
-      class="p-2 text-center bef bef-lh-1_5 bef-bw-0_25rem bef-bs-solid bef-r-25px"
+      class="p-2 text-center ank ank-lh-1_5 ank-bw-0_25rem ank-bs-solid ank-r-25px"
     [ngClass]="{
-      'bef-bc-success': !!subCatBringer(subCat, true),
-      'bef-bc-transparent': !subCatBringer(subCat, true)
+      'ank-bc-success': !!subCatBringer(subCat, true),
+      'ank-bc-transparent': !subCatBringer(subCat, true)
     }"
       >
       <label
         (click)="onClickChangeSubCat(subCats[i]._id)"
-      class="d-block badge rounded-pill bef bef-mb-1rem bef-p-0_5rem__1rem {{
-        'bef-text-' + subCat.titleColor.replace('#', 'HASH') + ' bef-bg-' + subCat.buttonColor.replace('#', 'HASH')
+      class="d-block badge rounded-pill ank ank-mb-1rem ank-p-0_5rem__1rem {{
+        'ank-text-' + subCat.titleColor.replace('#', 'HASH') + ' ank-bg-' + subCat.buttonColor.replace('#', 'HASH')
       }}"
         >
         {{ subCat.title }}
@@ -27,14 +25,14 @@
         {
           type: 'edit┼subCat┼' + subCats[i]._id,
           classButton:
-            'bef-btn-fullYellow bef-cursor-pointer mx-2 bef-w-50px bef-h-50px',
+            'ank-btn-fullYellow ank-cursor-pointer mx-2 ank-w-50px ank-h-50px',
           customHtml: 'edit┼subCat┼' + subCats[i]._id,
           tooltip: 'Editar'
         },
         {
           type: 'delete┼subCat┼' + subCats[i]._id,
           classButton:
-            'bef-btn-fullYellow bef-cursor-pointer mx-2 bef-w-50px bef-h-50px',
+            'ank-btn-fullYellow ank-cursor-pointer mx-2 ank-w-50px ank-h-50px',
           customHtml: 'delete┼subCat┼' + subCats[i]._id,
           tooltip: 'Borrar'
         }
@@ -57,21 +55,21 @@
       {
         text: 'La sub-categoría no es válida.',
         evalThing: 'required',
-        spanClass: 'bef-text-fullRed'
+        spanClass: 'ank-text-fullRed'
       }
     ]"
-  [labelClasses]="'bef-text-tlight'"
-  [inputClasses]="'bef-text-fullYellow w-100 border-0 bg-transparent'"
-  [inputContainerClasses]="'d-flex bef bef-w-100per align-items-center'"
-  [hrClasses]="'bef-bg-tlight'"
+  [labelClasses]="'ank-text-tlight'"
+  [inputClasses]="'ank-text-fullYellow w-100 border-0 bg-transparent'"
+  [inputContainerClasses]="'d-flex ank ank-w-100per align-items-center'"
+  [hrClasses]="'ank-bg-tlight'"
   (changesInput)="(null)"
 ></generic-input>
 <!-- Color fondo -->
 <label
   for="subCat.buttonColor"
-    class="btn d-block w-75 mx-auto my-2 bef bef-bg-{{
+    class="btn d-block w-75 mx-auto my-2 ank ank-bg-{{
       subCat.buttonColor.replace('#', 'HASH') || 'dark'
-    }} bef-text-{{ subCat.titleColor.replace('#', 'HASH') || 'light' }}"
+    }} ank-text-{{ subCat.titleColor.replace('#', 'HASH') || 'light' }}"
   >
   Color del fondo de la sub-categoría
   <input
@@ -80,15 +78,14 @@
     name="subCat.buttonColor"
     value="subCat.buttonColor"
     [(ngModel)]="subCat.buttonColor"
-    (ngModelChange)="cssCreate()"
     />
   </label>
   <!-- Color texto -->
   <label
     for="subCat.titleColor"
-    class="btn d-block w-75 mx-auto my-2 bef bef-bg-{{
+    class="btn d-block w-75 mx-auto my-2 ank ank-bg-{{
       subCat.buttonColor.replace('#', 'HASH') || 'dark'
-    }} bef-text-{{ subCat.titleColor.replace('#', 'HASH') || 'light' }}"
+    }} ank-text-{{ subCat.titleColor.replace('#', 'HASH') || 'light' }}"
     >
     Color de las letras de la sub-categoría
     <input
@@ -97,7 +94,6 @@
       name="subCat.titleColor"
       value="subCat.titleColor"
       [(ngModel)]="subCat.titleColor"
-      (ngModelChange)="cssCreate()"
       />
     </label>
     <generic-group-buttons
@@ -108,15 +104,15 @@
             {
               type: 'cancel┼subCat┼' + subCat._id,
               classButton:
-                'bef-btn-fullYellow bef-cursor-pointer mx-3 bef-w-50px bef-h-50px',
+                'ank-btn-fullYellow ank-cursor-pointer mx-3 ank-w-50px ank-h-50px',
               customHtml: 'cancel┼subCat┼' + subCat._id,
               tooltip: 'Cancelar'
             },
             {
               type: 'aceptCat',
               classButton:
-                'bef-btn-fullYellow bef-cursor-pointer mx-3 bef-w-50px bef-h-50px',
-              disabledClassButton: 'mx-3 bef-w-50px bef-h-50px',
+                'ank-btn-fullYellow ank-cursor-pointer mx-3 ank-w-50px ank-h-50px',
+              disabledClassButton: 'mx-3 ank-w-50px ank-h-50px',
               customHtml: 'aceptCat',
               tooltip: 'Aceptar',
               disabled: !subCat.title
@@ -126,8 +122,8 @@
             {
               type: 'aceptCat',
               classButton:
-                'bef-btn-fullYellow bef-cursor-pointer mx-3 bef-w-50px bef-h-50px',
-              disabledClassButton: 'mx-3 bef-w-50px bef-h-50px',
+                'ank-btn-fullYellow ank-cursor-pointer mx-3 ank-w-50px ank-h-50px',
+              disabledClassButton: 'mx-3 ank-w-50px ank-h-50px',
               customHtml: 'aceptCat',
               tooltip: 'Aceptar',
               disabled: !subCat.title

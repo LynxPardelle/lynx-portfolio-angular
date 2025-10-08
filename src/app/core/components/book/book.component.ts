@@ -195,10 +195,10 @@ export class BookComponent implements OnInit {
             text: '',
             icon: 'success',
             customClass: {
-              popup: 'bef bef-bg-fullRed',
-              title: 'bef bef-text-fullYellow',
-              closeButton: 'bef bef-text-fullYellow',
-              confirmButton: 'bef bef-text-fullYellow',
+              popup: 'ank ank-bg-fullRed',
+              title: 'ank ank-text-fullYellow',
+              closeButton: 'ank ank-text-fullYellow',
+              confirmButton: 'ank ank-text-fullYellow',
             },
           });
         } else {
@@ -221,10 +221,10 @@ export class BookComponent implements OnInit {
             text: '',
             icon: 'success',
             customClass: {
-              popup: 'bef bef-bg-fullRed',
-              title: 'bef bef-text-fullYellow',
-              closeButton: 'bef bef-text-fullYellow',
-              confirmButton: 'bef bef-text-fullYellow',
+              popup: 'ank ank-bg-fullRed',
+              title: 'ank ank-text-fullYellow',
+              closeButton: 'ank ank-text-fullYellow',
+              confirmButton: 'ank ank-text-fullYellow',
             },
           });
         }
@@ -234,10 +234,10 @@ export class BookComponent implements OnInit {
           text: '',
           icon: 'info',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       }
@@ -280,10 +280,10 @@ export class BookComponent implements OnInit {
           text: '',
           icon: 'success',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       } else if (result.isDenied) {
@@ -292,10 +292,10 @@ export class BookComponent implements OnInit {
           text: '',
           icon: 'info',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       }
@@ -324,10 +324,10 @@ export class BookComponent implements OnInit {
           ${errorMessage}`,
         icon: 'error',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
+          popup: 'ank ank-bg-fullRed',
           title: 'text-titleM',
-          closeButton: 'bef bef-text-fullYellow',
-          confirmButton: 'bef bef-text-fullYellow',
+          closeButton: 'ank ank-text-fullYellow',
+          confirmButton: 'ank ank-text-fullYellow',
         },
       });
     }
@@ -373,10 +373,10 @@ export class BookComponent implements OnInit {
           ${errorMessage}`,
         icon: 'error',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
-          title: 'bef bef-text-tdark',
-          closeButton: 'bef bef-bg-fullYellow',
-          confirmButton: 'bef bef-bg-fullGreen',
+          popup: 'ank ank-bg-fullRed',
+          title: 'ank ank-text-tdark',
+          closeButton: 'ank ank-bg-fullYellow',
+          confirmButton: 'ank ank-bg-fullGreen',
         },
       });
 

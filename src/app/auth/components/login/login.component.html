@@ -1,23 +1,23 @@
 <div
   class="
-    w-75 bef bef-wmx-350px bef-wmn-275px
+    w-75 ank ank-wmx-350px ank-wmn-275px
     mx-auto
     my-5
-    bef-boxShadow-0__0__5px__tdark__OPA__0_25
-    bef-rounded-30px
+    ank-boxShadow-0__0__5px__tdark__OPA__0_25
+    ank-rounded-30px
     p-3
   "
   >
-  <h2 class="text-center bef bef-text-tlight my-3">Login</h2>
+  <h2 class="text-center ank ank-text-tlight my-3">Login</h2>
 
   <!-- Email -->
   <div class="d-block w-75 mx-auto my-3">
     <!--     *ngIf="user.email.length > 0" -->
-    <label class="bef bef-text-tlight mb-1 d-block" for="email"
+    <label class="ank ank-text-tlight mb-1 d-block" for="email"
       >Correo electrónico</label
       >
       <input
-        class="w-100 bef bef-text-tdark bef-bg-tlight bef-border-0"
+        class="w-100 ank ank-text-tdark ank-bg-tlight ank-border-0"
         type="email"
         name="email"
         #email="ngModel"
@@ -28,7 +28,7 @@
         <!--     <hr class="bg-textM" /> -->
         @if (!email.valid && email.touched) {
           <span
-            class="bef bef-text-tlight font-weight-bold"
+            class="ank ank-text-tlight font-weight-bold"
             >
             El correo electrónico es obligatorio.
           </span>
@@ -38,9 +38,9 @@
       <!-- Password -->
       <div class="d-block w-75 mx-auto my-3">
         <!--     *ngIf="user.password.length > 0" -->
-        <label class="bef bef-text-tlight mb-1 d-block" for="password">Contraseña</label>
+        <label class="ank ank-text-tlight mb-1 d-block" for="password">Contraseña</label>
         <input
-          class="w-100 bef bef-text-tdark bef-bg-tlight bef-border-0"
+          class="w-100 ank ank-text-tdark ank-bg-tlight ank-border-0"
           type="password"
           name="password"
           #password="ngModel"
@@ -51,7 +51,7 @@
           <!--     <hr class="bg-textM" /> -->
           @if (!password.valid && password.touched) {
             <span
-              class="bef bef-text-tlight font-weight-bold"
+              class="ank ank-text-tlight font-weight-bold"
               >
               La contraseña es obligatoria.
             </span>
@@ -62,7 +62,7 @@
         @if (user.password.length > 0 && user.email.length > 0) {
           <button
             (click)="onSubmit()"
-            class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+            class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
             >
             Login
           </button>

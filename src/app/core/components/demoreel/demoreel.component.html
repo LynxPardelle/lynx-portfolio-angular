@@ -1,15 +1,15 @@
 <!-- Edit/Delete Buttons -->
 @if (identity && identity.role == 'ROLE_ADMIN') {
   <div
-    class="position-fixed end-0 bef bef-z-15"
+    class="position-fixed end-0 ank ank-z-15"
   [ngClass]="{
-    'bef-top-150px': windowWidth < 767,
-    'bef-top-15per': windowWidth >= 767
+    'ank-top-150px': windowWidth < 767,
+    'ank-top-15per': windowWidth >= 767
   }"
     >
     @if (edit === false) {
       <button
-        class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+        class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
         (click)="editChange()"
         >
         <svg
@@ -32,7 +32,7 @@
         }
         @if (edit == true) {
           <button
-            class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+            class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
             (click)="editChange()"
             >
             X
@@ -41,27 +41,25 @@
       </div>
     }
 
-    <h2 class="text-center bef bef-my-3rem">Demo Reel</h2>
+    <h2 class="text-center ank ank-my-3rem">Demo Reel</h2>
 
     <section>
       @for (videoO of videos; track videoO; let i = $index) {
         <article
-          class="bef bef-my-1_5rem position-relative"
-          [exist]="$last"
-          (ngInit)="cssCreate()"
+          class="ank ank-my-1_5rem position-relative"
           >
           <!-- Edit/Delete Buttons -->
           @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
             <div
-              class="position-absolute end-0 bef bef-top-20per bef-z-10"
+              class="position-absolute end-0 ank ank-top-20per ank-z-10"
       [ngClass]="{
-        'bef-top-50px': windowWidth < 767,
-        'bef-top-5per': windowWidth >= 767
+        'ank-top-50px': windowWidth < 767,
+        'ank-top-5per': windowWidth >= 767
       }"
               >
               @if (video._id !== videoO._id) {
                 <button
-                  class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+                  class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
                   (click)="videoEdit(videoO)"
                   >
                   <svg
@@ -84,7 +82,7 @@
                   }
                   @if (video._id === videoO._id) {
                     <button
-                      class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+                      class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
                       (click)="videoEdit(videoO)"
                       >
                       X
@@ -118,7 +116,7 @@
                   videoO.video && videoO.video.location && videoO.video.location !== ''
                   ) {
                   <video
-                    class="w-100 bef bef-wmx-100vw bef-hmx-100vh mx-auto"
+                    class="w-100 ank ank-wmx-100vw ank-hmx-100vh mx-auto"
                     controls
                     >
                     <source
@@ -129,7 +127,7 @@
                   }
                   @if (videoO.insert && videoO.insert !== '') {
                     <div
-                      class="bef bef-w-100vw mx-auto"
+                      class="ank ank-w-100vw mx-auto"
                       [innerHTML]="videoO.insert | safeHtml"
                     ></div>
                   }
@@ -137,7 +135,7 @@
                     <youtube-player
                       videoId="{{ videoO.link }}"
                       SuggestedQuality="hd1080"
-                      class="w-100 bef bef-wmx-100vw bef-hmx-100vh mx-auto"
+                      class="w-100 ank ank-wmx-100vw ank-hmx-100vh mx-auto"
                       >
                     </youtube-player>
                   }
@@ -157,9 +155,9 @@
                 </h2>
                 <!-- Title Edit -->
                 <div class="d-block w-75 mx-auto my-3">
-                  <label class="bef bef-text-tlight mb-1 d-block" for="title">Título</label>
+                  <label class="ank ank-text-tlight mb-1 d-block" for="title">Título</label>
                   <input
-                    class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+                    class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
                     type="text"
                     name="title"
                     #title="ngModel"
@@ -169,7 +167,7 @@
                     />
                     @if (!title.valid && title.touched) {
                       <span
-                        class="bef bef-text-tlight font-weight-bold"
+                        class="ank ank-text-tlight font-weight-bold"
                         >
                         El título es obligatorio.
                       </span>
@@ -177,11 +175,11 @@
                   </div>
                   <!-- TitleEng Edit -->
                   <div class="d-block w-75 mx-auto my-3">
-                    <label class="bef bef-text-tlight mb-1 d-block" for="titleEng"
+                    <label class="ank ank-text-tlight mb-1 d-block" for="titleEng"
                       >Title(English)</label
                       >
                       <input
-                        class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+                        class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
                         type="text"
                         name="titleEng"
                         #titleEng="ngModel"
@@ -191,7 +189,7 @@
                         />
                         @if (!titleEng.valid && titleEng.touched) {
                           <span
-                            class="bef bef-text-tlight font-weight-bold"
+                            class="ank ank-text-tlight font-weight-bold"
                             >
                             The title(english) is required.
                           </span>
@@ -199,9 +197,9 @@
                       </div>
                       <!-- Link Edit -->
                       <div class="d-block w-75 mx-auto my-3">
-                        <label class="bef bef-text-tlight mb-1 d-block" for="link">Link</label>
+                        <label class="ank ank-text-tlight mb-1 d-block" for="link">Link</label>
                         <input
-                          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+                          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
                           type="text"
                           name="link"
                           #link="ngModel"
@@ -211,7 +209,7 @@
                           />
                           @if (!link.valid && link.touched) {
                             <span
-                              class="bef bef-text-tlight font-weight-bold"
+                              class="ank ank-text-tlight font-weight-bold"
                               >
                               El link es obligatorio.
                             </span>
@@ -219,11 +217,11 @@
                         </div>
                         <!-- Insert Edit -->
                         <div class="d-block w-75 mx-auto my-3">
-                          <label class="bef bef-text-tlight mb-1 d-block" for="insert"
+                          <label class="ank ank-text-tlight mb-1 d-block" for="insert"
                             >Inserción</label
                             >
                             <input
-                              class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+                              class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
                               type="text"
                               name="insert"
                               #insert="ngModel"
@@ -233,7 +231,7 @@
                               />
                               @if (!insert.valid && insert.touched) {
                                 <span
-                                  class="bef bef-text-tlight font-weight-bold"
+                                  class="ank ank-text-tlight font-weight-bold"
                                   >
                                   La inserción es obligatoria.
                                 </span>
@@ -245,14 +243,14 @@
                                 >
                                 <!-- Video Upload -->
                                 <div class="m-3">
-                                  <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+                                  <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
                                     Subida de video
                                   </h3>
                                   @if (
                                     video.video && video.video.location && video.video.location !== ''
                                     ) {
                                     <video
-                                      class="w-100 bef bef-wmx-100vw bef-hmx-100vh mx-auto"
+                                      class="w-100 ank ank-wmx-100vw ank-hmx-100vh mx-auto"
                                       controls
                                       >
                                       <source
@@ -277,7 +275,7 @@
                               <!-- Submit -->
                               <button
                                 (click)="onSubmit()"
-                                class="bef btn bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+                                class="ank btn ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
                                 >
                                 Submit
                               </button>

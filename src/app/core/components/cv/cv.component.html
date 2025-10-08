@@ -1,14 +1,14 @@
-<div id="CV" class="py-3 my-3 bef bef-w-100vw position-relative">
+<div id="CV" class="py-3 my-3 ank ank-w-100vw position-relative">
   <!-- Edit/Delete Buttons -->
   @if (identity && identity.role == 'ROLE_ADMIN') {
   <div
-    class="position-fixed end-0 bef {{
-      windowWidth < 767 ? 'bef-top-150px' : 'bef-top-15per'
+    class="position-fixed end-0 ank {{
+      windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per'
     }}"
   >
     @if (edit === false) {
     <button
-      class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+      class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
       (click)="editChange()"
     >
       <svg
@@ -30,7 +30,7 @@
     </button>
     } @if (edit == true) {
     <button
-      class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+      class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
       (click)="editChange()"
     >
       X
@@ -50,8 +50,8 @@
     title="{{
       lang === 'es' ? main.CVBackground.title : main.CVBackground.titleEng
     }}"
-    class="obj-fit-cover d-block position-absolute top-0 start-0 bef bef-w-100vw bef-hmn-100vh"
-    [ngClass]="classCreator(('bef-h-' + checkHeight() + 'px').toString(), true)"
+    class="obj-fit-cover d-block position-absolute top-0 start-0 ank ank-w-100vw ank-hmn-100vh"
+    [ngClass]="classCreator(('ank-h-' + checkHeight() + 'px').toString(), true)"
   />
   }
 
@@ -65,8 +65,8 @@
     src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
     alt="{{ lang === 'es' ? main.CVImage.title : main.CVImage.titleEng }}"
     title="{{ lang === 'es' ? main.CVImage.title : main.CVImage.titleEng }}"
-    class="obj-fit-cover d-block mx-auto my-3 bef bef-rounded-15px bef-boxShadow-0__0__5px__tlight {{
-      windowWidth < 767 ? 'bef-w-50vw bef-h-50vw' : 'bef-w-25vw bef-h-25vw'
+    class="obj-fit-cover d-block mx-auto my-3 ank ank-rounded-15px ank-boxShadow-0__0__5px__tlight {{
+      windowWidth < 767 ? 'ank-w-50vw ank-h-50vw' : 'ank-w-25vw ank-h-25vw'
     }}"
   />
   }
@@ -75,8 +75,8 @@
   @if ( main && main.CVDesc && main.CVDesc !== '' && main.CVDescEng &&
   main.CVDescEng !== '' ) {
   <div
-    class="text-center bef bef-text-tlight d-block mx-auto my-5 fw-bold {{
-      windowWidth < 767 ? 'bef-w-80vw' : 'bef-w-50vw'
+    class="text-center ank ank-text-tlight d-block mx-auto my-5 fw-bold {{
+      windowWidth < 767 ? 'ank-w-80vw' : 'ank-w-50vw'
     }}"
   >
     @if (lang === 'es') { @if (main.CVDesc && main.CVDesc !== '') {
@@ -96,18 +96,18 @@
   <accordion
     [closeOthers]="true"
     [isAnimated]="true"
-    class="mx-auto d-block bef position-relative {{
-      windowWidth < 767 ? 'bef-w-80vw' : 'bef-w-66vw'
+    class="mx-auto d-block ank position-relative {{
+      windowWidth < 767 ? 'ank-w-80vw' : 'ank-w-66vw'
     }}"
   >
     <!-- Edit/Delete Buttons -->
     @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
     <div
-      class="position-absolute bef bef-top-20per bef-end-50px bef-z-10 bef-top-6px"
+      class="position-absolute ank ank-top-20per ank-end-50px ank-z-10 ank-top-6px"
     >
       @if (CVSection._id !== cvSection._id) {
       <button
-        class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+        class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
         (click)="chooseEditThing('cvSection', cvSection)"
       >
         <svg
@@ -129,7 +129,7 @@
       </button>
       } @if (CVSection._id === cvSection._id) {
       <button
-        class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+        class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
         (click)="chooseEditThing('cvSection', cvSection)"
       >
         X
@@ -157,7 +157,7 @@
     }
     <accordion-group
       [panelClass]="
-        'bef bef-bg-' +
+        'ank ank-bg-' +
         (cvSection.bgColor && cvSection.bgColor !== ''
           ? cvSection.bgColor.replace('#', 'a')
           : 'fullRed') +
@@ -167,10 +167,10 @@
     >
       <div accordion-heading class="position-relative">
         <h3
-          class="text-center bef bef-fs-1rem"
+          class="text-center ank ank-fs-1rem"
           [ngClass]="
             classCreator(
-              'bef-text-' +
+              'ank-text-' +
                 (cvSection.titleColor !== ''
                   ? cvSection.titleColor.replace('#', 'a')
                   : 'fullYellow'),
@@ -211,11 +211,11 @@
         <!-- Edit/Delete Buttons -->
         @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
         <div
-          class="position-absolute bef bef-top-20per bef-end-50px bef-z-10 bef-top-6px"
+          class="position-absolute ank ank-top-20per ank-end-50px ank-z-10 ank-top-6px"
         >
           @if( CVSubSection._id !== cvSubSection._id ) {
           <button
-            class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+            class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
             (click)="chooseEditThing('cvSubSection', cvSubSection)"
           >
             <svg
@@ -237,7 +237,7 @@
           </button>
           } @if( CVSubSection._id === cvSubSection._id ) {
           <button
-            class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+            class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
             (click)="chooseEditThing('cvSubSection', cvSubSection)"
           >
             X
@@ -265,7 +265,7 @@
         }
         <accordion-group
           [panelClass]="
-            'bef bef-bg-' +
+            'ank ank-bg-' +
             (cvSubSection.bgColor && cvSubSection.bgColor !== ''
               ? cvSubSection.bgColor.replace('#', 'a')
               : 'tdark') +
@@ -275,10 +275,10 @@
         >
           <div accordion-heading class="position-relative">
             <h3
-              class="text-center bef bef-fs-1rem"
+              class="text-center ank ank-fs-1rem"
               [class]="
                 classCreator(
-                  'bef-text-' +
+                  'ank-text-' +
                     (cvSubSection.titleColor !== ''
                       ? cvSubSection.titleColor.replace('#', 'a')
                       : 'tlight'),
@@ -294,7 +294,7 @@
                   : ""
               }}
             </h3>
-            <span class="position-absolute top-0 end-0 bef bef-text-tlight">
+            <span class="position-absolute top-0 end-0 ank ank-text-tlight">
               @if( true ) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -362,7 +362,7 @@
                     : '#f9c24f'
                 ) | safeHtml
               "
-              class="bef bef-text-tdark"
+              class="ank ank-text-tdark"
             ></div>
             }
           </div>
@@ -407,7 +407,7 @@
                 : '#f9c24f'
             ) | safeHtml
           "
-          class="bef bef-text-tdark"
+          class="ank ank-text-tdark"
         ></div>
         }
       </div>
@@ -420,9 +420,9 @@
   @if (main && main.CVDesc2 && main.CVDesc2 !== '' && main.CVDesc2Eng &&
   main.CVDesc2Eng !== '') {
   <div
-    class="text-center bef bef-text-tlight d-block mx-auto my-5 fw-bold"
-    [class.bef-w-80vw]="windowWidth < 767"
-    [class.bef-w-50vw]="windowWidth >= 767"
+    class="text-center ank ank-text-tlight d-block mx-auto my-5 fw-bold"
+    [class.ank-w-80vw]="windowWidth < 767"
+    [class.ank-w-50vw]="windowWidth >= 767"
   >
     @if (lang === 'es') { @if (main.CVDesc2 && main.CVDesc2 !== '') {
     <div
@@ -442,11 +442,11 @@
 
     <!-- CVDesc Edit -->
     <div class="d-block w-75 mx-auto my-3">
-      <label class="bef bef-text-tlight mb-1 d-block" for="CVDesc"
+      <label class="ank ank-text-tlight mb-1 d-block" for="CVDesc"
         >Descripción de CV</label
       >
       <textarea
-        class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+        class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
         type="text"
         name="CVDesc"
         #CVDesc="ngModel"
@@ -455,7 +455,7 @@
         required
       ></textarea>
       @if (!CVDesc.valid && CVDesc.touched) {
-      <span class="bef bef-text-tlight font-weight-bold">
+      <span class="ank ank-text-tlight font-weight-bold">
         La descripción de CV es obligatoria.
       </span>
       }
@@ -463,11 +463,11 @@
 
     <!-- CVDescEng Edit -->
     <div class="d-block w-75 mx-auto my-3">
-      <label class="bef bef-text-tlight mb-1 d-block" for="CVDescEng"
+      <label class="ank ank-text-tlight mb-1 d-block" for="CVDescEng"
         >CV Description</label
       >
       <textarea
-        class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+        class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
         type="text"
         name="CVDescEng"
         #CVDescEng="ngModel"
@@ -476,7 +476,7 @@
         required
       ></textarea>
       @if (!CVDescEng.valid && CVDescEng.touched) {
-      <span class="bef bef-text-tlight font-weight-bold">
+      <span class="ank ank-text-tlight font-weight-bold">
         The description of the CV is required.
       </span>
       }
@@ -484,11 +484,11 @@
 
     <!-- CVDesc2 Edit -->
     <div class="d-block w-75 mx-auto my-3">
-      <label class="bef bef-text-tlight mb-1 d-block" for="CVDesc2"
+      <label class="ank ank-text-tlight mb-1 d-block" for="CVDesc2"
         >Descripción de CV 2</label
       >
       <textarea
-        class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+        class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
         type="text"
         name="CVDesc2"
         #CVDesc2="ngModel"
@@ -497,7 +497,7 @@
         required
       ></textarea>
       @if (!CVDesc2.valid && CVDesc2.touched) {
-      <span class="bef bef-text-tlight font-weight-bold">
+      <span class="ank ank-text-tlight font-weight-bold">
         La descripción de CV es obligatoria.
       </span>
       }
@@ -505,11 +505,11 @@
 
     <!-- CVDesc2Eng Edit -->
     <div class="d-block w-75 mx-auto my-3">
-      <label class="bef bef-text-tlight mb-1 d-block" for="CVDesc2Eng"
+      <label class="ank ank-text-tlight mb-1 d-block" for="CVDesc2Eng"
         >CV Description 2</label
       >
       <textarea
-        class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+        class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
         type="text"
         name="CVDesc2Eng"
         #CVDesc2Eng="ngModel"
@@ -518,7 +518,7 @@
         required
       ></textarea>
       @if (!CVDesc2Eng.valid && CVDesc2Eng.touched) {
-      <span class="bef bef-text-tlight font-weight-bold">
+      <span class="ank ank-text-tlight font-weight-bold">
         The description 2 of the CV is required.
       </span>
       }
@@ -529,12 +529,12 @@
 
       <!-- CVImage Upload -->
       <div class="m-3">
-        <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+        <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
           Subida de la imagen del CV
         </h3>
         @if (main && main.CVImage && main.CVImage.location) {
         <img
-          class="bef bef-wmx-75 d-block mx-auto bef-hmx-25vh my-3"
+          class="ank ank-wmx-75 d-block mx-auto ank-hmx-25vh my-3"
           src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
           alt="{{ main.CVImage.title }}"
         />
@@ -553,12 +553,12 @@
 
       <!-- CVBackground Upload -->
       <div class="m-3">
-        <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+        <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
           Subida del fondo del CV
         </h3>
         @if (main && main.CVBackground && main.CVBackground.location) {
         <img
-          class="bef bef-wmx-75 d-block mx-auto bef-hmx-25vh my-3"
+          class="ank ank-wmx-75 d-block mx-auto ank-hmx-25vh my-3"
           src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
           alt="{{ main.CVBackground.title }}"
         />
@@ -579,12 +579,12 @@
     <!-- Submit -->
     <button
       (click)="onSubmit('main')"
-      class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+      class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
     >
       Submit CV
     </button>
 
-    <hr class="bef bef-bg-tlight w-75 mx-auto" />
+    <hr class="ank ank-bg-tlight w-75 mx-auto" />
 
     <!-- CVSection Edit -->
     <div>
@@ -594,11 +594,11 @@
       </h2>
       <!-- Title Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="title"
+        <label class="ank ank-text-tlight mb-1 d-block" for="title"
           >Título</label
         >
         <input
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="title"
           #title="ngModel"
@@ -607,18 +607,18 @@
           required
         />
         @if (!title.valid && title.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           El título es obligatorio.
         </span>
         }
       </div>
       <!-- TitleEng Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="titleEng"
+        <label class="ank ank-text-tlight mb-1 d-block" for="titleEng"
           >Title(English)</label
         >
         <input
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="titleEng"
           #titleEng="ngModel"
@@ -627,16 +627,16 @@
           required
         />
         @if (!titleEng.valid && titleEng.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           The title(english) is required.
         </span>
         }
       </div>
       <!-- Text Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="text">Texto</label>
+        <label class="ank ank-text-tlight mb-1 d-block" for="text">Texto</label>
         <textarea
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="text"
           #text="ngModel"
@@ -645,18 +645,18 @@
           required
         ></textarea>
         @if (!text.valid && text.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           El texto es obligatorio.
         </span>
         }
       </div>
       <!-- TextEng Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="textEng"
+        <label class="ank ank-text-tlight mb-1 d-block" for="textEng"
           >Text(English)</label
         >
         <textarea
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="textEng"
           #textEng="ngModel"
@@ -665,7 +665,7 @@
           required
         ></textarea>
         @if (!textEng.valid && textEng.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           The text(english) is required.
         </span>
         }
@@ -674,11 +674,11 @@
       <div>
         <!-- Insertion Edit -->
         <div class="d-block w-75 mx-auto my-3">
-          <label class="bef bef-text-tlight mb-1 d-block" for="insertion{{ i }}"
+          <label class="ank ank-text-tlight mb-1 d-block" for="insertion{{ i }}"
             >Insertion {{ i }}</label
           >
           <textarea
-            class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+            class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
             type="text"
             name="insertion{{ i }}"
             #insertion{{i}}="ngModel"
@@ -691,7 +691,7 @@
         <!-- Delete insertion BTN -->
         <button
           (click)="insertionHandler('CVSection', newInsertionSection, 'rmv', i)"
-          class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+          class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
         >
           Delete insertion {{ i }}
         </button>
@@ -699,11 +699,11 @@
       }
       <!-- InsertionN Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="insertionN"
+        <label class="ank ank-text-tlight mb-1 d-block" for="insertionN"
           >Nueva Inserción</label
         >
         <textarea
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="insertionN"
           #insertionN="ngModel"
@@ -715,7 +715,7 @@
       <!-- Insert insertion BTN -->
       <button
         (click)="insertionHandler('CVSection', newInsertionSection, 'add')"
-        class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+        class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
       >
         Insert insertion
       </button>
@@ -807,13 +807,13 @@
       <!-- Submit CVSection -->
       <button
         (click)="onSubmit('CVSection')"
-        class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+        class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
       >
         Submit CVSection
       </button>
     </div>
 
-    <hr class="bef bef-bg-tlight w-75 mx-auto" />
+    <hr class="ank ank-bg-tlight w-75 mx-auto" />
 
     <!-- CVSubSection Edit -->
     @if(CVSection._id !== '') {
@@ -826,11 +826,11 @@
       </h2>
       <!-- Title Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="title"
+        <label class="ank ank-text-tlight mb-1 d-block" for="title"
           >Título</label
         >
         <input
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="title"
           #title="ngModel"
@@ -839,18 +839,18 @@
           required
         />
         @if (!title.valid && title.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           El título es obligatorio.
         </span>
         }
       </div>
       <!-- TitleEng Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="titleEng"
+        <label class="ank ank-text-tlight mb-1 d-block" for="titleEng"
           >Title(English)</label
         >
         <input
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="titleEng"
           #titleEng="ngModel"
@@ -859,16 +859,16 @@
           required
         />
         @if (!titleEng.valid && titleEng.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           The title(english) is required.
         </span>
         }
       </div>
       <!-- Text Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="text">Texto</label>
+        <label class="ank ank-text-tlight mb-1 d-block" for="text">Texto</label>
         <textarea
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="text"
           #text="ngModel"
@@ -877,18 +877,18 @@
           required
         ></textarea>
         @if (!text.valid && text.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           El texto es obligatorio.
         </span>
         }
       </div>
       <!-- TextEng Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="textEng"
+        <label class="ank ank-text-tlight mb-1 d-block" for="textEng"
           >Text(English)</label
         >
         <textarea
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="textEng"
           #textEng="ngModel"
@@ -897,7 +897,7 @@
           required
         ></textarea>
         @if (!textEng.valid && textEng.touched) {
-        <span class="bef bef-text-tlight font-weight-bold">
+        <span class="ank ank-text-tlight font-weight-bold">
           The text(english) is required.
         </span>
         }
@@ -907,11 +907,11 @@
       <div>
         <!-- Insertion Edit -->
         <div class="d-block w-75 mx-auto my-3">
-          <label class="bef bef-text-tlight mb-1 d-block" for="insertion{{ i }}"
+          <label class="ank ank-text-tlight mb-1 d-block" for="insertion{{ i }}"
             >Insertion {{ i }}</label
           >
           <textarea
-            class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+            class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
             type="text"
             name="insertion{{ i }}"
             #insertion{{i}}="ngModel"
@@ -926,7 +926,7 @@
           (click)="
             insertionHandler('CVSubSection', newInsertionSection, 'rmv', i)
           "
-          class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+          class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
         >
           Delete insertion {{ i }}
         </button>
@@ -934,11 +934,11 @@
       }
       <!-- InsertionN Edit -->
       <div class="d-block w-75 mx-auto my-3">
-        <label class="bef bef-text-tlight mb-1 d-block" for="insertionN"
+        <label class="ank ank-text-tlight mb-1 d-block" for="insertionN"
           >Nueva Inserción</label
         >
         <textarea
-          class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+          class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
           type="text"
           name="insertionN"
           #insertionN="ngModel"
@@ -950,7 +950,7 @@
       <!-- Insert insertion BTN -->
       <button
         (click)="insertionHandler('CVSubSection', newInsertionSection, 'add')"
-        class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+        class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
       >
         Insert insertion
       </button>
@@ -1050,7 +1050,7 @@
       <!-- Submit CVSection -->
       <button
         (click)="onSubmit('CVSubSection')"
-        class="btn bef bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+        class="btn ank ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
       >
         Submit CVSection
       </button>

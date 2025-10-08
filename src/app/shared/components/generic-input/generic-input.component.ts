@@ -3,9 +3,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ISpanInput } from '../../interfaces/spanInput';
 import { IOptionDropdown } from '../../interfaces/optionDropdown';
 import { IButton } from '../../interfaces/button';
-/* Services */
-import { SharedService } from '../../services/shared.service';
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
 @Component({
   selector: 'generic-input',
   templateUrl: './generic-input.component.html',
@@ -25,7 +22,7 @@ export class GenericInputComponent implements OnInit {
   @Input() inputDisabledClasses: string = 'w-100 bg-transparent border-0 mt-2 ';
   @Input() labelClasses: string = 'd-block text-start';
   @Input() inputContainerClasses: string =
-    'd-flex bef bef-w-200px align-items-center';
+    'd-flex ank ank-w-200px align-items-center';
   @Input() buttonClasses: string = '';
   @Input() listClasses: string = '';
   @Input() disabledClassButton: string = '';
@@ -41,10 +38,8 @@ export class GenericInputComponent implements OnInit {
   @Output() changesInput = new EventEmitter<any>();
   @Output() clickedTitle = new EventEmitter<string | number | string[]>();
   @Output() clicked = new EventEmitter<IOptionDropdown>();
-  constructor(private _befService: NgxBootstrapExpandedFeaturesService) {}
-  ngOnInit(): void {
-    this.cssCreate();
-  }
+  constructor() {}
+  ngOnInit(): void {}
   writtingInInput(event: any) {
     this.hasBeenTouched = true;
     this.thingFather.locked = !this.spans.every((s) => {
@@ -138,15 +133,11 @@ export class GenericInputComponent implements OnInit {
     for (let nClass of newClass.split(' ')) {
       newClasses[nClass.toString()] = true;
     }
-    this.cssCreate();
     return newClasses;
   }
   changeValue(value: any) {
     this.thingFather[this.thing.toString()] = value;
     this.changesInput.emit(this.thingFather);
-    setTimeout(() => {
-      this.cssCreate();
-    }, 10);
   }
   getRequired(): boolean {
     return (
@@ -155,10 +146,5 @@ export class GenericInputComponent implements OnInit {
         return s.evalThing.includes('required');
       })
     );
-  }
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
   }
 }

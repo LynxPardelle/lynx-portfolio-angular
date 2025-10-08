@@ -3,10 +3,10 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { IArticle, IArticleCat } from '../../interfaces/blog';
 /* Services */
 import { BlogService } from '../../services/blog.service';
+import { NgxAngoraService } from 'ngx-angora-css';
+import { WebService } from '../../../shared/services/web.service';
 /* Extras */
 import Swal from 'sweetalert2';
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
-import { WebService } from 'src/app/shared/services/web.service';
 @Component({
   selector: 'blog-cat-edit',
   templateUrl: './blog-cat-edit.component.html',
@@ -39,11 +39,10 @@ export class BlogCatEditComponent implements OnInit {
   constructor(
     private _blogService: BlogService,
     private _webService: WebService,
-    private _befService: NgxBootstrapExpandedFeaturesService
+    private _ankService: NgxAngoraService
   ) {}
 
   ngOnInit(): void {
-    this.cssCreate();
   }
 
   onSubmitCatDelete(cat: IArticleCat) {
@@ -234,14 +233,7 @@ export class BlogCatEditComponent implements OnInit {
         break;
     }
   }
-
-  cssCreate(): void {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
-  }
-
   befisize(str: string): string {
-    return this._befService.befysize(str);
+    return this._ankService.befysize(str);
   }
 }

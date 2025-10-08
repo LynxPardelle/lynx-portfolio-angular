@@ -4,23 +4,22 @@ import { Router, ActivatedRoute } from '@angular/router';
 /* RxJs */
 import { Observable } from 'rxjs';
 /* Interfaces */
-import { IMain } from 'src/app/core/interfaces/main';
+import { IMain } from '../../../core/interfaces/main';
 /* Models */
-import { User } from 'src/app/core/models/main';
+import { User } from '../../../core/models/main';
 /* Services */
-import { MainService } from 'src/app/core/services/main.service';
-import { WebService } from 'src/app/shared/services/web.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
-import { NgxBootstrapExpandedFeaturesService as BefService } from 'ngx-bootstrap-expanded-features';
+import { MainService } from '../../../core/services/main.service';
+import { WebService } from '../../../shared/services/web.service';
+import { SharedService } from '../../../shared/services/shared.service';
 /* State */
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
 /* Extras */
 import Swal from 'sweetalert2';
 import { style } from '@angular/animations';
-import { SesionLoaded } from 'src/app/state/actions/sesion.actions';
+import { SesionLoaded } from '../../../state/actions/sesion.actions';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +48,6 @@ export class LoginComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _webService: WebService,
-    private _befService: BefService,
     private _sharedService: SharedService,
     private store: Store<AppState>
   ) {
@@ -114,7 +112,6 @@ export class LoginComponent implements OnInit {
       next: (m) => {
         if (m !== undefined) {
           this.main = m;
-          this.cssCreate();
         }
       },
       error: (e) => console.error(e),
@@ -176,7 +173,7 @@ export class LoginComponent implements OnInit {
         html: 'El usuario se ha identificado correctamente.',
         icon: 'success',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
+          popup: 'ank ank-bg-fullRed',
           title: 'text-bg-whatsApp',
           closeButton: 'bg-whatsApp',
           confirmButton: 'bg-whatsApp',
@@ -197,17 +194,12 @@ export class LoginComponent implements OnInit {
           e.error.message,
         icon: 'error',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
+          popup: 'ank ank-bg-fullRed',
           title: 'text-titleM',
-          closeButton: 'bef bef-text-fullYellow',
-          confirmButton: 'bef bef-text-fullYellow',
+          closeButton: 'ank ank-text-fullYellow',
+          confirmButton: 'ank ank-text-fullYellow',
         },
       });
-    }
-  }
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
     }
   }
 }

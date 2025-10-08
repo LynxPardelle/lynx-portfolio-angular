@@ -1,6 +1,6 @@
 @if (main && main.backgroundImg && main.backgroundImg.location){
 <div
-  class="position-fixed top-0 start-0 bef bef-wmn-100vw bef-hmn-100vh bef-z-MIN20 bef-backgroundColor-abyss bef-backgroundSize-cover bef-backgroundPosition-center__center bef-backgroundRepeat-noMINrepeat bef-backgroundImage-{{
+  class="position-fixed top-0 start-0 ank ank-wmn-100vw ank-hmn-100vh ank-z-MIN20 ank-backgroundColor-abyss ank-backgroundSize-cover ank-backgroundPosition-center__center ank-backgroundRepeat-noMINrepeat ank-backgroundImage-{{
     befysize('url(' + urlMain + 'get-file/' + main.backgroundImg._id + ')')
   }}
   "
@@ -9,15 +9,15 @@
 <div class="{{ BGDC }}"></div>
 } }
 
-<header class="position-fixed top-0 bef bef-z-5 w-100">
+<header class="position-fixed top-0 ank ank-z-5 w-100">
   <div
-    class="d-flex flex-wrap bef bef-bg-tdark__OPA__0_5 justify-content-evenly align-items-center px-2 py-3 w-100"
+    class="d-flex flex-wrap ank ank-bg-tdark__OPA__0_5 justify-content-evenly align-items-center px-2 py-3 w-100"
   >
     <!-- Icon -->
     <a
       href="/"
       [routerLink]="['/']"
-      class="text-center bef bef-wmx-15per bef-wSEL__img-45px bef-hSEL__img-45px"
+      class="text-center ank ank-wmx-15per ank-wSEL__img-45px ank-hSEL__img-45px"
     >
       @if (main && main.logo && main.logo.location) {
       <img
@@ -43,13 +43,13 @@
     <a
       href="/"
       [routerLink]="['/']"
-      class="bef bef-wmx-50per mx-auto titleLynx text-decoration-none"
+      class="ank ank-wmx-50per mx-auto titleLynx text-decoration-none"
     >
       <h1 class="text-center h2">Lynx Pardelle</h1>
     </a>
     <!-- Menu -->
     <button
-      class="btn menuIconContainer rounded-circle p-0 m-0 bef bef-wmx-15per"
+      class="btn menuIconContainer rounded-circle p-0 m-0 ank ank-wmx-15per"
       type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasMenu"
@@ -77,7 +77,7 @@
         id="button-lang-dropdown"
         dropdownToggle
         type="button"
-        class="btn bef bef-btn-fullRed dropdown-toggle bef bef-text-tdark border-0 bef-boxShadow-0__0__0__transparent"
+        class="btn ank ank-btn-fullRed dropdown-toggle ank ank-text-tdark border-0 ank-boxShadow-0__0__0__transparent"
         aria-controls="lang-dropdown"
       >
         @if (lang === 'es') { Lenguaje } @else { Language }
@@ -93,7 +93,7 @@
         <li>
           <button
             (click)="changeLang('es')"
-            class="dropdown-item btn w-100 py-3 bef bef-text-tdark bef-btn-fullRed text-center border-0 rounded-0"
+            class="dropdown-item btn w-100 py-3 ank ank-text-tdark ank-btn-fullRed text-center border-0 rounded-0"
           >
             Español
           </button>
@@ -101,7 +101,7 @@
         <li>
           <button
             (click)="changeLang('en')"
-            class="dropdown-item btn w-100 py-3 bef bef-text-tdark bef-btn-fullRed text-center border-0 rounded-0"
+            class="dropdown-item btn w-100 py-3 ank ank-text-tdark ank-btn-fullRed text-center border-0 rounded-0"
           >
             English
           </button>
@@ -112,18 +112,18 @@
 </header>
 <!-- Off-canvas -->
 <div
-  class="offcanvas offcanvas-start bef bef-bg-transparent w-100"
+  class="offcanvas offcanvas-start ank ank-bg-transparent w-100"
   tabindex="-1"
   id="offcanvasMenu"
   aria-labelledby="offcanvasMenuLabel"
   data-bs-scroll="true"
 >
   <div
-    class="offcanvas-header bef bef-text-tlight px-2 pt-3 justify-content-end"
+    class="offcanvas-header ank ank-text-tlight px-2 pt-3 justify-content-end"
   >
     <button
       type="button"
-      class="btn bef bef-bg-tdark fw-bold fs-1_5rem bef-text-tlight border-0 menuIconContainer rounded-circle p-0 m-0"
+      class="btn ank ank-bg-tdark fw-bold fs-1_5rem ank-text-tlight border-0 menuIconContainer rounded-circle p-0 m-0"
       data-bs-dismiss="offcanvas"
       aria-label="Close"
     >
@@ -132,11 +132,11 @@
   </div>
   <div class="offcanvas-body">
     <ul
-      class="w-75 bef bef-wmx-300px px-0 py-3 my-3 mx-auto offcanvasul rounded-30 bef-hmx-75vh"
+      class="w-75 ank ank-wmx-300px px-0 py-3 my-3 mx-auto offcanvasul rounded-30 ank-hmx-75vh"
     >
       <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/"
           [routerLink]="['/']"
           data-bs-dismiss="offcanvas"
@@ -146,7 +146,7 @@
       </li>
       <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/webs"
           [routerLink]="['/webs']"
           data-bs-dismiss="offcanvas"
@@ -156,7 +156,7 @@
       </li>
       <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/reel"
           [routerLink]="['/reel']"
           data-bs-dismiss="offcanvas"
@@ -166,7 +166,7 @@
       </li>
       <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/book"
           [routerLink]="['/book']"
           data-bs-dismiss="offcanvas"
@@ -176,7 +176,7 @@
       </li>
       <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/music"
           [routerLink]="['/music']"
           data-bs-dismiss="offcanvas"
@@ -186,7 +186,7 @@
       </li>
       <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/cv"
           [routerLink]="['/cv']"
           data-bs-dismiss="offcanvas"
@@ -196,7 +196,7 @@
       </li>
       <!-- <li class="text-center my-4 h3">
         <a
-          class="d-block mx-auto bef bef-text-fullYellow text-decoration-none"
+          class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/blog"
           [routerLink]="['/blog']"
           data-bs-dismiss="offcanvas"
@@ -214,18 +214,18 @@
 </main>
 
 <footer
-  class="d-flex justify-content-between px-4 py-2 align-items-center position-fixed bottom-0 w-100 bef bef-z-10"
+  class="d-flex justify-content-between px-4 py-2 align-items-center position-fixed bottom-0 w-100 ank ank-z-10"
 >
   <div>
     @if(currentSong && currentSong._id){
     <div
-      class="d-flex bef bef-bg-tdark__OPA__0_75 bef-boxShadow-0__0__10px__fullRed bef-rounded-50px p-3 justify-content-between align-items-center"
+      class="d-flex ank ank-bg-tdark__OPA__0_75 ank-boxShadow-0__0__10px__fullRed ank-rounded-50px p-3 justify-content-between align-items-center"
     >
       @if(currentSong.song && currentSong.song.location &&
       currentSong.song.location !== '' && currentAudio && currentAudio.paused !== false)
       {<button
         (click)="playAudio(currentSong)"
-        class="btn w-10 bef bef-text-fullRed bef-boxShadow-0__0__10px__fullRed bef-p-6px bef-mx-6px rounded-circle"
+        class="btn w-10 ank ank-text-fullRed ank-boxShadow-0__0__10px__fullRed ank-p-6px ank-mx-6px rounded-circle"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -241,7 +241,7 @@
         </svg></button
       >} @if(currentAudio && currentAudio.paused === false){
       <button
-        class="btn w-10 bef bef-text-fullRed bef-boxShadow-0__0__10px__fullRed bef-p-6px bef-mx-6px rounded-circle"
+        class="btn w-10 ank ank-text-fullRed ank-boxShadow-0__0__10px__fullRed ank-p-6px ank-mx-6px rounded-circle"
         (click)="pause()"
       >
         <svg
@@ -262,7 +262,7 @@
         href="{{ currentSong.link }}"
         target="_blank"
         rel="noopener noreferrer"
-        class="btn bef bef-w-80per m-0 text-left bef-text-fullRed"
+        class="btn ank ank-w-80per m-0 text-left ank-text-fullRed"
       >
         {{ currentSong.title }}
       </a>
@@ -280,7 +280,7 @@
               : ''
           )
         "
-        class="btn w-10 bef bef-text-fullRed bef-boxShadow-0__0__10px__fullRed bef-p-6px bef-mx-6px rounded-circle"
+        class="btn w-10 ank ank-text-fullRed ank-boxShadow-0__0__10px__fullRed ank-p-6px ank-mx-6px rounded-circle"
         tooltip="{{
           (lang === 'en'
             ? 'Copied to ClipBoard: '
@@ -320,14 +320,14 @@
       <a
         href="/music"
         [routerLink]="['/music']"
-        class="btn w-10 bef bef-text-fullRed border-0 bef-w-40px bef-h-38px bef-boxShadow-0__0__10px__fullRed bef-p-6px bef-mx-6px rounded-circle"
+        class="btn w-10 ank ank-text-fullRed border-0 ank-w-40px ank-h-38px ank-boxShadow-0__0__10px__fullRed ank-p-6px ank-mx-6px rounded-circle"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
           fill="currentColor"
-          class="bi bi-list-ul bef bef-w-24px bef-h-24px"
+          class="bi bi-list-ul ank ank-w-24px ank-h-24px"
           viewBox="0 0 16 16"
         >
           <path

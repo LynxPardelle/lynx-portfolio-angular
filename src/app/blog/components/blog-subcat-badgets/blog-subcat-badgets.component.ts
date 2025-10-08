@@ -1,9 +1,6 @@
 import { Component, Input } from '@angular/core';
 /* Interfaces */
 import { IArticleSubCat } from '../../interfaces/blog';
-/* Services */
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
-
 @Component({
   selector: 'blog-subcat-badgets',
   templateUrl: './blog-subcat-badgets.component.html',
@@ -13,10 +10,5 @@ import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-feat
 export class BlogSubCatBadgetsComponent {
   @Input() subcats!: IArticleSubCat[];
   @Input() lang: string = 'es';
-  constructor(private _befService: NgxBootstrapExpandedFeaturesService) {}
-  cssCreate(): void {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
-  }
+  constructor() {}
 }

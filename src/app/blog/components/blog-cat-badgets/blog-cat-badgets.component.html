@@ -1,18 +1,18 @@
 <div
-  class="d-flex flex-wrap justify-content-start align-items-center mx-auto bef bef-w-clampSD200pxCOM50perCOM50perED bef-my-1_5rem"
-  >
+  class="d-flex flex-wrap justify-content-start align-items-center mx-auto ank ank-w-clampSD200pxCOM50perCOM50perED ank-my-1_5rem"
+>
   @for (cat of cats; track cat; let last$ = $last) {
-    <a
-      [exist]="last$"
-      (ngInit)="cssCreate()"
-    class="btn text-center bef-lh-1_5 badge rounded-pill px-3 py-1 bef-bg-{{
+  <a
+    class="btn text-center ank-lh-1_5 badge rounded-pill px-3 py-1 ank-bg-{{
       !!cat.buttonColor ? cat.buttonColor.replace('#', 'HASH') : 'dark'
-    }} bef-text-{{ !!cat.titleColor ? cat.titleColor.replace('#', 'HASH') : 'light' }}"
-      [routerLink]="['/blog/list-cat/', cat._id, '1']"
-      href="/blog/list-cat/{{ cat._id }}/1"
-      rel=" noopener noreferrer "
-      >
-      {{ cat.title }}
-    </a>
+    }} ank-text-{{
+      !!cat.titleColor ? cat.titleColor.replace('#', 'HASH') : 'light'
+    }}"
+    [routerLink]="['/blog/list-cat/', cat._id, '1']"
+    href="/blog/list-cat/{{ cat._id }}/1"
+    rel=" noopener noreferrer "
+  >
+    {{ cat.title }}
+  </a>
   }
 </div>

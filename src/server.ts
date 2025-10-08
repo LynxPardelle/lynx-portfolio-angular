@@ -38,27 +38,37 @@ app.use(
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.use((req, res, next) => {
+app.get('*', (req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
+    .then((response) => {
+      if (response) {
+        writeResponseToNodeResponse(response, res);
+      } else {
+        // If Angular app doesn't handle the route, serve index.csr.html for client-side routing
+        res.sendFile(join(browserDistFolder, 'index.csr.html'));
+      }
+    })
+    .catch((error) => {
+      console.error('Angular SSR Error:', error);
+      // Fallback to serving index.csr.html for client-side routing
+      res.sendFile(join(browserDistFolder, 'index.csr.html'));
+    });
 });
 
 /**
  * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ * The server listens on the port defined by the `PROD_PORT` or `PORT` environment variable, or defaults based on NODE_ENV.
  */
 if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 6162;
+  const isDevelopment = process.env['NODE_ENV'] === 'development';
+  const port = process.env['PROD_PORT'] || process.env['PORT'] || (isDevelopment ? 6161 : 6162);
   app.listen(port, (error) => {
     if (error) {
       throw error;
     }
 
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    console.log(`Node Express server listening on http://localhost:${port} (${isDevelopment ? 'development' : 'production'} mode)`);
   });
 }
 

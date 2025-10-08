@@ -13,7 +13,7 @@ import { Main } from '../../models/main';
 import { MainService } from '../../services/main.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { WebService } from 'src/app/shared/services/web.service';
-import { NgxBootstrapExpandedFeaturesService as BefService } from 'ngx-bootstrap-expanded-features';
+import { NgxAngoraService } from 'ngx-angora-css';
 import Swal from 'sweetalert2';
 // State
 import { Store } from '@ngrx/store';
@@ -58,7 +58,7 @@ export class InicioComponent implements OnInit {
     private _mainService: MainService,
     private _sharedService: SharedService,
     private _webService: WebService,
-    private _befService: BefService,
+    private _ankService: NgxAngoraService,
     private store: Store<AppState>
   ) {
     _sharedService.changeEmitted$.subscribe((sharedContent: any) => {
@@ -157,10 +157,10 @@ export class InicioComponent implements OnInit {
           text: '',
           icon: 'success',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       } else if (result.isDenied) {
@@ -169,10 +169,10 @@ export class InicioComponent implements OnInit {
           text: '',
           icon: 'info',
           customClass: {
-            popup: 'bef bef-bg-fullRed',
-            title: 'bef bef-text-fullYellow',
-            closeButton: 'bef bef-text-fullYellow',
-            confirmButton: 'bef bef-text-fullYellow',
+            popup: 'ank ank-bg-fullRed',
+            title: 'ank ank-text-fullYellow',
+            closeButton: 'ank ank-text-fullYellow',
+            confirmButton: 'ank ank-text-fullYellow',
           },
         });
       }

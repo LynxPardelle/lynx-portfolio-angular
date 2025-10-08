@@ -1,14 +1,14 @@
 @if (article.sections) {
   <section>
     @for (section of article.sections; track section) {
-      <div class="bef bef-my-50px">
+      <div class="ank ank-my-50px">
         <div
-          class="text-dark w-75 mx-auto pl-3 pr-3 rounded bef bef-hmn-360px bef-bg-fullRed"
+          class="text-dark w-75 mx-auto pl-3 pr-3 rounded ank ank-hmn-360px ank-bg-fullRed"
           >
           <!-- Edit/Delete Buttons -->
           @if (isEdit == true) {
             <div
-              class="float-right bef bef-ms-MIN25px"
+              class="float-right ank ank-ms-MIN25px"
               >
               @if (editSection == '') {
                 <button
@@ -66,7 +66,7 @@
                 <!-- Título de la sección -->
                 @if (section.title && !edits.includes('title')) {
                   <h3
-                    class="d-block mx-auto text-center bef bef-text-fullYellow"
+                    class="d-block mx-auto text-center ank ank-text-fullYellow"
                     (click)="onClickButton('┼type┼title', section)"
                     >
                     @for (title of section.title.split('\n'); track title) {
@@ -88,7 +88,7 @@
                       X
                     </button>
                     <textarea
-                      class="w-100 border-0 bg-transparent bef bef-text-fullYellow"
+                      class="w-100 border-0 bg-transparent ank ank-text-fullYellow"
                       type="text"
                       name="title"
                       #title="ngModel"
@@ -96,23 +96,23 @@
                       placeholder="Título de la sección"
                       required
                     ></textarea>
-                    <hr class="bef bef-bg-fullYellow" />
+                    <hr class="ank ank-bg-fullYellow" />
                     @if (!title.valid && title.touched) {
                       <small
-                        class="font-weight-bold bef bef-text-fullYellow"
+                        class="font-weight-bold ank ank-text-fullYellow"
                         >
                         El título de la sección no es válido.
                       </small>
                     }
                   </h3>
                 }
-                <hr class="bef bef-mt-MIN15px bef-text-tlight" />
+                <hr class="ank ank-mt-MIN15px ank-text-tlight" />
                 <!-- Video de youtube de la sección -->
                 @if (
                   section.ytvideo && section.ytvideo != null && section.ytvideo != ''
                   ) {
                   <div
-                    class="d-block mx-auto bef bef-w-256px bef-h-144px bef-w-sm-427px bef-h-sm-240px bef-w-md-640px bef-h-md-360px"
+                    class="d-block mx-auto ank ank-w-256px ank-h-144px ank-w-sm-427px ank-h-sm-240px ank-w-md-640px ank-h-md-360px"
                     >
                     <youtube-player
                       class="my-0 mx-auto"
@@ -154,7 +154,7 @@
                   editSection == section._id
                   ) {
                   <div
-                    class="d-block mx-auto bef bef-wmx-500px w-75"
+                    class="d-block mx-auto ank ank-wmx-500px w-75"
                     >
                     <button
                       class="btn btn-warning font-weight-normal float-right"
@@ -163,14 +163,14 @@
                       X
                     </button>
                     <input
-                      class="w-100 border-0 bg-transparent text-center bef bef-text-tlight"
+                      class="w-100 border-0 bg-transparent text-center ank ank-text-tlight"
                       type="text"
                       name="ytvideo"
                       #ytvideo="ngModel"
                       [(ngModel)]="section.ytvideo"
                       placeholder="Video de youtube (Código alfanumérico final del enlace)"
                       />
-                      <hr class="bef bef-bg-tlight" />
+                      <hr class="ank ank-bg-tlight" />
                     </div>
                   }
                   <!-- Video Principal -->
@@ -184,7 +184,7 @@
                       >
                       @if (editSection == section._id) {
                         <button
-                          class="btn position-absolute bef bef-s-25px bef-mt-10px bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                          class="btn position-absolute ank ank-s-25px ank-mt-10px ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
           (click)="
             deleteFilePrincipal(
               section.principalFile.file,
@@ -208,12 +208,12 @@
                             </svg>
                           </button>
                         }
-                        <p class="text-center mt-3 mb-2 bef bef-text-tlight">
+                        <p class="text-center mt-3 mb-2 ank ank-text-tlight">
                           {{ section.principalFile.file }}
                         </p>
                         <video
                           controls
-                          class="bef bef-wmx-100per bef-hmx-360px my-0 mx-auto d-block bef-text-tlight"
+                          class="ank ank-wmx-100per ank-hmx-360px my-0 mx-auto d-block ank-text-tlight"
                           >
                           <source
                             src="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
@@ -235,12 +235,12 @@
                         ) {
                         <div
                           >
-                          <p class="text-center mt-3 mb-2 bef bef-text-tlight">
+                          <p class="text-center mt-3 mb-2 ank ank-text-tlight">
                             {{ section.principalFile.file }}
                           </p>
                           @if (editSection == section._id) {
                             <button
-                              class="btn position-absolute bef bef-s-35px bef-mt-10px bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                              class="btn position-absolute ank ank-s-35px ank-mt-10px ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
           (click)="
             deleteFilePrincipal(
               section.principalFile.file,
@@ -264,7 +264,7 @@
                                 </svg>
                               </button>
                             }
-                            <audio class="d-block mx-auto bef bef-text-tlight" controls>
+                            <audio class="d-block mx-auto ank ank-text-tlight" controls>
                               <source
                                 src="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
                                 type="audio/mpeg"
@@ -295,7 +295,7 @@
                               >
                               @if (editSection == section._id) {
                                 <button
-                                  class="btn position-absolute bef bef-e-35px mt-0 bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                  class="btn position-absolute ank ank-e-35px mt-0 ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
           (click)="
             deleteFilePrincipal(
               section.principalFile.file,
@@ -321,7 +321,7 @@
                                 }
                                 <a
                                   href="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
-                                  class="text-center mt-3 mb-2 bef bef-text-fullyellow"
+                                  class="text-center mt-3 mb-2 ank ank-text-fullyellow"
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   >
@@ -339,7 +339,7 @@
                                       <div>
                                         @if (editSection == section._id) {
                                           <button
-                                            class="btn position-absolute bef bef-s-25px bef-mt-10px bef-z-20 bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                            class="btn position-absolute ank ank-s-25px ank-mt-10px ank-z-20 ank-bc-tlight ank-bw-1px ank-bs-solid"
                                             (click)="deleteFileMulti(file.file, file._id, section)"
                                             >
                                             <svg
@@ -357,10 +357,10 @@
                                               </svg>
                                             </button>
                                           }
-                                          <p class="bef bef-text-tlight">
+                                          <p class="ank ank-text-tlight">
                                             {{ file.file }}
                                           </p>
-                                          <video controls class="bef bef-wmx-100per bef-text-tlight">
+                                          <video controls class="ank ank-wmx-100per ank-text-tlight">
                                             <source
                                               src="{{ apiBlog + 'get-file/' + file.file }}"
                                               type="audio/mpeg"
@@ -377,7 +377,7 @@
                                 <!-- IMAGES -->
                                 @if (section.files && section.files.length > 1) {
                                   <div
-                                    class="d-block my-0 mx-auto bef bef-w-320px"
+                                    class="d-block my-0 mx-auto ank ank-w-320px"
                                     >
                                     <carousel [interval]="2000">
                                       @for (file of section.files; track file; let i = $index) {
@@ -396,11 +396,11 @@
                                                 alt="{{ file.file }}"
                                                 (click)="lgModal.show()"
                                                 title="{{ file.file }}"
-                                                class="d-block mx-auto cursor-pointer bef bef-wmx-300px"
+                                                class="d-block mx-auto cursor-pointer ank ank-wmx-300px"
                                                 />
                                                 <div class="carousel-caption d-none d-md-block">
                                                   <span
-                                                    class="mx-auto textSHB w-100 overflow-hidden bef bef-text-tlight"
+                                                    class="mx-auto textSHB w-100 overflow-hidden ank ank-text-tlight"
                                                     >
                                                     {{ file.file }}
                                                   </span>
@@ -419,17 +419,17 @@
                                         aria-labelledby="dialog-sizes-name"
                                         >
                                         <div class="modal-dialog modal-lg">
-                                          <div class="modal-content bef bef-bg-fullRed">
-                                            <div class="modal-header bef bef-bg-fullRed">
+                                          <div class="modal-content ank ank-bg-fullRed">
+                                            <div class="modal-header ank ank-bg-fullRed">
                                               <h4
                                                 id="dialog-sizes-name1"
-                                                class="modal-title pull-left w-100 overflow-hidden bef bef-text-tlight"
+                                                class="modal-title pull-left w-100 overflow-hidden ank ank-text-tlight"
                                                 >
                                                 Carrusel de imágenes
                                               </h4>
                                               <button
                                                 type="button"
-                                                class="close pull-right bef bef-text-tlight"
+                                                class="close pull-right ank ank-text-tlight"
                                                 aria-label="Close"
                                                 (click)="lgModal.hide()"
                                                 aria-label="Close"
@@ -437,7 +437,7 @@
                                                 <span aria-hidden="true">x</span>
                                               </button>
                                             </div>
-                                            <div class="modal-body bef bef-bg-fullRed">
+                                            <div class="modal-body ank ank-bg-fullRed">
                                               <br />
                                               <carousel [interval]="2000">
                                                 @for (file of section.files; track file; let i = $index) {
@@ -453,7 +453,7 @@
                                                         >
                                                         @if (editSection == section._id) {
                                                           <button
-                                                            class="btn position-absolute bef bef-s-50per bef-mt-10px bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                            class="btn position-absolute ank ank-s-50per ank-mt-10px ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                                                             (click)="deleteFileMulti(file.file, file._id, section)"
                                                             >
                                                             <svg
@@ -481,12 +481,12 @@
                                                               src="{{ apiBlog + 'get-file/' + file.file }}"
                                                               alt="{{ file.file }}"
                                                               title="{{ file.file }}"
-                                                              class="d-block mx-auto bef bef-wmx-100per"
+                                                              class="d-block mx-auto ank ank-wmx-100per"
                                                               />
                                                             </a>
                                                             <div class="carousel-caption d-none d-md-block">
                                                               <p
-                                                                class="mx-auto textSHB w-100 overflow-hidden bef bef-text-tlight"
+                                                                class="mx-auto textSHB w-100 overflow-hidden ank ank-text-tlight"
                                                                 >
                                                                 {{ file.file }}
                                                               </p>
@@ -515,11 +515,11 @@
                                         section.principalFile.type == 'jpeg')
                                         ) {
                                         <div
-                                          class="float-left p-3 bef-hmx-330px bef-wmn-150px bef-wmx-50per"
+                                          class="float-left p-3 ank-hmx-330px ank-wmn-150px ank-wmx-50per"
                                           >
                                           @if (editSection == section._id) {
                                             <button
-                                              class="btn position-absolute bef bef-e-10px bef-mb-MIN75px bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                              class="btn position-absolute ank ank-e-10px ank-mb-MIN75px ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
           (click)="
             deleteFilePrincipal(
               section.principalFile.file,
@@ -544,7 +544,7 @@
                                               </button>
                                             }
                                             <img
-                                              class="d-block mx-auto bef bef-hmx-300px bef-wmx-100per"
+                                              class="d-block mx-auto ank ank-hmx-300px ank-wmx-100per"
                                               src="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
                                               title="{{ section.principalFile.file }}"
                                               alt="{{ section.principalFile.file }}"
@@ -554,7 +554,7 @@
                                           <!-- Párrafo de la sección -->
                                           @if (section.p) {
                                             <div
-                                              class="pt-3 px-3 bef bef-overflowX-hidden"
+                                              class="pt-3 px-3 ank ank-overflowX-hidden"
         [innerHTML]="
           {
             text: this.valuefy(section.text),
@@ -586,13 +586,13 @@
                                               #p="ngModel"
                                               [(ngModel)]="section.p"
                                               placeholder="Párrafo"
-                                              class="border-0 bg-transparent w-100 bef bef-text-tlight"
+                                              class="border-0 bg-transparent w-100 ank ank-text-tlight"
                                               required
                                             ></textarea>
-                                            <hr class="bef bef-bg-tlight" />
+                                            <hr class="ank ank-bg-tlight" />
                                             @if (!p.valid && p.touched) {
                                               <small
-                                                class="font-weight-bold bef bef-text-tlight"
+                                                class="font-weight-bold ank ank-text-tlight"
                                                 >
                                                 El parrafo de la sección no es válido.
                                               </small>
@@ -614,7 +614,7 @@
                                                     file.type == 'jpeg'
                                                     ) {
                                                     <div
-                                                      class="d-block mx-auto bef bef-wmx-100per bef-hmx-500px bef-oveflow-hidden"
+                                                      class="d-block mx-auto ank ank-wmx-100per ank-hmx-500px ank-oveflow-hidden"
                                                       >
                                                       <div>
                                                         <img
@@ -622,7 +622,7 @@
                                                           alt="{{ file.file }}"
                                                           title="{{ file.file }}"
                                                           (click)="lgModal.show()"
-                                                          class="d-block mx-auto cursor-pointer bef bef-wmx-100per"
+                                                          class="d-block mx-auto cursor-pointer ank ank-wmx-100per"
                                                           />
                                                           <div
                                                             bsModal
@@ -633,11 +633,11 @@
                                                             aria-labelledby="dialog-sizes-name1"
                                                             >
                                                             <div class="modal-dialog modal-lg">
-                                                              <div class="modal-content bef bef-bg-fullRed">
-                                                                <div class="modal-header bef bef-bg-fullRed">
+                                                              <div class="modal-content ank ank-bg-fullRed">
+                                                                <div class="modal-header ank ank-bg-fullRed">
                                                                   <h4
                                                                     id="dialog-sizes-name1"
-                                                                    class="modal-title pull-left w-75 overflow-hidden bef bef-text-tlight"
+                                                                    class="modal-title pull-left w-75 overflow-hidden ank ank-text-tlight"
                                                                     >
                                                                     <span class="w-100 overflow-hidden">{{
                                                                       file.file
@@ -645,7 +645,7 @@
                                                                   </h4>
                                                                   <button
                                                                     type="button"
-                                                                    class="close pull-right bef bef-text-tlight"
+                                                                    class="close pull-right ank ank-text-tlight"
                                                                     aria-label="Close"
                                                                     (click)="lgModal.hide()"
                                                                     aria-label="Close"
@@ -653,11 +653,11 @@
                                                                     <span aria-hidden="true">x</span>
                                                                   </button>
                                                                 </div>
-                                                                <div class="modal-body bef bef-bg-tlight">
+                                                                <div class="modal-body ank ank-bg-tlight">
                                                                   <br />
                                                                   @if (editSection == section._id) {
                                                                     <button
-                                                                      class="btn position-absolute bef bef-s-25px bef-mt-10px bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                                      class="btn position-absolute ank ank-s-25px ank-mt-10px ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                           (click)="
                             deleteFileMulti(file.file, file._id, section)
                           "
@@ -687,7 +687,7 @@
                                                                         src="{{ apiBlog + 'get-file/' + file.file }}"
                                                                         alt="{{ file.file }}"
                                                                         title="{{ file.file }}"
-                                                                        class="d-block my-0 mx-auto bef bef-wmx-100per"
+                                                                        class="d-block my-0 mx-auto ank ank-wmx-100per"
                                                                         />
                                                                       </a>
                                                                       <br />
@@ -707,13 +707,13 @@
                                                   <div
                                                     class="w-75 mx-auto overflow-hidden"
                                                     >
-                                                    <h5 class="bef bef-text-tlight">Descargas:</h5>
+                                                    <h5 class="ank ank-text-tlight">Descargas:</h5>
                                                     <br />
                                                     @for (file of section.files; track file; let i = $index) {
                                                       <div>
                                                         @if (editSection == section._id) {
                                                           <button
-                                                            class="btn bef bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid bef-s-35px bef-mt-10px"
+                                                            class="btn ank ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid ank-s-35px ank-mt-10px"
                                                             (click)="deleteFileMulti(file.file, file._id, section)"
                                                             >
                                                             <svg
@@ -732,7 +732,7 @@
                                                             </button>
                                                           }
                                                           <a
-                                                            class="bef bef-text-fullYellow"
+                                                            class="ank ank-text-fullYellow"
                                                             href="{{ apiBlog + 'get-file/' + file.file }}"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
@@ -757,12 +757,12 @@
                                                             ) {
                                                             <div
                                                               >
-                                                              <p class="bef bef-text-tlight">
+                                                              <p class="ank ank-text-tlight">
                                                                 {{ file.file }}
                                                               </p>
                                                               @if (editSection == section._id) {
                                                                 <button
-                                                                  class="btn position-absolute bef bef-s-35px bef-mt-10px bef-z-20 bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                                  class="btn position-absolute ank ank-s-35px ank-mt-10px ank-z-20 ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                                                                   (click)="deleteFileMulti(file.file, file._id, section)"
                                                                   >
                                                                   <svg
@@ -780,7 +780,7 @@
                                                                     </svg>
                                                                   </button>
                                                                 }
-                                                                <audio controls class="d-block mx-auto bef bef-text-tlight">
+                                                                <audio controls class="d-block mx-auto ank ank-text-tlight">
                                                                   <source
                                                                     src="{{ apiBlog + 'get-file/' + file.file }}"
                                                                     type="audio/mpeg"
@@ -837,7 +837,7 @@
                                                         <div class="d-block w-75 mx-auto pb-2 text-white">
                                                           <label
                                                             for="section.bgColor"
-                                                            class="btn d-block w-100 mx-auto bef bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                            class="btn d-block w-100 mx-auto ank ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                                                             >
                                                             Color del fondo de la sección
                                                             <input
@@ -846,7 +846,6 @@
                                                               name="section.bgColor"
                                                               value="section.bgColor"
                                                               [(ngModel)]="section.bgColor"
-                                                              (ngModelChange)="cssCreate()"
                                                               />
                                                             </label>
                                                           </div>
@@ -854,7 +853,7 @@
                                                           <div class="d-block w-75 mx-auto pb-2 text-white">
                                                             <label
                                                               for="section.textColor"
-                                                              class="btn d-block w-100 mx-auto bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                              class="btn d-block w-100 mx-auto ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                                                               >
                                                               Color de las letras de la sección
                                                               <input
@@ -863,7 +862,6 @@
                                                                 name="section.textColor"
                                                                 value="section.textColor"
                                                                 [(ngModel)]="section.textColor"
-                                                                (ngModelChange)="cssCreate()"
                                                                 />
                                                               </label>
                                                             </div>
@@ -871,7 +869,7 @@
                                                             <div class="d-block w-75 mx-auto pb-2 text-white">
                                                               <label
                                                                 for="section.linkColor"
-                                                                class="btn d-block w-100 mx-auto bef bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                                class="btn d-block w-100 mx-auto ank ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                                                                 >
                                                                 Color de los links de la sección
                                                                 <input
@@ -880,7 +878,6 @@
                                                                   name="section.linkColor"
                                                                   value="section.linkColor"
                                                                   [(ngModel)]="section.linkColor"
-                                                                  (ngModelChange)="cssCreate()"
                                                                   />
                                                                 </label>
                                                               </div>
@@ -888,7 +885,7 @@
                                                               <div class="d-block w-75 mx-auto pb-2 text-white">
                                                                 <label
                                                                   for="section.titleColor"
-                                                                  class="btn d-block w-100 mx-auto bef-text-tlight bef-bc-tlight bef-bw-1px bef-bs-solid"
+                                                                  class="btn d-block w-100 mx-auto ank-text-tlight ank-bc-tlight ank-bw-1px ank-bs-solid"
                                                                   >
                                                                   Color del título de la sección
                                                                   <input
@@ -897,7 +894,6 @@
                                                                     name="section.titleColor"
                                                                     value="section.titleColor"
                                                                     [(ngModel)]="section.titleColor"
-                                                                    (ngModelChange)="cssCreate()"
                                                                     />
                                                                   </label>
                                                                 </div>
@@ -927,12 +923,12 @@
                                                   <!-- New section -->
                                                   @if (article._id && article._id != '' && isEdit == true) {
                                                     <section
-                                                      class="w-75 mx-auto px-3 rounded bef bef-hmn-360px bef-bg-fullRed"
+                                                      class="w-75 mx-auto px-3 rounded ank ank-hmn-360px ank-bg-fullRed"
                                                       >
                                                       <!-- Título de la sección -->
                                                       @if (section.title && !edits.includes('title')) {
                                                         <h3
-                                                          class="d-block mx-auto text-center bef bef-text-fullYellow"
+                                                          class="d-block mx-auto text-center ank ank-text-fullYellow"
                                                           (click)="onClickButton('┼type┼title', section)"
                                                           >
                                                           @for (title of section.title.split('\n'); track title) {
@@ -954,7 +950,7 @@
                                                             X
                                                           </button>
                                                           <textarea
-                                                            class="w-100 border-0 bg-transparent bef bef-text-fullYellow"
+                                                            class="w-100 border-0 bg-transparent ank ank-text-fullYellow"
                                                             type="text"
                                                             name="title"
                                                             #title="ngModel"
@@ -963,21 +959,21 @@
                                                             (keydown.esc)="onClickButton('┼type┼title', section)"
                                                             required
                                                           ></textarea>
-                                                          <hr class="bef bef-bg-fullYellow" />
+                                                          <hr class="ank ank-bg-fullYellow" />
                                                           @if (!title.valid && title.touched) {
                                                             <small
-                                                              class="font-weight-bold bef bef-text-fullYellow"
+                                                              class="font-weight-bold ank ank-text-fullYellow"
                                                               >
                                                               El título de la sección no es válido.
                                                             </small>
                                                           }
                                                         </h3>
                                                       }
-                                                      <hr class="bef bef-mt-MIN15px bef-bg-tlight" />
+                                                      <hr class="ank ank-mt-MIN15px ank-bg-tlight" />
                                                       <!-- Párrafo de la sección -->
                                                       @if (section.text) {
                                                         <div
-                                                          class="pt-3 px-3 bef bef-overflowX-hidden"
+                                                          class="pt-3 px-3 ank ank-overflowX-hidden"
     [innerHTML]="
       {
         text: this.valuefy(section.text),
@@ -1000,7 +996,7 @@
                                                           X
                                                         </button>
                                                         <textarea
-                                                          class="border-0 bg-transparent w-100 bef-text-tlight"
+                                                          class="border-0 bg-transparent w-100 ank-text-tlight"
                                                           type="text"
                                                           name="text"
                                                           #p="ngModel"
@@ -1008,10 +1004,10 @@
                                                           placeholder="Párrafo"
                                                           required
                                                         ></textarea>
-                                                        <hr class="bef bef-bg-tlight" />
+                                                        <hr class="ank ank-bg-tlight" />
                                                         @if (!p.valid && p.touched) {
                                                           <small
-                                                            class="font-weight-bold bef bef-text-tlight"
+                                                            class="font-weight-bold ank ank-text-tlight"
                                                             >
                                                             El parrafo de la sección no es válido.
                                                           </small>
@@ -1024,7 +1020,7 @@
                                                       <div class="d-block w-75 mx-auto pb-2 text-white">
                                                         <label
                                                           for="section.bgColor"
-                                                          class="btn d-block w-100 mx-auto bef bef-bf-fullRed"
+                                                          class="btn d-block w-100 mx-auto ank ank-bf-fullRed"
                                                           >
                                                           Color del fondo de la sección
                                                           <input
@@ -1033,7 +1029,6 @@
                                                             name="section.bgColor"
                                                             value="section.bgColor"
                                                             [(ngModel)]="section.bgColor"
-                                                            (ngModelChange)="cssCreate()"
                                                             />
                                                           </label>
                                                         </div>
@@ -1041,7 +1036,7 @@
                                                         <div class="d-block w-75 mx-auto pb-2 text-white">
                                                           <label
                                                             for="section.textColor"
-                                                            class="btn d-block w-100 mx-auto bef bef-bf-fullRed bef-text-tlight"
+                                                            class="btn d-block w-100 mx-auto ank ank-bf-fullRed ank-text-tlight"
                                                             >
                                                             Color de las letras de la sección
                                                             <input
@@ -1050,7 +1045,6 @@
                                                               name="section.textColor"
                                                               value="section.textColor"
                                                               [(ngModel)]="section.textColor"
-                                                              (ngModelChange)="cssCreate()"
                                                               />
                                                             </label>
                                                           </div>
@@ -1058,7 +1052,7 @@
                                                           <div class="d-block w-75 mx-auto pb-2 text-white">
                                                             <label
                                                               for="section.linkColor"
-                                                              class="btn d-block w-100 mx-auto bef bef-bg-fullRed bef-text-tlight"
+                                                              class="btn d-block w-100 mx-auto ank ank-bg-fullRed ank-text-tlight"
                                                               >
                                                               Color de los links de la sección
                                                               <input
@@ -1067,7 +1061,6 @@
                                                                 name="section.linkColor"
                                                                 value="section.linkColor"
                                                                 [(ngModel)]="section.linkColor"
-                                                                (ngModelChange)="cssCreate()"
                                                                 />
                                                               </label>
                                                             </div>
@@ -1075,7 +1068,7 @@
                                                             <div class="d-block w-75 mx-auto pb-2 text-white">
                                                               <label
                                                                 for="section.titleColor"
-                                                                class="btn d-block w-100 mx-auto bef bef-bg-fullRed bef-text-tlight"
+                                                                class="btn d-block w-100 mx-auto ank ank-bg-fullRed ank-text-tlight"
                                                                 >
                                                                 Color del título de la sección
                                                                 <input
@@ -1084,7 +1077,6 @@
                                                                   name="section.titleColor"
                                                                   value="section.titleColor"
                                                                   [(ngModel)]="section.titleColor"
-                                                                  (ngModelChange)="cssCreate()"
                                                                   />
                                                                 </label>
                                                               </div>

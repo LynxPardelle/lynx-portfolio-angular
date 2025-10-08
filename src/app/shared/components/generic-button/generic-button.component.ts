@@ -2,14 +2,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /* Services */
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { SharedService } from '../../../shared/services/shared.service';
+import { NgxAngoraService } from 'ngx-angora-css';
 
 /* Pipes */
-import { HarshifyPipe } from 'src/app/shared/pipes/harshify.pipe';
+import { HarshifyPipe } from '../../../shared/pipes/harshify.pipe';
 import { SafeHtmlPipe } from '../../pipes/safe-html';
 
 /* Libraries */
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 export type TAvailablePlacement = 'auto' | 'top' | 'bottom' | 'left' | 'right';
@@ -39,31 +39,24 @@ export class GenericButtonComponent implements OnInit {
   constructor(
     private _harshifyPipe: HarshifyPipe,
     private _sharedService: SharedService,
-    private _befService: NgxBootstrapExpandedFeaturesService
+    private _ankService: NgxAngoraService
   ) {}
 
   ngOnInit(): void {
     this.randomId = this._harshifyPipe.transform(9, 'letters');
     this.buttonId.emit(this.randomId);
     if (this.classButton && typeof window !== 'undefined') {
-      this._befService.updateClasses(
+      this._ankService.updateClasses(
         this.classButton
           .split(' ')
-          .filter((c) => c !== '' && c.includes('bef-'))
+          .filter((c) => c !== '' && c.includes('ank-'))
       );
     }
-    this.cssCreate();
   }
 
   getHtml() {
     return this._sharedService.getHTML(
       this.customHtml ? this.customHtml : this.type
     );
-  }
-
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
   }
 }

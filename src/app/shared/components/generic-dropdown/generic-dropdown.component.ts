@@ -4,11 +4,10 @@ import { CommonModule } from '@angular/common';
 import { IOptionDropdown } from '../../interfaces/optionDropdown';
 /* Services */
 import { SharedService } from '../../services/shared.service';
+import { NgxAngoraService } from 'ngx-angora-css';
+import { WebService } from '../../services/web.service';
 /* Pipes */
 import { HarshifyPipe } from '../../pipes/harshify.pipe';
-/* NGX-BEF */
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
-import { WebService } from '../../services/web.service';
 @Component({
   selector: 'generic-dropdown',
   templateUrl: './generic-dropdown.component.html',
@@ -25,7 +24,7 @@ export class GenericDropdownComponent implements OnInit {
   @Input() labelClasses: string = '';
   @Input() listClasses: string = '';
   @Input() buttonClasses: string =
-    'bef-btn-white bef-fs-10px bef-text-btnBG bef-p-10px bef-rounded-10px';
+    'ank-btn-white ank-fs-10px ank-text-btnBG ank-p-10px ank-rounded-10px';
   @Input() disabledClassButton: string = '';
   @Input() options: IOptionDropdown[] = [];
   @Input() disabled: boolean = false;
@@ -48,7 +47,7 @@ export class GenericDropdownComponent implements OnInit {
   constructor(
     private _sharedService: SharedService,
     private _webService: WebService,
-    private _befService: NgxBootstrapExpandedFeaturesService,
+    private _ankService: NgxAngoraService,
     private _harshifyPipe: HarshifyPipe
   ) {}
   ngOnInit(): void {
@@ -57,7 +56,6 @@ export class GenericDropdownComponent implements OnInit {
     this.dropdownId = this._harshifyPipe.transform(9, 'letters');
     this.dropdownIdEmit.emit(this.dropdownId);
     this.searcher.search = '';
-    this.cssCreate();
   }
 
   getOptions(): IOptionDropdown[] {
@@ -112,14 +110,13 @@ export class GenericDropdownComponent implements OnInit {
       }
       this._webService.consoleLog(this.placeholder);
       this.clicked.emit(newEvent);
-      this.cssCreate();
     } else {
       this.clicked.emit(event);
     }
   }
 
   getRandomColor(i: number, last: boolean): string {
-    let colors: string[] = this._befService.getColorsNames();
+    let colors: string[] = this._ankService.getColorsNames();
     while (
       this.pillsColors.length === 0 ||
       (!last ? i : i + 1) > this.pillsColors.length
@@ -131,11 +128,5 @@ export class GenericDropdownComponent implements OnInit {
 
   checkElementWidth(elementId: string): number {
     return this._sharedService.checkElementProperty(elementId, 'clientWidth');
-  }
-
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
-    }
   }
 }

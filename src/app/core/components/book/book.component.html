@@ -1,13 +1,13 @@
 <!-- Edit/Delete Buttons -->
 @if (identity && identity.role == 'ROLE_ADMIN') {
 <div
-  class="position-fixed end-0 bef bef-z-15 {{
-    windowWidth < 767 ? 'bef-top-150px' : 'bef-top-15per'
+  class="position-fixed end-0 ank ank-z-15 {{
+    windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per'
   }}"
 >
   @if (edit === false) {
   <button
-    class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+    class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
     (click)="editChange()"
   >
     <svg
@@ -29,7 +29,7 @@
   </button>
   } @if (edit == true) {
   <button
-    class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+    class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
     (click)="editChange()"
   >
     X
@@ -38,11 +38,11 @@
 </div>
 }
 
-<h2 class="text-center bef bef-my-3rem">Book</h2>
+<h2 class="text-center ank ank-my-3rem">Book</h2>
 
 <section>
   <article
-    class="d-flex flex-wrap align-items-center mx-auto bef bef-w-95per p-1 my-3 position-relative"
+    class="d-flex flex-wrap align-items-center mx-auto ank ank-w-95per p-1 my-3 position-relative"
   >
     @for (bookimg of bookImgs; track bookimg._id; let i = $index) {
     <div
@@ -88,13 +88,13 @@
       <!-- Edit/Delete Buttons -->
       @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
       <div
-        class="position-absolute end-0 bef bef-top-20per bef-z-10 {{
-          windowWidth <= 767 ? 'bef-top-50px' : 'bef-top-5per'
+        class="position-absolute end-0 ank ank-top-20per ank-z-10 {{
+          windowWidth <= 767 ? 'ank-top-50px' : 'ank-top-5per'
         }}"
       >
         @if (bookImg._id !== bookimg._id) {
         <button
-          class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+          class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
           (click)="bookImgEdit(bookimg)"
         >
           <svg
@@ -116,7 +116,7 @@
         </button>
         } @if (bookImg._id === bookimg._id) {
         <button
-          class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+          class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
           (click)="bookImgEdit(bookimg)"
         >
           X
@@ -164,9 +164,9 @@
 
   <!-- Title Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="title">Título</label>
+    <label class="ank ank-text-tlight mb-1 d-block" for="title">Título</label>
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="title"
       #title="ngModel"
@@ -175,7 +175,7 @@
       required
     />
     @if (!title.valid && title.touched) {
-    <span class="bef bef-text-tlight font-weight-bold">
+    <span class="ank ank-text-tlight font-weight-bold">
       El título es obligatorio.
     </span>
     }
@@ -183,11 +183,11 @@
 
   <!-- TitleEng Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="titleEng"
+    <label class="ank ank-text-tlight mb-1 d-block" for="titleEng"
       >Title(English)</label
     >
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="titleEng"
       #titleEng="ngModel"
@@ -196,7 +196,7 @@
       required
     />
     @if (!titleEng.valid && titleEng.touched) {
-    <span class="bef bef-text-tlight font-weight-bold">
+    <span class="ank ank-text-tlight font-weight-bold">
       The title(english) is required.
     </span>
     }
@@ -207,12 +207,12 @@
   <div class="my-5 d-flex flex-wrap justify-content-evenly">
     <!-- img Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de imagen
       </h3>
       @if (bookImg && bookImg.img && bookImg.img.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + bookImg.img._id }}"
         alt="{{ lang === 'es' ? bookImg.title : bookImg.titleEng }}"
       />
@@ -242,7 +242,7 @@
       bookImg.titleEng === ''
     "
     (click)="onSubmit()"
-    class="bef btn bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+    class="ank btn ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
   >
     Submit
   </button>

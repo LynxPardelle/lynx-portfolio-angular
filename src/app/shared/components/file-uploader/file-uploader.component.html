@@ -1,6 +1,6 @@
 <button
   type="button"
-  class="btn bef bef-bg-fullYellow d-block mx-auto text-tdark"
+  class="btn ank ank-bg-fullYellow d-block mx-auto text-tdark"
   title="Sube varios archivos"
   (click)="openModal(subirArchivosPN)"
   >
@@ -29,11 +29,11 @@
 
       <ng-template #subirArchivosPN>
         <div class="bg-tdark border-3 overflow-hidden">
-          <div class="modal-header bef bef-bg-fullRed">
-            <h4 class="modal-title pull-left bef bef-text-tdark">Sube el archivo</h4>
+          <div class="modal-header ank ank-bg-fullRed">
+            <h4 class="modal-title pull-left ank ank-text-tdark">Sube el archivo</h4>
             <button
               type="button"
-              class="btn close pull-right bef bef-text-tdark fs-2rem"
+              class="btn close pull-right ank ank-text-tdark fs-2rem"
               aria-label="Close"
               (click)="closeEnd(modalRef)"
               >
@@ -66,7 +66,7 @@
                     </div>
                   </div>
                   <label
-                    class="btn bef bef-bg-fullYellow w-75 bef bef-text-tdark cursor-pointer text-center d-block mx-auto my-5 position-relative rounded-pill"
+                    class="btn ank ank-bg-fullYellow w-75 ank ank-text-tdark cursor-pointer text-center d-block mx-auto my-5 position-relative rounded-pill"
                     >
                     <input
                       type="file"
@@ -154,7 +154,7 @@
                   @if (files && files[0]) {
                     <button
                       type="button"
-                      class="btn bef bef-bg-fullYellow w-75 text-center bef bef-text-tdark d-block mx-auto rounded-pill"
+                      class="btn ank ank-bg-fullYellow w-75 text-center ank ank-text-tdark d-block mx-auto rounded-pill"
                       (click)="startUpload()"
                       >
                       Empieza a subir el archivo
@@ -185,7 +185,7 @@
                     </div>
                   }
                   <button
-                    class="btn d-block mx-auto bef bef-bg-fullYellow bef bef-text-tdark"
+                    class="btn d-block mx-auto ank ank-bg-fullYellow ank ank-text-tdark"
                     (click)="closeEnd(modalRef)"
                     >
                     Aceptar

@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IArticle, IArticleSection } from '../../interfaces/blog';
 import { BlogService } from '../../services/blog.service';
-import { WebService } from 'src/app/shared/services/web.service';
 import Swal from 'sweetalert2';
-import { NgxBootstrapExpandedFeaturesService } from 'ngx-bootstrap-expanded-features';
+import { WebService } from '../../../shared/services/web.service';
 
 @Component({
   selector: 'article-sections',
@@ -38,12 +37,10 @@ export class ArticleSectionsComponent {
   public edits: string[] = [];
   constructor(
     private _blogService: BlogService,
-    private _webService: WebService,
-    private _befService: NgxBootstrapExpandedFeaturesService
+    private _webService: WebService
   ) {}
 
   ngOnInit(): void {
-    this.cssCreate();
   }
 
   onSubmitSectionNew(): void {
@@ -254,10 +251,10 @@ export class ArticleSectionsComponent {
           ${errorMessage}`,
         icon: 'error',
         customClass: {
-          popup: 'bef bef-bg-fullRed',
-          title: 'bef bef-text-tdark',
-          closeButton: 'bef bef-bg-fullYellow',
-          confirmButton: 'bef bef-bg-fullGreen',
+          popup: 'ank ank-bg-fullRed',
+          title: 'ank ank-text-tdark',
+          closeButton: 'ank ank-bg-fullYellow',
+          confirmButton: 'ank ank-bg-fullGreen',
         },
       });
 
@@ -445,12 +442,6 @@ export class ArticleSectionsComponent {
       return text;
     } else {
       return text;
-    }
-  }
-
-  cssCreate() {
-    if (typeof window !== 'undefined') {
-      this._befService.cssCreate();
     }
   }
 }

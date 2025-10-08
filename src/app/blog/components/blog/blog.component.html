@@ -1,9 +1,9 @@
-<h2 class="text-center bef bef-my-3rem">Blog</h2>
+<h2 class="text-center ank ank-my-3rem">Blog</h2>
 @if (identity && identity.role == 'ROLE_ADMIN') {
   <a
     href="/article"
     [routerLink]="['/blog/article']"
-    class="d-block mx-auto my-3 btn bef bef-w-clampSD200pxCOM25perCOM300pxED bef-btn-fullYellow bef-text-tdark p-2"
+    class="d-block mx-auto my-3 btn ank ank-w-clampSD200pxCOM25perCOM300pxED ank-btn-fullYellow ank-text-tdark p-2"
     >Crear nuevo artículo</a
     >
   }
@@ -11,14 +11,14 @@
     <section class="w-100 d-flex flex-wrap justify-content-evenly">
       @for (article of articles; track article; let i = $index) {
         <article
-          class="card bef bef-w-95per bef-wmx-300px mx-auto my-3 bef-bg-fullRed bef-text-tlight p-3 bef-rounded-15px"
+          class="card ank ank-w-95per ank-wmx-300px mx-auto my-3 ank-bg-fullRed ank-text-tlight p-3 ank-rounded-15px"
           >
           <h3 class="card-title text-center">Title</h3>
           <span class="my-1 text-center"> dd/mm/yy </span>
           <img
             src="https://picsum.photos/30{{ i }}/30{{ i }}"
             alt="https://picsum.photos/30{{ i }}/30{{ i }}"
-            class="w-50 obj-fit-cover d-block mx-auto my-3 bef bef-rounded-15px bef-boxShadow-0__2px__2px__tdark"
+            class="w-50 obj-fit-cover d-block mx-auto my-3 ank ank-rounded-15px ank-boxShadow-0__2px__2px__tdark"
             />
             <div class="d-flex flex-wrap justify-content-evenly w-75 mx-auto">
               <span class="badge bg-info"> Nuevo </span>
@@ -34,7 +34,7 @@
               <a
                 href="/article"
                 [routerLink]="['/blog/article']"
-                class="card-link badge bef bef-btn-fullYellow bef-text-tdark p-2"
+                class="card-link badge ank ank-btn-fullYellow ank-text-tdark p-2"
                 >Ver más</a
                 >
               </div>

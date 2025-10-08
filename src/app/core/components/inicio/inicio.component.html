@@ -1,11 +1,11 @@
 <!-- Edit/Delete Buttons -->
 @if (identity && identity.role == 'ROLE_ADMIN') {
 <div
-  class="position-fixed end-0 bef {{ windowWidth < 767 ? 'bef-top-150px' : 'bef-top-15per' }}"
+  class="position-fixed end-0 ank {{ windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per' }}"
 >
   @if (edit === false) {
   <button
-    class="btn bef bef-btn-fullYellow bef-text-tdark mr-2"
+    class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
     (click)="editChange()"
   >
     <svg
@@ -29,7 +29,7 @@
 
   @if (edit == true) {
   <button
-    class="btn bef bef-btn-fullYellow bef-text-tdark mr-2 font-weight-normal float-right"
+    class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
     (click)="editChange()"
   >
     X
@@ -46,7 +46,7 @@
   main.welcomeEng !== ''
 ) {
 <div
-  class="mx-auto my-5 py-5 text-center w-75 bef bef-text-tlight"
+  class="mx-auto my-5 py-5 text-center w-75 ank ank-text-tlight"
 >
   @if (lang === 'es') {
     @if (main.welcome && main.welcome !== '') {
@@ -69,7 +69,7 @@
 }
 
 <nav>
-  <ul class="mx-auto w-75 d-flex flex-wrap justify-content-center ps-0 mb-0 bef bef-mt-5rem">
+  <ul class="mx-auto w-75 d-flex flex-wrap justify-content-center ps-0 mb-0 ank ank-mt-5rem">
     <li class="mx-3">
       <a
         href="/webs"
@@ -131,11 +131,11 @@
 
   <!-- Bienvenida Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="welcome"
+    <label class="ank ank-text-tlight mb-1 d-block" for="welcome"
       >Bienvenida</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="welcome"
       #welcome="ngModel"
@@ -145,7 +145,7 @@
     ></textarea>
     @if (!welcome.valid && welcome.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       La bienvenida es obligatoria.
     </span>
@@ -154,11 +154,11 @@
 
   <!-- Welcome Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="welcomeEng"
+    <label class="ank ank-text-tlight mb-1 d-block" for="welcomeEng"
       >Welcome</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="welcomeEng"
       #welcomeEng="ngModel"
@@ -168,7 +168,7 @@
     ></textarea>
     @if (!welcomeEng.valid && welcomeEng.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       The welcome is required.
     </span>
@@ -177,11 +177,11 @@
 
   <!-- CVDesc Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="CVDesc"
+    <label class="ank ank-text-tlight mb-1 d-block" for="CVDesc"
       >Descripción de CV</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="CVDesc"
       #CVDesc="ngModel"
@@ -191,7 +191,7 @@
     ></textarea>
     @if (!CVDesc.valid && CVDesc.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       La descripción de CV es obligatoria.
     </span>
@@ -200,11 +200,11 @@
 
   <!-- CVDescEng Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="CVDescEng"
+    <label class="ank ank-text-tlight mb-1 d-block" for="CVDescEng"
       >CV Description</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="CVDescEng"
       #CVDescEng="ngModel"
@@ -214,7 +214,7 @@
     ></textarea>
     @if (!CVDescEng.valid && CVDescEng.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       The description of the CV is required.
     </span>
@@ -223,11 +223,11 @@
 
   <!-- CVDesc2 Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="CVDesc2"
+    <label class="ank ank-text-tlight mb-1 d-block" for="CVDesc2"
       >Descripción de CV 2</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="CVDesc2"
       #CVDesc2="ngModel"
@@ -237,7 +237,7 @@
     ></textarea>
     @if (!CVDesc2.valid && CVDesc2.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       La descripción de CV es obligatoria.
     </span>
@@ -246,11 +246,11 @@
 
   <!-- CVDesc2Eng Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="CVDesc2Eng"
+    <label class="ank ank-text-tlight mb-1 d-block" for="CVDesc2Eng"
       >CV Description 2</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="CVDesc2Eng"
       #CVDesc2Eng="ngModel"
@@ -260,7 +260,7 @@
     ></textarea>
     @if (!CVDesc2Eng.valid && CVDesc2Eng.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       The description 2 of the CV is required.
     </span>
@@ -269,9 +269,9 @@
 
   <!-- Key Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="key">Llave</label>
+    <label class="ank ank-text-tlight mb-1 d-block" for="key">Llave</label>
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="key"
       #key="ngModel"
@@ -281,7 +281,7 @@
     />
     @if (!key.valid && key.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       La llave es obligatoria.
     </span>
@@ -290,11 +290,11 @@
 
   <!-- KeyOld Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="keyOld"
+    <label class="ank ank-text-tlight mb-1 d-block" for="keyOld"
       >Llave anterior</label
     >
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="keyOld"
       #keyOld="ngModel"
@@ -304,7 +304,7 @@
     />
     @if (!keyOld.valid && keyOld.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       La llave anterior es obligatoria.
     </span>
@@ -313,11 +313,11 @@
 
   <!-- errorMessage Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="errorMessage"
+    <label class="ank ank-text-tlight mb-1 d-block" for="errorMessage"
       >Mensaje de error</label
     >
     <textarea
-      class="bef bef-w-100per bef-text-tlight bef-bg-tdark border-0"
+      class="ank ank-w-100per ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="errorMessage"
       #errorMessage="ngModel"
@@ -327,7 +327,7 @@
     ></textarea>
     @if (!errorMessage.valid && errorMessage.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       El mensaje de error es obligatoria.
     </span>
@@ -336,11 +336,11 @@
 
   <!-- errorMessageEng Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="errorMessageEng"
+    <label class="ank ank-text-tlight mb-1 d-block" for="errorMessageEng"
       >Error message</label
     >
     <textarea
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="errorMessageEng"
       #errorMessageEng="ngModel"
@@ -350,7 +350,7 @@
     ></textarea>
     @if (!errorMessageEng.valid && errorMessageEng.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       The error message is required.
     </span>
@@ -359,11 +359,11 @@
 
   <!-- seoTags Edit -->
   <div class="d-block w-75 mx-auto my-3">
-    <label class="bef bef-text-tlight mb-1 d-block" for="seoTags"
+    <label class="ank ank-text-tlight mb-1 d-block" for="seoTags"
       >Keywords</label
     >
     <input
-      class="w-100 bef bef-text-tlight bef-bg-tdark border-0"
+      class="w-100 ank ank-text-tlight ank-bg-tdark border-0"
       type="text"
       name="seoTags"
       #seoTags="ngModel"
@@ -373,7 +373,7 @@
     />
     @if (!seoTags.valid && seoTags.touched) {
     <span
-      class="bef bef-text-tlight font-weight-bold"
+      class="ank ank-text-tlight font-weight-bold"
     >
       The keywords are required.
     </span>
@@ -385,12 +385,12 @@
 
     <!-- Logo Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de la imagen del logo
       </h3>
       @if (main && main.logo && main.logo.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + main.logo._id }}"
         alt="{{ main.logo.title }}"
       />
@@ -409,12 +409,12 @@
 
     <!-- BG Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida del fondo
       </h3>
       @if (main && main.backgroundImg && main.backgroundImg.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + main.backgroundImg._id }}"
         alt="{{ main.backgroundImg.title }}"
       />
@@ -433,12 +433,12 @@
 
     <!-- CVImage Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de la imagen del CV
       </h3>
       @if (main && main.CVImage && main.CVImage.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
         alt="{{ main.CVImage.title }}"
       />
@@ -457,12 +457,12 @@
 
     <!-- CVBackground Upload -->
     <div class="m-3">
-      <h3 class="bef bef-text-tlight text-center w-75 my-3 d-block mx-auto">
+      <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida del fondo del CV
       </h3>
       @if (main && main.CVBackground && main.CVBackground.location) {
       <img
-        class="bef bef-wmx-75per d-block mx-auto bef-hmx-25vh my-3"
+        class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
         alt="{{ main.CVBackground.title }}"
       />
@@ -483,7 +483,7 @@
   <!-- Submit -->
   <button
     (click)="onSubmit()"
-    class="bef btn bef-btn-fullRed bef-text-tdark p-2 mx-auto my-5 d-block w-50"
+    class="ank btn ank-btn-fullRed ank-text-tdark p-2 mx-auto my-5 d-block w-50"
   >
     Submit
   </button>
