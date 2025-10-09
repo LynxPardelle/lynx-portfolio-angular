@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { ISesion } from 'src/app/auth/interfaces/sesion';
+import { ISesion } from '../../auth/interfaces/sesion';
 import * as SesionActions from '../actions/sesion.actions';
 const initialState: ISesion = {
   active: false,

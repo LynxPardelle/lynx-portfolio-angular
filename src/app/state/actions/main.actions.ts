@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Main } from 'src/app/core/models/main';
+import { Main } from '../../core/models/main';
 
 export const LoadMain = createAction('[Main] Loading Main');
 export const MainLoaded = createAction(

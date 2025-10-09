@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { IMain } from '../../interfaces/main';
 /* State */
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
 
 @Component({
   selector: 'app-error',

@@ -1,11 +1,11 @@
 <!-- Edit/Delete Buttons -->
-@if (identity && identity.role == 'ROLE_ADMIN') {
+@if (canEdit()) {
 <div
   class="position-fixed end-0 ank ank-z-15 {{
-    windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per'
+    windowWidth() < 767 ? 'ank-top-150px' : 'ank-top-15per'
   }}"
 >
-  @if (edit === false) {
+  @if (edit() === false) {
   <button
     class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
     (click)="editChange()"
@@ -27,7 +27,7 @@
       />
     </svg>
   </button>
-  } @if (edit == true) {
+  } @if (edit() === true) {
   <button
     class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
     (click)="editChange()"
@@ -41,18 +41,18 @@
 <h2 class="text-center ank ank-my-3rem">{{ "app.websites" | translate }}</h2>
 
 <section>
-  @for (website of webSites; track website._id; let i = $index) {
+  @for (website of webSites(); track website._id; let i = $index) {
   <article
     class="my-5 py-5 ank ank-bg-tdark__OPA__0_75 position-relative"
   >
     <!-- Edit/Delete Buttons -->
-    @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
+    @if (canEdit() && edit() === true) {
     <div
       class="position-absolute end-0 ank ank-top-20per ank-z-10 {{
-        windowWidth <= 767 ? 'ank-top-50px' : 'ank-top-5per'
+        windowWidth() <= 767 ? 'ank-top-50px' : 'ank-top-5per'
       }}"
     >
-      @if (webSite._id !== website._id) {
+      @if (webSite()._id !== website._id) {
       <button
         class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
         (click)="websiteEdit(website)"
@@ -74,7 +74,7 @@
           />
         </svg>
       </button>
-      } @if (webSite._id === website._id) {
+      } @if (webSite()._id === website._id) {
       <button
         class="btn ank ank-btn-fullYellow ank-text-tdark mr-2 font-weight-normal float-right"
         (click)="websiteEdit(website)"
@@ -106,14 +106,14 @@
       }}"
     >
       <h3>
-        @if (lang === 'es') {
+        @if (lang() === 'es') {
         {{ website.title }}
         } @else {
         {{ website.titleEng }}
         }
       </h3>
       <h4>
-        @if (lang === 'es') {
+        @if (lang() === 'es') {
         {{ website.type }}
         } @else {
         {{ website.typeEng }}
@@ -127,47 +127,47 @@
       (website.tabletImg && website.tabletImg.location) || (website.mobileImg &&
       website.mobileImg.location)) ) {
       <div
-        class="{{ windowWidth < 767 ? 'w-100' : 'mt-3 mb-5' }} ank-order-{{
+        class="{{ windowWidth() < 767 ? 'w-100' : 'mt-3 mb-5' }} ank-order-{{
           i % 2 === 0 ? 2 : 1
         }}"
       >
         <div
           class="position-relative mx-auto ank {{
-            windowWidth < 575
+            windowWidth() < 575
               ? 'ank-h-300px'
-              : windowWidth < 767 && windowWidth >= 576
+              : windowWidth() < 767 && windowWidth() >= 576
               ? 'ank-h-600px ank-w-90per'
-              : windowWidth > 767
+              : windowWidth() > 767
               ? 'd-flex justify-content-between align-items-end ank-w-75per'
               : ''
           }}"
         >
           @if (website && website.desktopImg && website.desktopImg.location) {
           <img
-            src="{{ urlMain + 'get-file/' + website.desktopImg._id }}"
+            src="{{ urlMain() + 'get-file/' + website.desktopImg._id }}"
             alt="{{ website.desktopImg.title }}"
             class="ank ank-rounded-5px {{
-              windowWidth < 767
+              windowWidth() < 767
                 ? 'position-absolute top-0 start-0 w-100'
                 : 'position-relative w-50'
             }}"
           />
           } @if (website && website.tabletImg && website.tabletImg.location) {
           <img
-            src="{{ urlMain + 'get-file/' + website.tabletImg._id }}"
+            src="{{ urlMain() + 'get-file/' + website.tabletImg._id }}"
             alt="{{ website.tabletImg.title }}"
             class="ank ank-rounded-5px {{
-              windowWidth < 767
+              windowWidth() < 767
                 ? 'position-absolute ank-bot-25per end-0 ank-w-33per'
                 : 'position-relative ank-w-15per'
             }}"
           />
           } @if (website && website.mobileImg && website.mobileImg.location) {
           <img
-            src="{{ urlMain + 'get-file/' + website.mobileImg._id }}"
+            src="{{ urlMain() + 'get-file/' + website.mobileImg._id }}"
             alt="{{ website.mobileImg.title }}"
             class="ank ank-rounded-5px {{
-              windowWidth < 767
+              windowWidth() < 767
                 ? 'position-absolute bottom-0 ank-end-25per ank-w-20per'
                 : 'position-relative ank-w-10per'
             }}"
@@ -177,7 +177,7 @@
       </div>
       } @if (website.insert && website.insert !== '') {
       <div
-        class="{{ windowWidth < 767 ? 'w-100' : 'mt-3 mb-5' }} ank ank-order{{
+        class="{{ windowWidth() < 767 ? 'w-100' : 'mt-3 mb-5' }} ank ank-order{{
           i % 2 === 0 ? 2 : 1
         }}"
         [innerHTML]="website.insert | safeHtml"
@@ -188,7 +188,7 @@
           i % 2 === 1 ? 1 : 2
         }}"
       >
-        @if (lang === 'es') {
+        @if (lang() === 'es') {
         {{ website.desc }}
         } @else {
         {{ website.descEng }}
@@ -207,10 +207,10 @@
   }
 </section>
 
-@if (edit === true) {
+@if (edit() === true) {
 <section class="my-5 py-5">
   <h2 class="text-center my-3">
-    @if (webSite._id && webSite._id !== '') { Edición } @else { Creación } del
+    @if (webSite()._id && webSite()._id !== '') { Edición } @else { Creación } del
     proyecto web
   </h2>
 
@@ -222,7 +222,7 @@
       type="text"
       name="title"
       #title="ngModel"
-      [(ngModel)]="webSite.title"
+      [(ngModel)]="currentWebSiteTitle"
       placeholder="Título"
       required
     />
@@ -243,7 +243,7 @@
       type="text"
       name="titleEng"
       #titleEng="ngModel"
-      [(ngModel)]="webSite.titleEng"
+      [(ngModel)]="currentWebSiteTitleEng"
       placeholder="Title"
       required
     />
@@ -262,7 +262,7 @@
       type="text"
       name="type"
       #type="ngModel"
-      [(ngModel)]="webSite.type"
+      [(ngModel)]="currentWebSiteType"
       placeholder="Tipo"
       required
     />
@@ -283,7 +283,7 @@
       type="text"
       name="typeEng"
       #typeEng="ngModel"
-      [(ngModel)]="webSite.typeEng"
+      [(ngModel)]="currentWebSiteTypeEng"
       placeholder="Type(English)"
       required
     />
@@ -304,7 +304,7 @@
       type="text"
       name="desc"
       #desc="ngModel"
-      [(ngModel)]="webSite.desc"
+      [(ngModel)]="currentWebSiteDesc"
       placeholder="Descripción"
       required
     />
@@ -325,7 +325,7 @@
       type="text"
       name="descEng"
       #descEng="ngModel"
-      [(ngModel)]="webSite.descEng"
+      [(ngModel)]="currentWebSiteDescEng"
       placeholder="Description(English)"
       required
     />
@@ -344,7 +344,7 @@
       type="text"
       name="link"
       #link="ngModel"
-      [(ngModel)]="webSite.link"
+      [(ngModel)]="currentWebSiteLink"
       placeholder="Link"
       required
     />
@@ -365,7 +365,7 @@
       type="text"
       name="insert"
       #insert="ngModel"
-      [(ngModel)]="webSite.insert"
+      [(ngModel)]="currentWebSiteInsert"
       placeholder="Inserción"
       required
     />
@@ -376,7 +376,7 @@
     }
   </div>
 
-  @if (webSite._id && webSite._id !== '') {
+  @if (webSite()._id && webSite()._id !== '') {
   <div class="my-5 d-flex flex-wrap justify-content-evenly">
     <h2 class="text-center my-3 w-100">Archivos</h2>
 
@@ -385,20 +385,20 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de desktopImg
       </h3>
-      @if (webSite && webSite.desktopImg && webSite.desktopImg.location) {
+      @if (webSite() && webSite().desktopImg && webSite().desktopImg.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + webSite.desktopImg._id }}"
-        alt="{{ webSite.desktopImg.title }}"
+        src="{{ urlMain() + 'get-file/' + webSite().desktopImg._id }}"
+        alt="{{ webSite().desktopImg.title }}"
       />
       }
       <app-file-uploader
         [type]="'main'"
         [typeMeta]="'one'"
         [typeThingComRes]="'web-site'"
-        [thing]="webSite.desktopImg"
+        [thing]="webSite().desktopImg"
         [thingInside]="true"
-        [id]="webSite._id + '/desktopImg'"
+        [id]="webSite()._id + '/desktopImg'"
         (pre_loader)="pre_load($event)"
         (recoverThing)="recoverThingFather($event)"
       ></app-file-uploader>
@@ -409,20 +409,20 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de tabletImg
       </h3>
-      @if (webSite && webSite.tabletImg && webSite.tabletImg.location) {
+      @if (webSite() && webSite().tabletImg && webSite().tabletImg.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + webSite.tabletImg._id }}"
-        alt="{{ webSite.tabletImg.title }}"
+        src="{{ urlMain() + 'get-file/' + webSite().tabletImg._id }}"
+        alt="{{ webSite().tabletImg.title }}"
       />
       }
       <app-file-uploader
         [type]="'main'"
         [typeMeta]="'one'"
         [typeThingComRes]="'web-site'"
-        [thing]="webSite.tabletImg"
+        [thing]="webSite().tabletImg"
         [thingInside]="true"
-        [id]="webSite._id + '/tabletImg'"
+        [id]="webSite()._id + '/tabletImg'"
         (pre_loader)="pre_load($event)"
         (recoverThing)="recoverThingFather($event)"
       ></app-file-uploader>
@@ -433,20 +433,20 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de mobileImg
       </h3>
-      @if (webSite && webSite.mobileImg && webSite.mobileImg.location) {
+      @if (webSite() && webSite().mobileImg && webSite().mobileImg.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + webSite.mobileImg._id }}"
-        alt="{{ webSite.mobileImg.title }}"
+        src="{{ urlMain() + 'get-file/' + webSite().mobileImg._id }}"
+        alt="{{ webSite().mobileImg.title }}"
       />
       }
       <app-file-uploader
         [type]="'main'"
         [typeMeta]="'one'"
         [typeThingComRes]="'web-site'"
-        [thing]="webSite.mobileImg"
+        [thing]="webSite().mobileImg"
         [thingInside]="true"
-        [id]="webSite._id + '/mobileImg'"
+        [id]="webSite()._id + '/mobileImg'"
         (pre_loader)="pre_load($event)"
         (recoverThing)="recoverThingFather($event)"
       ></app-file-uploader>

@@ -1,4 +1,4 @@
-import { IFile } from 'src/app/core/interfaces/file.interface';
+import { IFile } from '../../core/interfaces/file.interface';
 
 export interface IArticle {
   _id: string;

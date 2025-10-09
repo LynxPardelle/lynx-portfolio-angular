@@ -7,13 +7,13 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 /* Models */
-import { Main } from 'src/app/core/models/main';
+import { Main } from '../../core/models/main';
 
 /* Store */
 import * as MainActions from '../actions/main.actions';
 
 /* Environment */
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 @Injectable()
 export class MainEffects {
   private actions$: Actions = inject(Actions);
