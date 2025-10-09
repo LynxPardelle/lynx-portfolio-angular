@@ -7,7 +7,6 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 
 /* Environment */
 import { environment } from '../../../../environments/environment';

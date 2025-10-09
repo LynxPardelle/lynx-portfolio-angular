@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ISesion } from 'src/app/auth/interfaces/sesion';
+import { ISesion } from '../../auth/interfaces/sesion';
 
 export const LoadSesion = createAction('[Sesion] Inactive Sesion');
 export const SesionLoaded = createAction(

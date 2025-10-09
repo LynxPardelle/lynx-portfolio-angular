@@ -1,28 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+/**
+ * WebsitesComponent - Enhanced with Angular 20 Features
+ * 
+ * Modern features implemented:
+ * - Signals for reactive state management
+ * - inject() function instead of constructor injection
+ * - firstValueFrom() instead of deprecated .toPromise()
+ * - Proper subscription cleanup with takeUntil pattern
+ * - Computed properties for derived state
+ * - Effects for side effects handling
+ * - Modern error handling patterns
+ * - Loading states with signals
+ * - Type-safe interfaces
+ * - Enhanced component lifecycle management
+ */
+import { Component, OnInit, OnDestroy, inject, signal, computed, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // Environment
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 // RxJs
-import { Observable } from 'rxjs';
+import { Observable, Subject, firstValueFrom, takeUntil, catchError, EMPTY } from 'rxjs';
 // Interfaces
-import { IMain } from 'src/app/core/interfaces/main';
+import { IMain } from '../../interfaces/main';
 // Models
 import { Main, WebSite } from '../../models/main';
+
+// Enhanced interfaces for better type safety
+interface SharedContentMessage {
+  from: string;
+  to: string;
+  property: 'lang' | 'identity' | 'windowWidth' | 'onlyConsoleMessage';
+  thing: any;
+}
+
 // Services
 import { MainService } from '../../services/main.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
-import { WebService } from 'src/app/shared/services/web.service';
+import { SharedService } from '../../../shared/services/shared.service';
+import { WebService } from '../../../shared/services/web.service';
 // Libraries
 import Swal from 'sweetalert2';
 // State
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
 // Shared Components
-import { FileUploaderComponent } from 'src/app/shared/components/file-uploader/file-uploader.component';
+import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
 // Pipes
-import { SafeHtmlPipe } from 'src/app/shared/pipes/safe-html';
+import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
 import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'websites',
@@ -36,91 +60,187 @@ import { TranslatePipe } from '@ngx-translate/core';
     SafeHtmlPipe,
   ],
 })
-export class WebsitesComponent implements OnInit {
-  public identity: any;
-  public main!: Main;
-  public webSites: WebSite[] = [];
-  public webSite: WebSite = new WebSite(
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    null,
-    null,
-    null,
-    0
-  );
-  // Translate
-  public lang: string = 'es';
-  // Urls
-  public urlMain: string = environment.api + '/main/';
-  // Console Settings
-  public document: string = 'websites.component.ts';
-  public customConsoleCSS =
-    'background-color: rgba(70, 35, 70, 1); color: white; padding: 1em;';
-  // Utility
-  public edit: boolean = false;
-  public windowWidth = window.innerWidth;
-  // State
+export class WebsitesComponent implements OnInit, OnDestroy {
+  // Services (Modern inject pattern)
+  private readonly mainService = inject(MainService);
+  private readonly sharedService = inject(SharedService);
+  private readonly webService = inject(WebService);
+  private readonly store = inject(Store<AppState>);
+
+  // Signals for reactive state management
+  public identity = signal<any>(null);
+  public main = signal<Main | null>(null);
+  public webSites = signal<WebSite[]>([]);
+  public webSite = signal<WebSite>(new WebSite('', '', '', '', '', '', '', '', '', null, null, null, 0));
+  public lang = signal<string>('es');
+  public edit = signal<boolean>(false);
+  public windowWidth = signal<number>(window.innerWidth);
+  
+  // Loading states
+  public isLoading = signal<boolean>(false);
+  public isSubmitting = signal<boolean>(false);
+  public isDeleting = signal<boolean>(false);
+
+  // Computed values
+  public readonly urlMain = computed(() => environment.api + '/main/');
+  public readonly canEdit = computed(() => {
+    const identity = this.identity();
+    return identity && identity.role === 'ROLE_ADMIN';
+  });
+
+  // Form property accessors for ngModel (since signals don't work directly with ngModel)
+  get currentWebSiteTitle() { return this.webSite().title; }
+  set currentWebSiteTitle(value: string) { 
+    this.webSite.update(ws => ({ ...ws, title: value })); 
+  }
+
+  get currentWebSiteTitleEng() { return this.webSite().titleEng; }
+  set currentWebSiteTitleEng(value: string) { 
+    this.webSite.update(ws => ({ ...ws, titleEng: value })); 
+  }
+
+  get currentWebSiteType() { return this.webSite().type; }
+  set currentWebSiteType(value: string) { 
+    this.webSite.update(ws => ({ ...ws, type: value })); 
+  }
+
+  get currentWebSiteTypeEng() { return this.webSite().typeEng; }
+  set currentWebSiteTypeEng(value: string) { 
+    this.webSite.update(ws => ({ ...ws, typeEng: value })); 
+  }
+
+  get currentWebSiteDesc() { return this.webSite().desc; }
+  set currentWebSiteDesc(value: string) { 
+    this.webSite.update(ws => ({ ...ws, desc: value })); 
+  }
+
+  get currentWebSiteDescEng() { return this.webSite().descEng; }
+  set currentWebSiteDescEng(value: string) { 
+    this.webSite.update(ws => ({ ...ws, descEng: value })); 
+  }
+
+  get currentWebSiteLink() { return this.webSite().link; }
+  set currentWebSiteLink(value: string) { 
+    this.webSite.update(ws => ({ ...ws, link: value })); 
+  }
+
+  get currentWebSiteInsert() { return this.webSite().insert; }
+  set currentWebSiteInsert(value: string) { 
+    this.webSite.update(ws => ({ ...ws, insert: value })); 
+  }
+
+  // Constants
+  public readonly document = 'websites.component.ts';
+  public readonly customConsoleCSS = 'background-color: rgba(70, 35, 70, 1); color: white; padding: 1em;';
+
+  // Observables
   public main$: Observable<IMain | undefined>;
-  constructor(
-    private _mainService: MainService,
-    private _sharedService: SharedService,
-    private _webService: WebService,
-    private store: Store<AppState>
-  ) {
-    _sharedService.changeEmitted$.subscribe((sharedContent: any) => {
-      if (
-        typeof sharedContent === 'object' &&
-        sharedContent.from !== 'websites' &&
-        (sharedContent.to === 'websites' || sharedContent.to === 'all')
-      ) {
-        switch (sharedContent.property) {
-          case 'lang':
-            this.lang = sharedContent.thing;
-            break;
-          case 'identity':
-            this.identity = sharedContent.thing;
-            break;
-          case 'windowWidth':
-            this.windowWidth = sharedContent.thing;
-            break;
+  private readonly destroy$ = new Subject<void>();
+  constructor() {
+    // Initialize observables
+    this.main$ = this.store.select(MainMainSelector);
 
-          case 'onlyConsoleMessage':
-            this._webService.consoleLog(
-              sharedContent.thing,
-              this.document + ' 67',
-              this.customConsoleCSS
-            );
-            break;
+    // Set up shared service subscription with proper cleanup
+    this.sharedService.changeEmitted$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((sharedContent: any) => {
+        if (
+          typeof sharedContent === 'object' &&
+          sharedContent.from !== 'websites' &&
+          (sharedContent.to === 'websites' || sharedContent.to === 'all')
+        ) {
+          this.handleSharedContent(sharedContent);
         }
-      }
-    });
-    this.main$ = store.select(MainMainSelector);
+      });
 
-    // Identity
-    this.identity = this._mainService.getIdentity();
-    this._webService.consoleLog(
-      this.identity,
-      this.document + ' 79',
+    // Initialize identity
+    this.identity.set(this.mainService.getIdentity());
+    this.webService.consoleLog(
+      this.identity(),
+      this.document + ' initialization',
       this.customConsoleCSS
     );
-    this._sharedService.emitChange({
+    
+    // Emit identity change
+    this.sharedService.emitChange({
       from: 'websites',
       to: 'all',
       property: 'identity',
-      thing: this.identity,
+      thing: this.identity(),
     });
+
+    // Load main data
     this.store.dispatch(LoadMain());
+
+    // Set up effect for window resize handling
+    effect(() => {
+      const width = this.windowWidth();
+      // Handle window width changes if needed
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private handleSharedContent(sharedContent: SharedContentMessage): void {
+    switch (sharedContent.property) {
+      case 'lang':
+        this.lang.set(sharedContent.thing as string);
+        break;
+      case 'identity':
+        this.identity.set(sharedContent.thing);
+        break;
+      case 'windowWidth':
+        this.windowWidth.set(sharedContent.thing as number);
+        break;
+      case 'onlyConsoleMessage':
+        this.webService.consoleLog(
+          sharedContent.thing,
+          this.document + ' shared message',
+          this.customConsoleCSS
+        );
+        break;
+    }
+  }
+
+  private async handleApiError(error: unknown, context: string): Promise<void> {
+    let errorMessage = 'An unexpected error occurred';
+    
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === 'object' && error !== null) {
+      const err = error as any;
+      if (err.error?.message) {
+        errorMessage = err.error.message;
+        if (err.error.errorMessage) {
+          errorMessage += '<br/>' + err.error.errorMessage;
+        }
+      }
+    }
+
+    this.webService.consoleLog(
+      error,
+      `${this.document} ${context} error`,
+      this.customConsoleCSS
+    );
+
+    await Swal.fire({
+      title: 'Error',
+      html: `Failed operation in ${context}.<br/>${errorMessage}`,
+      icon: 'error',
+      customClass: {
+        popup: 'ank ank-bg-fullRed',
+        title: 'ank ank-text-fullYellow',
+        closeButton: 'ank ank-text-fullYellow',
+        confirmButton: 'ank ank-text-fullYellow',
+      },
+    });
   }
 
   ngOnInit(): void {
-    this._sharedService.emitChange({
+    this.sharedService.emitChange({
       from: 'websites',
       to: 'all',
       property: 'onlyConsoleMessage',
@@ -142,34 +262,46 @@ export class WebsitesComponent implements OnInit {
     });
   }
 
-  async getWebSites() {
+  async getWebSites(): Promise<void> {
+    if (this.isLoading()) return; // Prevent concurrent calls
+    
+    this.isLoading.set(true);
     try {
-      let webSites = await this._mainService.getWebSites().toPromise();
+      const webSites = await firstValueFrom(
+        this.mainService.getWebSites().pipe(
+          catchError((error) => {
+            console.error('Error fetching websites:', error);
+            return EMPTY;
+          })
+        )
+      );
 
       if (!webSites || !webSites.websites) {
-        throw new Error('There is no websites.');
+        throw new Error('No websites data received from server.');
       }
 
-      this.webSites = webSites.websites;
-      this._webService.consoleLog(
-        this.webSites,
-        this.document + ' 113',
+      this.webSites.set(webSites.websites);
+      this.webService.consoleLog(
+        this.webSites(),
+        this.document + ' getWebSites success',
         this.customConsoleCSS
       );
-    } catch (err) {
-      this._webService.consoleLog(
-        err,
-        this.document + ' 119',
-        this.customConsoleCSS
-      );
+    } catch (error) {
+      await this.handleApiError(error, 'getWebSites');
+    } finally {
+      this.isLoading.set(false);
     }
   }
 
   async onSubmit() {
+    if (this.isSubmitting()) return; // Prevent concurrent submissions
+    
+    this.isSubmitting.set(true);
     try {
+      const currentWebSite = this.webSite();
       let result = await Swal.fire({
         title:
-          this.webSite._id && this.webSite._id !== ''
+          currentWebSite._id && currentWebSite._id !== ''
             ? '¿Seguro que quieres hacer los cambios?'
             : '¿Seguro que quieres crear el proyecto web?',
         showDenyButton: true,
@@ -181,18 +313,18 @@ export class WebsitesComponent implements OnInit {
         throw new Error('Error con la opción.');
       }
       if (result.isConfirmed) {
-        if (this.webSite._id && this.webSite._id !== '') {
-          const websiteUpdated = await this._mainService
-            .updateWebsite(this.webSite._id, this.webSite)
-            .toPromise();
+        if (currentWebSite._id && currentWebSite._id !== '') {
+          const websiteUpdated = await firstValueFrom(
+            this.mainService.updateWebsite(currentWebSite._id, currentWebSite)
+          );
           if (!websiteUpdated || !websiteUpdated.websiteUpdated) {
             throw new Error('No se actualizó el proyecto web.');
           }
 
-          this.webSite = websiteUpdated.websiteUpdated;
-          this.getWebSites();
+          this.webSite.set(websiteUpdated.websiteUpdated);
+          await this.getWebSites();
           Swal.fire({
-            title: 'El proyecto web se ha creado con éxito',
+            title: 'El proyecto web se ha actualizado con éxito',
             text: '',
             icon: 'success',
             customClass: {
@@ -203,16 +335,16 @@ export class WebsitesComponent implements OnInit {
             },
           });
         } else {
-          const webSite = await this._mainService
-            .createWebSite(this.webSite)
-            .toPromise();
+          const webSite = await firstValueFrom(
+            this.mainService.createWebSite(currentWebSite)
+          );
 
           if (!webSite || !webSite.website) {
             throw new Error('No se creo el proyecto web.');
           }
 
-          this.webSite = webSite.website;
-          this.getWebSites();
+          this.webSite.set(webSite.website);
+          await this.getWebSites();
           Swal.fire({
             title: 'La creación del proyecto web se ha realizado con éxito',
             text: '',
@@ -238,16 +370,17 @@ export class WebsitesComponent implements OnInit {
           },
         });
       }
-    } catch (err) {
-      this._webService.consoleLog(
-        err,
-        this.document + ' 131',
-        this.customConsoleCSS
-      );
+    } catch (error) {
+      await this.handleApiError(error, 'onSubmit');
+    } finally {
+      this.isSubmitting.set(false);
     }
   }
 
   async deleteWebsite(id: string) {
+    if (this.isDeleting()) return; // Prevent concurrent deletions
+    
+    this.isDeleting.set(true);
     try {
       let result = await Swal.fire({
         title: '¿Seguro que quieres eliminar el proyecto web?',
@@ -262,9 +395,9 @@ export class WebsitesComponent implements OnInit {
       }
 
       if (result.isConfirmed) {
-        const websiteDeleted = await this._mainService
-          .deleteWebSite(id)
-          .toPromise();
+        const websiteDeleted = await firstValueFrom(
+          this.mainService.deleteWebSite(id)
+        );
 
         if (!websiteDeleted) {
           throw new Error('No hay proyecto web.');
@@ -272,9 +405,9 @@ export class WebsitesComponent implements OnInit {
 
         await this.getWebSites();
 
-        this._webService.consoleLog(
+        this.webService.consoleLog(
           websiteDeleted,
-          this.document + ' 257',
+          this.document + ' deleteWebsite',
           this.customConsoleCSS
         );
 
@@ -302,37 +435,10 @@ export class WebsitesComponent implements OnInit {
           },
         });
       }
-    } catch (err: any) {
-      this._webService.consoleLog(
-        err,
-        this.document + ' 108',
-        this.customConsoleCSS
-      );
-
-      let errorMessage = '';
-      if (err.error) {
-        errorMessage = err.error.message;
-        if (err.error.errorMessage) {
-          errorMessage += '<br/>' + err.error.errorMessage;
-        }
-      } else {
-        errorMessage = err.message;
-      }
-
-      //Alerta
-      Swal.fire({
-        title: 'Error',
-        html: `Fallo en la petición.
-          <br/>
-          ${errorMessage}`,
-        icon: 'error',
-        customClass: {
-          popup: 'ank ank-bg-fullRed',
-          title: 'text-titleM',
-          closeButton: 'ank ank-text-fullYellow',
-          confirmButton: 'ank ank-text-fullYellow',
-        },
-      });
+    } catch (error) {
+      await this.handleApiError(error, 'deleteWebsite');
+    } finally {
+      this.isDeleting.set(false);
     }
   }
 
@@ -346,60 +452,32 @@ export class WebsitesComponent implements OnInit {
       switch (event.type) {
         case 'video':
           await this.onSubmit();
-          return this.webSite._id;
+          return this.webSite()._id;
           break;
         default:
           return '';
           break;
       }
       return '';
-    } catch (err: any) {
-      this._webService.consoleLog(
-        err,
-        this.document + ' 181',
-        this.customConsoleCSS
-      );
-      let errorMessage = '';
-      if (err.error) {
-        errorMessage = err.error.message;
-        if (err.error.errorMessage) {
-          errorMessage += '<br/>' + err.error.errorMessage;
-        }
-      } else {
-        errorMessage = err.message;
-      }
-      //Alerta
-      Swal.fire({
-        title: 'Error',
-        html: `Fallo en la petición.
-          <br/>
-          ${errorMessage}`,
-        icon: 'error',
-        customClass: {
-          popup: 'ank ank-bg-fullRed',
-          title: 'ank ank-text-tdark',
-          closeButton: 'ank ank-bg-fullYellow',
-          confirmButton: 'ank ank-bg-fullGreen',
-        },
-      });
-
+    } catch (error) {
+      await this.handleApiError(error, 'pre_load');
       return '';
     }
   }
 
   // Utility
   editChange() {
-    this.edit =
-      this.identity && this.identity.role && this.identity.role === 'ROLE_ADMIN'
-        ? !this.edit
-        : false;
+    const identity = this.identity();
+    const canEdit = identity && identity.role && identity.role === 'ROLE_ADMIN';
+    this.edit.set(canEdit ? !this.edit() : false);
   }
 
   websiteEdit(webSite: WebSite) {
-    if (this.webSite._id === '' || this.webSite._id !== webSite._id) {
-      this.webSite = webSite;
+    const currentWebSite = this.webSite();
+    if (currentWebSite._id === '' || currentWebSite._id !== webSite._id) {
+      this.webSite.set(webSite);
     } else {
-      this.webSite = new WebSite(
+      this.webSite.set(new WebSite(
         '',
         '',
         '',
@@ -413,7 +491,7 @@ export class WebsitesComponent implements OnInit {
         null,
         null,
         0
-      );
+      ));
     }
   }
 
@@ -421,23 +499,25 @@ export class WebsitesComponent implements OnInit {
     text: string,
     textcolor: string = '#ffffff',
     linkcolor: string = '#f9c24f'
-  ) {
-    let value: any;
-    value = {
-      text: '',
-      matches: [],
-    };
+  ): string {
+    try {
+      const result = this.webService.Linkify(text, textcolor, linkcolor);
 
-    value = this._webService.Linkify(text, textcolor, linkcolor);
-
-    if (value.text) {
-      this._webService.consoleLog(
-        value.matches,
-        this.document + ' 105',
+      if (result?.text) {
+        this.webService.consoleLog(
+          result.matches,
+          this.document + ' Linkify success',
+          this.customConsoleCSS
+        );
+        return result.text;
+      }
+      return text;
+    } catch (error) {
+      this.webService.consoleLog(
+        error,
+        this.document + ' Linkify error',
         this.customConsoleCSS
       );
-      return value.text;
-    } else {
       return text;
     }
   }

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import MainState from 'src/app/core/interfaces/main.state';
+import { AppState } from '../../state/app.state';
+import MainState from '../../core/interfaces/main.state';
 export const MainSelector = (state: AppState) => state.main;
 export const MainLoadedSelector = createSelector(
   MainSelector,

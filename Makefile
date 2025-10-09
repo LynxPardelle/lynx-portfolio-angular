@@ -64,7 +64,6 @@ help: ## Show this help message with all available commands
 	@echo "  clean             - Clean containers, volumes, and build cache"
 	@echo "  rebuild           - Rebuild containers from scratch"
 	@echo "  prune             - Remove unused Docker resources"
-	@echo "  validate          - Validate complete Docker setup"
 	@echo ""
 	@echo "$(GREEN)📊 Monitoring & Debugging:$(NC)"
 	@echo "  status            - Show container status and health"
@@ -274,24 +273,6 @@ check-tools: ## Check if required tools are installed
 	@command -v docker-compose >/dev/null 2>&1 || (echo "$(RED)❌ Docker Compose not found$(NC)" && exit 1)
 	@echo "$(GREEN)✅ All required tools are installed$(NC)"
 
-# Validate Docker setup
-validate: ## Validate complete Docker setup
-	@echo "$(CYAN)🔍 Validating Docker setup...$(NC)"
-	@if exist "scripts\validate-docker-setup.ps1" ( \
-		powershell -ExecutionPolicy Bypass -File scripts\validate-docker-setup.ps1 \
-	) else ( \
-		echo "$(YELLOW)⚠️ Validation script not found, running basic checks...$(NC)" && \
-		$(MAKE) check-tools \
-	)
-
-# Validate Angular configuration
-validate-angular: ## Validate Angular configuration for Angular 19 compatibility
-	@echo "$(CYAN)🔍 Validating Angular configuration...$(NC)"
-	@if exist "scripts\validate-angular-config.ps1" ( \
-		powershell -ExecutionPolicy Bypass -File scripts\validate-angular-config.ps1 \
-	) else ( \
-		echo "$(YELLOW)⚠️ Angular validation script not found$(NC)" \
-	)
 
 # Environment information
 env-info: ## Display environment information
@@ -306,4 +287,4 @@ env-info: ## Display environment information
 # Mark all targets as PHONY to avoid conflicts with file names
 .PHONY: help dev dev-detached dev-logs dev-shell prod prod-detached prod-no-ssr prod-no-ssr-detached \
         stop restart clean rebuild prune install install-dev update status logs health debug inspect \
-        test lint build-check backup restore check-tools validate validate-angular env-info
+        test lint build-check backup restore check-tools env-info

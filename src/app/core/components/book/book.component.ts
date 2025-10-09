@@ -3,24 +3,24 @@ import { FormsModule } from '@angular/forms';
 // RxJs
 import { Observable } from 'rxjs';
 // Environment
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 // Interfaces
 import { IMain } from '../../interfaces/main';
 // Models
 import { Main, BookImg } from '../../models/main';
 // Services
 import { MainService } from '../../services/main.service';
-import { WebService } from 'src/app/shared/services/web.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { WebService } from '../../../shared/services/web.service';
+import { SharedService } from '../../../shared/services/shared.service';
 // Extras
 import Swal from 'sweetalert2';
 // State
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
 // Shared Components
-import { FileUploaderComponent } from 'src/app/shared/components/file-uploader/file-uploader.component';
+import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
 
 @Component({
   selector: 'book',

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import MainState from 'src/app/core/interfaces/main.state';
+import MainState from '../../core/interfaces/main.state';
 import * as MainActions from '../actions/main.actions';
 const initialState: MainState = {
   loading: false,

@@ -5,22 +5,22 @@ import { FormsModule } from '@angular/forms';
 // RxJs 
 import { Observable } from 'rxjs';
 // Environment 
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 // Interfaces 
 import { IArticle } from '../../interfaces/blog';
-import { IMain } from 'src/app/core/interfaces/main';
+import { IMain } from '../../../core/interfaces/main';
 // Models 
-import { Main } from 'src/app/core/models/main';
+import { Main } from '../../../core/models/main';
 // Services 
 import { BlogService } from '../../services/blog.service';
-import { MainService } from 'src/app/core/services/main.service';
-import { WebService } from 'src/app/shared/services/web.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { MainService } from '../../../core/services/main.service';
+import { WebService } from '../../../shared/services/web.service';
+import { SharedService } from '../../../shared/services/shared.service';
 // State 
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { MainMainSelector } from 'src/app/state/selectors/main.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../../state/app.state';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { LoadMain } from '../../../state/actions/main.actions';
 // Directives 
 
 

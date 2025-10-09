@@ -3,14 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 /* RxJs */
 import { Observable } from 'rxjs';
 /* Environment */
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 /* Services */
-import { MainService } from 'src/app/core/services/main.service';
+import { MainService } from '../../core/services/main.service';
 /* State */
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import { IdentitySelector } from 'src/app/state/selectors/sesion.selector';
-import { LoadMain } from 'src/app/state/actions/main.actions';
+import { AppState } from '../../state/app.state';
+import { IdentitySelector } from '../../state/selectors/sesion.selector';
+import { LoadMain } from '../../state/actions/main.actions';
 @Injectable({
   providedIn: 'root',
 })

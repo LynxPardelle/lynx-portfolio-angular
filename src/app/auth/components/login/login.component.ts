@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* RxJs */
 import { Observable } from 'rxjs';
 /* Interfaces */
@@ -18,14 +18,13 @@ import { MainMainSelector } from '../../../state/selectors/main.selector';
 import { LoadMain } from '../../../state/actions/main.actions';
 /* Extras */
 import Swal from 'sweetalert2';
-import { style } from '@angular/animations';
 import { SesionLoaded } from '../../../state/actions/sesion.actions';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 export class LoginComponent implements OnInit {
   public user: User = new User('', '', '', '');
