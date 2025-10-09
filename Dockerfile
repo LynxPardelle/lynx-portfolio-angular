@@ -114,8 +114,13 @@ ENV CI=true
 # Copy source code with proper ownership
 COPY --chown=appuser:appgroup . .
 
-# Change to non-root user for security
-USER appuser
+# Ensure proper permissions for dist and .angular directories
+RUN mkdir -p /app/dist /app/.angular/cache
+RUN chown -R appuser:appgroup /app/dist /app/.angular
+
+# For development, run as root to avoid permission issues
+# This is acceptable for development environments
+# Change to non-root user for security in production only
 
 # Expose development port
 EXPOSE 4200

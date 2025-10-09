@@ -191,10 +191,6 @@ jspm_packages/
 tmp/
 temp/
 
-# Scripts that are not needed in container
-scripts/validate-docker-setup.ps1
-scripts/validate-docker-setup.sh
-
 # Makefile (not needed in container)
 Makefile
 
