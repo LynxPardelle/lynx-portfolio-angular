@@ -46,11 +46,13 @@ export class GenericButtonComponent implements OnInit {
     this.randomId = this._harshifyPipe.transform(9, 'letters');
     this.buttonId.emit(this.randomId);
     if (this.classButton && typeof window !== 'undefined') {
-      this._ankService.updateClasses(
-        this.classButton
-          .split(' ')
-          .filter((c) => c !== '' && c.includes('ank-'))
-      );
+      const angoraClasses = this.classButton
+        .split(' ')
+        .filter((c) => c !== '' && c.includes('ank-'));
+
+      if (angoraClasses.length > 0) {
+        this._ankService.updateClasses(angoraClasses);
+      }
     }
   }
 

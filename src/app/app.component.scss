@@ -4,3 +4,7 @@
   object-fit: contain;
   width: 45px;
 }
+
+:host .portfolio-main-content {
+  padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+}
