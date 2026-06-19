@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // Rxjs
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     FileUploaderComponent,
   ],
 })
-export class MusicComponent implements OnInit {
+export class MusicComponent implements OnInit, OnDestroy {
   public identity: any;
   public main!: Main;
   public albums: Album[] = [];
@@ -60,6 +60,7 @@ export class MusicComponent implements OnInit {
   public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
   public copiedToClipBoard: string = '';
   public currentAudio: any;
+  private isDestroyed = false;
   // State
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -68,7 +69,8 @@ export class MusicComponent implements OnInit {
     private _webService: WebService,
 
     private _sharedService: SharedService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private cdr: ChangeDetectorRef
   ) {
     _sharedService.changeEmitted$.subscribe((sharedContent: any) => {
       if (
@@ -143,6 +145,16 @@ export class MusicComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.isDestroyed = true;
+  }
+
+  private refreshView(): void {
+    if (!this.isDestroyed) {
+      this.cdr.detectChanges();
+    }
+  }
+
   // State
   getMain() {
     this.main$.subscribe({
@@ -164,6 +176,7 @@ export class MusicComponent implements OnInit {
       }
 
       this.albums = albums.albums;
+      this.refreshView();
 
       this._webService.consoleLog(
         this.albums,
@@ -188,6 +201,7 @@ export class MusicComponent implements OnInit {
       }
 
       this.songs = songs.songs;
+      this.refreshView();
 
       this._webService.consoleLog(
         this.songs,

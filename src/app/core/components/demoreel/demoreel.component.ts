@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 /* RxJs */
@@ -39,7 +39,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
     YouTubePlayerModule,
   ],
 })
-export class DemoreelComponent implements OnInit {
+export class DemoreelComponent implements OnInit, OnDestroy {
   public identity: any;
   public main!: Main;
   public videos: Video[] = [];
@@ -59,6 +59,7 @@ export class DemoreelComponent implements OnInit {
   /* Utility */
   public edit: boolean = false;
   public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+  private isDestroyed = false;
   /* State */
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -66,7 +67,8 @@ export class DemoreelComponent implements OnInit {
     private _webService: WebService,
     private _location: Location,
     private _sharedService: SharedService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private cdr: ChangeDetectorRef
   ) {
     _sharedService.changeEmitted$.subscribe((sharedContent) => {
       if (
@@ -129,6 +131,17 @@ export class DemoreelComponent implements OnInit {
       document.body.appendChild(tag);
     }
   }
+
+  ngOnDestroy(): void {
+    this.isDestroyed = true;
+  }
+
+  private refreshView(): void {
+    if (!this.isDestroyed) {
+      this.cdr.detectChanges();
+    }
+  }
+
   /* State */
   getMain() {
     this.main$.subscribe({
@@ -150,6 +163,7 @@ export class DemoreelComponent implements OnInit {
       }
 
       this.videos = videos.videos;
+      this.refreshView();
       this._webService.consoleLog(
         this.videos,
         this.document + ' 113',
