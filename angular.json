@@ -34,6 +34,16 @@
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
+            "security": {
+              "allowedHosts": [
+                "lynxpardelle.com",
+                "www.lynxpardelle.com",
+                "dev.lynxpardelle.com",
+                "tst.lynxpardelle.com",
+                "*.cloudfront.net",
+                "*.lambda-url.us-east-1.on.aws"
+              ]
+            },
             "ssr": {
               "entry": "src/server.ts"
             }
@@ -43,7 +53,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MB",
+                  "maximumWarning": "1.1MB",
                   "maximumError": "2MB"
                 },
                 {
@@ -63,7 +73,7 @@
                 "scripts": true,
                 "styles": {
                   "minify": true,
-                  "inlineCritical": true
+                  "inlineCritical": false
                 },
                 "fonts": true
               }

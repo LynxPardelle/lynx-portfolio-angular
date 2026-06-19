@@ -41,7 +41,7 @@
   ></button>
   } @case ('radio') {
   <div class="ank ank-w-250px d-flex justify-content-evenly align-items-center">
-    @for (op of options; track op; let $last = $last) {
+    @for (op of options; track op) {
     <div class="d-flex flex-column justify-content-center align-items-center">
       <p class="text-center text-capitalize">{{ op.option }}</p>
       <button

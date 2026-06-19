@@ -185,6 +185,14 @@ html {
       width: 45px;
       height: 45px;
     }
+
+    .portfolio-menu-offcanvas {
+      --bs-offcanvas-bg: transparent;
+      --bs-offcanvas-border-width: 0;
+      background-color: transparent;
+      border: 0;
+    }
+
     .offcanvasul {
       box-shadow: inset 0 0 12px $fRed5, 0 0 12px $fRed5;
       background-color: rgba(0, 0, 0, 0.9);

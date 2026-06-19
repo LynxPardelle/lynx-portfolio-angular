@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BlogSubcatBadgetsComponent } from './blog-subcat-badgets.component';
+import { BlogSubCatBadgetsComponent } from './blog-subcat-badgets.component';
 
 describe('BlogSubcatBadgetsComponent', () => {
-  let component: BlogSubcatBadgetsComponent;
-  let fixture: ComponentFixture<BlogSubcatBadgetsComponent>;
+  let component: BlogSubCatBadgetsComponent;
+  let fixture: ComponentFixture<BlogSubCatBadgetsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BlogSubcatBadgetsComponent]
+      declarations: [BlogSubCatBadgetsComponent]
     });
-    fixture = TestBed.createComponent(BlogSubcatBadgetsComponent);
+    fixture = TestBed.createComponent(BlogSubCatBadgetsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

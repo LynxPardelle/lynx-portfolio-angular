@@ -51,7 +51,7 @@ export class BookComponent implements OnInit {
 
   // Utility
   public edit: boolean = false;
-  public windowWidth = window.innerWidth;
+  public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
   // State
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -146,9 +146,11 @@ export class BookComponent implements OnInit {
       this.bookImgs = bookImgs.bookImgs;
       this.bookImgs = this.shuffle(bookImgs.bookImgs);
 
-      setInterval(() => {
-        this.bookImgs = this.shuffle(bookImgs.bookImgs);
-      }, 15000);
+      if (typeof window !== 'undefined') {
+        setInterval(() => {
+          this.bookImgs = this.shuffle(bookImgs.bookImgs);
+        }, 15000);
+      }
 
       for (let bookImg of this.bookImgs) {
         if (bookImg.img?.location && !bookImg.width) {
@@ -421,6 +423,10 @@ export class BookComponent implements OnInit {
   }
 
   checkImgWNH(file: BookImg) {
+    if (typeof Image === 'undefined') {
+      return;
+    }
+
     try {
       let img = new Image();
       img.src = this.urlMain + 'get-file/' + file.img._id;

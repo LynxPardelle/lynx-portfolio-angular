@@ -90,7 +90,7 @@ export class CvComponent implements OnInit, DoCheck {
 
   // Utility 
   public edit: boolean = false;
-  public windowWidth = window.innerWidth;
+  public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
   // State 
   public main$: Observable<IMain | undefined>;
   constructor(

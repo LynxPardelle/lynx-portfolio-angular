@@ -1,0 +1,30 @@
+name: Angular validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - dev
+      - tst
+      - prod
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Angular validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm audit --omit=dev
+      - run: npm test -- --watch=false --browsers=ChromeHeadless
+      - run: npm run package:ssr:lambda

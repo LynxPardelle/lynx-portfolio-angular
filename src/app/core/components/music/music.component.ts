@@ -57,7 +57,7 @@ export class MusicComponent implements OnInit {
 
   // Utility
   public edit: boolean = false;
-  public windowWidth = window.innerWidth;
+  public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
   public copiedToClipBoard: string = '';
   public currentAudio: any;
   // State

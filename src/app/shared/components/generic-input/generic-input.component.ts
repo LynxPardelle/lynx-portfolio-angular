@@ -120,7 +120,7 @@ export class GenericInputComponent implements OnInit {
           return !passwordRegex.test(this.thingFather[this.thing]);
           break;
         default:
-          return !!eval(evalThing);
+          return false;
           break;
       }
     } else {
