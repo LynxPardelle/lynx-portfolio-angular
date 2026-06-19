@@ -37,4 +37,29 @@ describe('BookComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('rewrites S3-backed media URLs to the public assets CDN', () => {
+    const url = component.mediaUrl({
+      _id: 'file-id',
+      location:
+        'https://lynx-portfolio.s3.us-east-1.amazonaws.com/uploads/main/book-image.jpg',
+    });
+
+    expect(url).toBe(
+      'https://assets.lynxpardelle.com/uploads/main/book-image.jpg'
+    );
+  });
+
+  it('falls back to the API file endpoint when media location is missing', () => {
+    expect(component.mediaUrl({ _id: 'file-id' })).toBe(
+      `${component.urlMain}get-file/file-id`
+    );
+  });
+
+  it('prioritizes only the first visible book image', () => {
+    expect(component.bookImageLoading(0)).toBe('eager');
+    expect(component.bookImageFetchPriority(0)).toBe('high');
+    expect(component.bookImageLoading(1)).toBe('lazy');
+    expect(component.bookImageFetchPriority(1)).toBe('auto');
+  });
 });

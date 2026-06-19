@@ -136,6 +136,9 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   // Constants
   public readonly document = 'websites.component.ts';
   public readonly customConsoleCSS = 'background-color: rgba(70, 35, 70, 1); color: white; padding: 1em;';
+  private readonly s3AssetsOrigin =
+    'https://lynx-portfolio.s3.us-east-1.amazonaws.com';
+  private readonly cdnAssetsOrigin = 'https://assets.lynxpardelle.com';
 
   // Observables
   public main$: Observable<IMain | undefined>;
@@ -526,5 +529,24 @@ export class WebsitesComponent implements OnInit, OnDestroy {
       );
       return text;
     }
+  }
+
+  public mediaUrl(file: any): string {
+    const location =
+      typeof file?.location === 'string' ? file.location.trim() : '';
+
+    if (location) {
+      return location.replace(this.s3AssetsOrigin, this.cdnAssetsOrigin);
+    }
+
+    return file?._id ? `${this.urlMain()}get-file/${file._id}` : '';
+  }
+
+  public websiteImageLoading(index: number): 'eager' | 'lazy' {
+    return index === 0 ? 'eager' : 'lazy';
+  }
+
+  public websiteImageFetchPriority(index: number): 'high' | 'auto' {
+    return index === 0 ? 'high' : 'auto';
   }
 }

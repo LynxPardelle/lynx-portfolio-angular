@@ -39,4 +39,29 @@ describe('WebsitesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('rewrites S3-backed website media URLs to the public assets CDN', () => {
+    const url = component.mediaUrl({
+      _id: 'file-id',
+      location:
+        'https://lynx-portfolio.s3.us-east-1.amazonaws.com/uploads/main/website-image.jpg',
+    });
+
+    expect(url).toBe(
+      'https://assets.lynxpardelle.com/uploads/main/website-image.jpg'
+    );
+  });
+
+  it('falls back to the API file endpoint when website media location is missing', () => {
+    expect(component.mediaUrl({ _id: 'file-id' })).toBe(
+      `${component.urlMain()}get-file/file-id`
+    );
+  });
+
+  it('prioritizes only the first visible website image group', () => {
+    expect(component.websiteImageLoading(0)).toBe('eager');
+    expect(component.websiteImageFetchPriority(0)).toBe('high');
+    expect(component.websiteImageLoading(1)).toBe('lazy');
+    expect(component.websiteImageFetchPriority(1)).toBe('auto');
+  });
 });

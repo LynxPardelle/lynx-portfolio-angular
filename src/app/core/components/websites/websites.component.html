@@ -160,31 +160,34 @@
         >
           @if (website && website.desktopImg && website.desktopImg.location) {
           <img
-            src="{{ urlMain() + 'get-file/' + website.desktopImg._id }}"
+            [src]="mediaUrl(website.desktopImg)"
             alt="{{ website.desktopImg.title }}"
             width="1920"
             height="1080"
-            loading="lazy"
+            [loading]="websiteImageLoading(i)"
+            [attr.fetchpriority]="websiteImageFetchPriority(i)"
             decoding="async"
             class="portfolio-website-image portfolio-website-image-desktop ank ank-rounded-5px"
           />
           } @if (website && website.tabletImg && website.tabletImg.location) {
           <img
-            src="{{ urlMain() + 'get-file/' + website.tabletImg._id }}"
+            [src]="mediaUrl(website.tabletImg)"
             alt="{{ website.tabletImg.title }}"
             width="533"
             height="760"
-            loading="lazy"
+            [loading]="websiteImageLoading(i)"
+            [attr.fetchpriority]="websiteImageFetchPriority(i)"
             decoding="async"
             class="portfolio-website-image portfolio-website-image-tablet ank ank-rounded-5px"
           />
           } @if (website && website.mobileImg && website.mobileImg.location) {
           <img
-            src="{{ urlMain() + 'get-file/' + website.mobileImg._id }}"
+            [src]="mediaUrl(website.mobileImg)"
             alt="{{ website.mobileImg.title }}"
             width="369"
             height="800"
-            loading="lazy"
+            [loading]="websiteImageLoading(i)"
+            [attr.fetchpriority]="websiteImageFetchPriority(i)"
             decoding="async"
             class="portfolio-website-image portfolio-website-image-mobile ank ank-rounded-5px"
           />
@@ -404,7 +407,7 @@
       @if (webSite() && webSite().desktopImg && webSite().desktopImg.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain() + 'get-file/' + webSite().desktopImg._id }}"
+        [src]="mediaUrl(webSite().desktopImg)"
         alt="{{ webSite().desktopImg.title }}"
       />
       }
@@ -428,7 +431,7 @@
       @if (webSite() && webSite().tabletImg && webSite().tabletImg.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain() + 'get-file/' + webSite().tabletImg._id }}"
+        [src]="mediaUrl(webSite().tabletImg)"
         alt="{{ webSite().tabletImg.title }}"
       />
       }
@@ -452,7 +455,7 @@
       @if (webSite() && webSite().mobileImg && webSite().mobileImg.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain() + 'get-file/' + webSite().mobileImg._id }}"
+        [src]="mediaUrl(webSite().mobileImg)"
         alt="{{ webSite().mobileImg.title }}"
       />
       }
