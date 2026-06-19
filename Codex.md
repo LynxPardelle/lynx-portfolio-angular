@@ -313,3 +313,20 @@
 - Residual non-blocking console debt:
   - Full test output can still include existing `WebService.consoleLog` lines and occasional Ngx Angora diagnostics from components using real Angora services in tests.
   - The production visual audit classified remaining media cancellations as non-blocking because direct CDN `HEAD` checks returned HTTP 200 for the WAV and MP4 assets.
+
+## 2026-06-19 05:13 Central Time - Final AWS release deployed
+
+- Frontend PR `LynxPardelle/lynx-portfolio-angular#8` merged to `main` at `2026-06-19T10:57:01Z` with merge commit `be6edffb6924cdb3f674798b0571b92b516cea8a`.
+- Main Angular validate run `27821610613` completed with `success`.
+- SSR artifact publish runs for release `be6edffb6924cdb3f674798b0571b92b516cea8a` completed with `success`:
+  - `dev`: `27821610622`
+  - `tst`: `27821672042`
+  - `prod`: `27821672059`
+- The infra repo set `FRONTEND_RELEASE_ID=be6edffb6924cdb3f674798b0571b92b516cea8a` for GitHub Environments `dev`, `tst`, and `prod`.
+- Infra deploy runs completed with `success`:
+  - `dev`: `27821785680`
+  - `tst`: `27821917590`
+  - `prod`: `27822046065`
+- Final production smoke returned HTTP `200` for `/`, `/book`, `/webs`, `/cv`, `/music`, `/reel`, `/blog`, and `https://www.lynxpardelle.com/`.
+- Final production HTML/API audit found `0` `api/main/get-file/` matches and browser first load through system Chrome reported `0` page errors and `0` `NotAllowedError` matches.
+- Remaining non-blocking cleanup candidates: reduce noisy browser console logs, remove raw S3 `location` fields from public payloads once consumers no longer need them, and revisit CSP `'unsafe-inline'` during the deferred security hardening pass.
