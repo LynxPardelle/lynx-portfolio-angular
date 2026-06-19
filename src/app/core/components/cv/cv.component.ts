@@ -22,6 +22,7 @@ import { MainMainSelector } from '../../../state/selectors/main.selector';
 import { LoadMain } from '../../../state/actions/main.actions';
 // Components 
 import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
+import { assetUrl } from '../../../shared/utils/asset-url';
 import {
   AccordionComponent,
   AccordionPanelComponent,
@@ -116,9 +117,6 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
   public edit: boolean = false;
   public loadCvBackground = false;
   private isDestroyed = false;
-  private readonly s3AssetsOrigin =
-    'https://lynx-portfolio.s3.us-east-1.amazonaws.com';
-  private readonly cdnAssetsOrigin = 'https://assets.lynxpardelle.com';
   private readonly optimizedCvBackgroundUrl =
     '/assets/images/UndergroundSunBackGround.webp';
   // State 
@@ -227,14 +225,7 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public mediaUrl(file: any): string {
-    const location =
-      typeof file?.location === 'string' ? file.location.trim() : '';
-
-    if (location) {
-      return location.replace(this.s3AssetsOrigin, this.cdnAssetsOrigin);
-    }
-
-    return file?._id ? `${this.urlMain}get-file/${file._id}` : '';
+    return assetUrl(file);
   }
 
   public cvBackgroundStyle(): string | null {

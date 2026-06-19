@@ -37,4 +37,17 @@ describe('CvComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('rewrites S3-backed media URLs to the public assets CDN', () => {
+    expect(
+      component.mediaUrl({
+        location:
+          'https://lynx-portfolio.s3.us-east-1.amazonaws.com/uploads/main/cv.png',
+      })
+    ).toBe('https://assets.lynxpardelle.com/uploads/main/cv.png');
+  });
+
+  it('does not generate API file URLs when media location is missing', () => {
+    expect(component.mediaUrl({ _id: 'file-id' })).toBe('');
+  });
 });

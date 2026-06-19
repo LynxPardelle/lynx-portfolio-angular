@@ -50,10 +50,8 @@ describe('BookComponent', () => {
     );
   });
 
-  it('falls back to the API file endpoint when media location is missing', () => {
-    expect(component.mediaUrl({ _id: 'file-id' })).toBe(
-      `${component.urlMain}get-file/file-id`
-    );
+  it('does not generate API file URLs when media location is missing', () => {
+    expect(component.mediaUrl({ _id: 'file-id' })).toBe('');
   });
 
   it('prioritizes only the first visible book image', () => {

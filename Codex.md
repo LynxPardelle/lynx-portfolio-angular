@@ -265,3 +265,26 @@
   - `npm run build` exited 0; `book-component` lazy chunk was `14.66 kB` raw / `4.07 kB` estimated transfer and `websites-component` lazy chunk was `27.83 kB` raw / `6.18 kB` estimated transfer.
   - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
   - `git diff --check` exited 0; it only reported expected Windows LF-to-CRLF working-copy warnings.
+
+## 2026-06-19 04:06 Central Time - Assets CDN-only runtime media URLs
+
+- User clarified that runtime media should no longer construct legacy API file endpoints because portfolio media is served from `https://assets.lynxpardelle.com`.
+- Added shared `assetUrl(file)` utility:
+  - Prefers `file.cdnUrl` when present.
+  - Rewrites old `https://lynx-portfolio.s3.us-east-1.amazonaws.com` locations to `https://assets.lynxpardelle.com`.
+  - Returns an empty string when CDN/location metadata is missing instead of inventing an API file URL from an id.
+- Updated runtime media bindings in:
+  - Global layout/background/header/audio footer.
+  - Inicio admin previews.
+  - Music songs, share links, album art, song cover art, and audio previews.
+  - Demoreel video sources.
+  - CV, Book, and Websites media helpers.
+  - Blog article section media bindings, using CDN metadata only.
+- `rg` verification found no runtime `get-file` references under `src/app`; remaining matches were historical notes in `Codex.md`.
+- Focused validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless --include=src/app/shared/utils/asset-url.spec.ts --include=src/app/blog/components/article-sections/article-sections.component.spec.ts --include=src/app/app.component.spec.ts --include=src/app/core/components/inicio/inicio.component.spec.ts --include=src/app/core/components/music/music.component.spec.ts --include=src/app/core/components/demoreel/demoreel.component.spec.ts --include=src/app/core/components/book/book.component.spec.ts --include=src/app/core/components/websites/websites.component.spec.ts --include=src/app/core/components/cv/cv.component.spec.ts` exited 0 with `TOTAL: 26 SUCCESS`.
+- Full validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 45 SUCCESS`.
+  - `npm run build` exited 0; initial browser bundle total was `1.08 MB` raw / `260.45 kB` estimated transfer.
+  - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
+  - `git diff --check` exited 0; it only reported expected Windows LF-to-CRLF working-copy warnings.

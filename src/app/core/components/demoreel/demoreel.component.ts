@@ -26,6 +26,7 @@ import { FileUploaderComponent } from '../../../shared/components/file-uploader/
 import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
 /* Libraries */
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { assetUrl } from '../../../shared/utils/asset-url';
 @Component({
   selector: 'app-demoreel',
   templateUrl: './demoreel.component.html',
@@ -50,6 +51,7 @@ export class DemoreelComponent implements OnInit, OnDestroy {
 
   /* Urls */
   public urlMain: string = environment.api + '/main/';
+  public assetUrl = assetUrl;
 
   /* Console Settings */
   public document: string = 'demoreel.component.ts';

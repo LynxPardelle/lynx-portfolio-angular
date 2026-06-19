@@ -39,6 +39,7 @@ import { LoadMain } from './state/actions/main.actions';
 /*
  */
 import { IdentitySelector } from './state/selectors/sesion.selector';
+import { assetUrl } from './shared/utils/asset-url';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, DoCheck {
   public lang: string = 'es';
   /* Urls */
   public urlMain: string = environment.api + '/main/';
+  public assetUrl = assetUrl;
   /* Console Settings */
   public document: string = 'app.component.ts';
   public customConsoleCSS =
@@ -370,10 +372,13 @@ export class AppComponent implements OnInit, DoCheck {
         this.currentSong.song.location !== '' &&
         isPlatformBrowser(this.platformId)
       ) {
-        this.currentAudio = new Audio(
-          this.urlMain + 'get-file/' + this.currentSong.song._id
-        );
-        this.currentAudio.play();
+        const songUrl = this.assetUrl(this.currentSong.song);
+        if (!songUrl) {
+          this.currentAudio = null;
+        } else {
+          this.currentAudio = new Audio(songUrl);
+          this.currentAudio.play();
+        }
         this._sharedService.emitChange({
           from: 'app',
           to: 'music',
