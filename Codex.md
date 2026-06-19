@@ -101,3 +101,18 @@
   - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
   - `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 25 SUCCESS`.
 - Security note: full `npm audit` still exits 1 for 7 dev-only toolchain advisories in Angular/Vite dependencies, and npm reports no fix available in the current compatible Angular 21 toolchain.
+
+## 2026-06-18 18:46 Central Time - Legacy section render and language button fix
+
+- User-reported dev issue: `/webs` rendered correctly, but `/book`, `/music`, `/reel`, and `/cv` fetched data/assets in Network without consistently rendering visible content; the language dropdown button was transparent.
+- Root cause found in the older route components: async API responses and image preload callbacks mutated component fields after SSR/hydration without a reliable view refresh path. `BookComponent` also gated image rendering on a precomputed `width`, so preloaded images could fetch without the actual `<img>` elements being inserted.
+- Fix:
+  - Added guarded `ChangeDetectorRef` refreshes to `BookComponent`, `MusicComponent`, `DemoreelComponent`, and `CvComponent` after async data loads.
+  - Removed the `bookimg.width` template gate so Book images render while width measurement finishes.
+  - Cleared the Book shuffle interval on destroy and guarded async refreshes after component destruction.
+  - Added static `portfolio-lang-button` and `portfolio-lang-item` styles so the language dropdown does not depend on Angora runtime CSS for its background.
+- Validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 25 SUCCESS`.
+  - `npm run package:ssr:lambda` exited 0 and produced `dist/ssr-lambda/ssr-handler.zip` with SHA-256 `d1e98f75ebbb73529829e6b0a4505c9123cbca4f2d75964f28315ca71350f26d`.
+  - Local SSR smoke against `http://localhost:6173` with Chrome reported `/book` 23/23 images loaded, `/music` 31/31 images loaded, `/reel` 3 iframes, `/cv` 3/3 images loaded, and language button background `rgb(255, 85, 85)`.
+- Remaining data issue: `/blog` still calls `https://api.lynxpardelle.com/api/article/articles/1/5/_id/all/all` and receives HTTP 404, so Blog remains a content/API migration gap separate from the route render bug.

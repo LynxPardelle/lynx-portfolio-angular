@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // RxJs 
@@ -42,7 +42,7 @@ import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
     AccordionPanelComponent,
   ],
 })
-export class CvComponent implements OnInit, DoCheck {
+export class CvComponent implements OnInit, DoCheck, OnDestroy {
   public identity: any;
   public main!: Main;
   public CVSections: CVSection[] = [];
@@ -91,6 +91,7 @@ export class CvComponent implements OnInit, DoCheck {
   // Utility 
   public edit: boolean = false;
   public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+  private isDestroyed = false;
   // State 
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -100,7 +101,8 @@ export class CvComponent implements OnInit, DoCheck {
     private _ankService: NgxAngoraService,
 
     private _sharedService: SharedService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private cdr: ChangeDetectorRef
   ) {
     _sharedService.changeEmitted$.subscribe((sharedContent: any) => {
       if (
@@ -159,12 +161,24 @@ export class CvComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {}
+
+  ngOnDestroy(): void {
+    this.isDestroyed = true;
+  }
+
+  private refreshView(): void {
+    if (!this.isDestroyed) {
+      this.cdr.detectChanges();
+    }
+  }
+
   // State 
   getMain() {
     this.main$.subscribe({
       next: (m: any) => {
         if (m !== undefined) {
           this.main = m;
+          this.refreshView();
         }
       },
       error: (e: unknown) => console.error(e),
@@ -198,6 +212,10 @@ export class CvComponent implements OnInit, DoCheck {
       }
 
       this._ankService.pushColors(colors);
+      if (typeof window !== 'undefined') {
+        this._ankService.cssCreate();
+      }
+      this.refreshView();
       this._webService.consoleLog(
         this.CVSections,
         this.document + ' 146',

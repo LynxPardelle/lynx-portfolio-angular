@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // RxJs
 import { Observable } from 'rxjs';
@@ -32,7 +32,7 @@ import { FileUploaderComponent } from '../../../shared/components/file-uploader/
     FileUploaderComponent,
   ],
 })
-export class BookComponent implements OnInit {
+export class BookComponent implements OnInit, OnDestroy {
   public identity: any;
   public main!: Main;
   public bookImgs: BookImg[] = [];
@@ -52,6 +52,8 @@ export class BookComponent implements OnInit {
   // Utility
   public edit: boolean = false;
   public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+  private bookShuffleInterval?: ReturnType<typeof setInterval>;
+  private isDestroyed = false;
   // State
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -60,7 +62,8 @@ export class BookComponent implements OnInit {
     private _webService: WebService,
 
     private _sharedService: SharedService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private cdr: ChangeDetectorRef
   ) {
     _sharedService.changeEmitted$.subscribe((sharedContent: any) => {
       if (
@@ -112,6 +115,20 @@ export class BookComponent implements OnInit {
     this.getMain();
     this.getBookImgs();
   }
+
+  ngOnDestroy(): void {
+    this.isDestroyed = true;
+    if (this.bookShuffleInterval) {
+      clearInterval(this.bookShuffleInterval);
+    }
+  }
+
+  private refreshView(): void {
+    if (!this.isDestroyed) {
+      this.cdr.detectChanges();
+    }
+  }
+
   // State
   getMain() {
     this.main$.subscribe({
@@ -145,10 +162,12 @@ export class BookComponent implements OnInit {
 
       this.bookImgs = bookImgs.bookImgs;
       this.bookImgs = this.shuffle(bookImgs.bookImgs);
+      this.refreshView();
 
       if (typeof window !== 'undefined') {
-        setInterval(() => {
+        this.bookShuffleInterval = setInterval(() => {
           this.bookImgs = this.shuffle(bookImgs.bookImgs);
+          this.refreshView();
         }, 15000);
       }
 
@@ -461,6 +480,7 @@ export class BookComponent implements OnInit {
               : img.width;
         }
         file.width = width;
+        this.refreshView();
       };
     } catch (err) {
       this._webService.consoleLog(
