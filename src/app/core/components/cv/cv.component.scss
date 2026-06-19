@@ -1,3 +1,43 @@
+:host {
+  display: block;
+}
+
+:host #CV {
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+.portfolio-cv-admin-actions {
+  top: 15%;
+  z-index: 10;
+}
+
+.portfolio-cv-background {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  bottom: 0;
+  height: 100%;
+  min-height: 100vh;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.portfolio-cv-image {
+  aspect-ratio: 1;
+  height: clamp(180px, 25vw, 320px);
+  width: clamp(180px, 25vw, 320px);
+}
+
+.portfolio-cv-description {
+  width: min(50vw, 760px);
+}
+
+.portfolio-cv-accordion {
+  width: min(66vw, 980px);
+}
+
 :host ::ng-deep .portfolio-cv-panel.panel.card {
   background-color: var(--portfolio-cv-panel-bg, #ff5555) !important;
   border-color: rgba(255, 255, 255, 0.35) !important;
@@ -29,4 +69,20 @@
 :host ::ng-deep .portfolio-cv-subpanel .card-body,
 :host ::ng-deep .portfolio-cv-subpanel .panel-collapse {
   background-color: var(--portfolio-cv-panel-bg, #000000) !important;
+}
+
+@media (max-width: 766px) {
+  .portfolio-cv-admin-actions {
+    top: 150px;
+  }
+
+  .portfolio-cv-description,
+  .portfolio-cv-accordion {
+    width: 80vw;
+  }
+
+  .portfolio-cv-image {
+    height: min(50vw, 260px);
+    width: min(50vw, 260px);
+  }
 }

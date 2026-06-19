@@ -176,3 +176,61 @@
   - Local browser `/webs` check reported `missingDimensionAttrs: 0`, `skeletonCount: 0` after hydration, and first device images loaded with natural dimensions matching the attributes.
   - Local Lighthouse `/webs` report saved at `C:\Users\lince\Documents\Codex\2026-06-18\lynx-cv-cls-lighthouse\webs-local-static-device-css.report.json`: performance `54`, accessibility `87`, best practices `96`, SEO `100`, CLS `0.0607`, LCP `23523 ms`, TBT `202 ms`.
   - Lighthouse CLI still generated reports but exited with code `1` due to the known Windows `%TEMP%\lighthouse.*` cleanup `EPERM` issue.
+
+## 2026-06-18 21:34 Central Time - TST validation for CV/CLS/cache fixes
+
+- PR `https://github.com/LynxPardelle/lynx-portfolio-angular/pull/4` merged to `main` with merge commit `8ea322a8b3c01a6c53da51c3ccc12ad32c7fbe65`.
+- GitHub `Angular validate` run `27803467246` passed.
+- GitHub `Publish SSR artifact` push run `27803467281` passed for `dev`.
+- Manually published TST SSR artifact with `environment=tst` and release id `8ea322a8b3c01a6c53da51c3ccc12ad32c7fbe65`; run `27803506029` passed.
+- Infra TST deploy run `27803563133` passed using `FRONTEND_RELEASE_ID=8ea322a8b3c01a6c53da51c3ccc12ad32c7fbe65`.
+- TST HTTP confirmed `https://tst.lynxpardelle.com/webs` SSR contains `portfolio-website-skeleton` and `portfolio-website-device-stage`.
+- TST browser style check:
+  - `/cv` found 19 CV panels.
+  - Outer CV panel background `rgb(255, 85, 85)` and text `rgb(255, 255, 255)`.
+  - Outer CV header background `rgb(255, 85, 85)` and title color `rgb(249, 194, 79)`.
+  - Nested CV panel background `rgb(0, 0, 0)` and nested title color `rgb(255, 255, 255)`.
+  - `/webs` had `skeletonCount: 0`, `articleCount: 9`, and `missingDimensionAttrs: 0` after hydration.
+- TST route smoke for `/`, `/webs`, `/cv`, `/book`, `/music`, `/reel`, and `/blog` returned HTTP `200`; none contained `Cargando...`; `/blog` contained `No hay artículos.`.
+- TST Lighthouse `/webs` report saved at `C:\Users\lince\Documents\Codex\2026-06-18\lynx-tst-lighthouse-cv-cls-cache\webs-tst-after-fixes.report.json`: performance `67`, accessibility `87`, best practices `96`, SEO `100`, CLS `0.0612`, LCP `12054 ms`, TBT `118 ms`.
+- Lighthouse CLI again generated JSON/HTML reports but exited with code `1` due to Windows `%TEMP%\lighthouse.*` cleanup `EPERM`.
+
+## 2026-06-18 23:26 Central Time - Production AWS SSR cutover
+
+- Frontend release `8ea322a8b3c01a6c53da51c3ccc12ad32c7fbe65` was published as the production SSR artifact by workflow run `27806547723`; the run completed successfully.
+- Infra GitHub Environment `prod` variable `FRONTEND_RELEASE_ID` was set to `8ea322a8b3c01a6c53da51c3ccc12ad32c7fbe65`.
+- Infra `Deploy Prod` run `27806936790` completed successfully and deployed CloudFront distribution `E1LHE6N1FDU1U1` / `d1h141iw0hg57g.cloudfront.net` with aliases `lynxpardelle.com` and `www.lynxpardelle.com`.
+- Route53 production cutover was applied manually after deploy:
+  - Change id `/change/C056671828JEVPY0XZU6T` reached `INSYNC`.
+  - `lynxpardelle.com` A/AAAA and `www.lynxpardelle.com` A/AAAA now alias to `d1h141iw0hg57g.cloudfront.net`.
+- Production validation:
+  - `https://lynxpardelle.com/`, `/webs`, `/cv`, `/book`, `/music`, `/reel`, and `/blog` returned HTTP `200` from CloudFront with non-empty SSR HTML.
+  - `/robots.txt`, `/sitemap.xml`, `/manifest.webmanifest`, and `/site.webmanifest` returned HTTP `200`.
+  - `https://api.lynxpardelle.com/api/article/articles/1/5/_id/all/all` returned exactly `{"status":"success","total_items":0,"pages":0,"articles":[]}`.
+  - Browser check on production showed no broken in-viewport images for `/webs`, `/book`, `/music`, `/cv`, or `/blog`.
+  - `/blog` displayed `No hay artículos.`.
+  - Language button computed style: `backgroundColor` `rgb(255, 85, 85)`, `color` `rgb(0, 0, 0)`, `opacity` `1`.
+  - `/cv` nested panel titles computed as white text on black background.
+- Follow-up from infra side: codify production frontend Route53 records in CDK, including alternate domain `www.lynxpardelle.com`, so the manual cutover does not remain outside IaC.
+
+## 2026-06-19 00:42 Central Time - CV frontend performance optimization
+
+- Production baseline before this change showed `/cv` as the weakest measured route:
+  - Lighthouse desktop production `/cv`: performance `49`, accessibility `88`, best practices `96`, SEO `100`, FCP `742 ms`, LCP `13499 ms`, TBT `3 ms`, CLS `0.4936`, TTFB `1408 ms`.
+  - The CV route rendered the decorative background from `https://api.lynxpardelle.com/api/main/get-file/61fdf4f335302351efe129ea`; the asset metadata showed `CVBackground.size` `14093670`.
+- Fix:
+  - Replaced the initial CV background `<img>` with a decorative background layer that is omitted from the SSR initial image load.
+  - Added stable CV dimensions/styles for the profile image, description blocks, accordion width, and admin actions so the route no longer depends on runtime Angora width classes for layout stability.
+  - Rewrote CV media URLs to prefer `https://assets.lynxpardelle.com` when API metadata contains the old S3 origin.
+  - Generated `public/assets/images/UndergroundSunBackGround.webp` from the existing `public/assets/images/UndergroundSunBackGround.png` using `ffmpeg`; original PNG was `14,093,670` bytes at `2550x3300`, WebP is `983,822` bytes at `1920x2484`.
+- Local SSR validation:
+  - `npm run build` exited 0; `cv-component` lazy chunk was `42.96 kB` raw / `8.04 kB` estimated transfer.
+  - SSR smoke through the local host-rewrite proxy returned HTTP `200` for `/`, `/webs`, `/cv`, `/book`, `/music`, `/reel`, and `/blog`; all had `app-root`, none contained `Loading...`.
+  - Local `/cv` initial SSR HTML had `CVBG` present without an inline background URL/style, used `https://assets.lynxpardelle.com/uploads/main/Glitched-Lynx.gif` for `CVImage`, and did not contain `/api/main/get-file/`.
+  - Local static check for `/assets/images/UndergroundSunBackGround.webp` returned `content-type: image/webp` and `content-length: 983822`.
+- Lighthouse comparison:
+  - Baseline production `/cv`: performance `49`, LCP `13499 ms`, CLS `0.49`.
+  - Local optimized `/cv` with deferred API background only: performance `70`, LCP `14277 ms`, CLS `0.02`; this proved CLS was fixed but the 14 MB background still hurt LCP.
+  - Local optimized `/cv` with WebP background: performance `82`, accessibility `88`, best practices `96`, SEO `100`, FCP `1513 ms`, LCP `2251 ms`, TBT `0 ms`, CLS `0.02`, TTFB `578 ms`.
+  - Lighthouse CLI generated JSON reports but exited with code `1` after report creation due to the known Windows `%TEMP%\lighthouse.*` cleanup `EPERM` issue.
+- Tests: `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 27 SUCCESS`.
