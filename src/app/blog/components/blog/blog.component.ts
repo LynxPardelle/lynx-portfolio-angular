@@ -51,7 +51,7 @@ export class BlogComponent implements OnInit {
 
   public search: string = '';
 
-  public loading: boolean = true;
+  public loading: boolean = false;
   // Translate 
   public lang: string = 'es';
 
@@ -151,7 +151,7 @@ export class BlogComponent implements OnInit {
 
   getBlog() {
     this.articles = [];
-    this.loading = true;
+    this.loading = typeof window !== 'undefined';
     // Get page from url 
     this._route.params.subscribe({
       next: (params: any) => {
@@ -176,14 +176,19 @@ export class BlogComponent implements OnInit {
           )
           .subscribe({
             next: (b) => {
+              this.articles = Array.isArray(b?.articles) ? b.articles : [];
+              this.total = Number.isFinite(b?.total_items) ? b.total_items : this.articles.length;
+              this.itemsPerPage = Number.isFinite(b?.itemsPerPage) ? b.itemsPerPage : this.itemsPerPage;
+              this.noMore = this.articles.length === 0 || this.page >= (b?.pages || 1);
+              this.loading = false;
               this._webService.consoleLog(
                 b,
                 this.document + ' 114',
                 this.customConsoleCSS
               );
-              this.loading;
             },
             error: (e) => {
+              this.articles = [];
               this.loading = false;
               this._webService.consoleLog(
                 e,
