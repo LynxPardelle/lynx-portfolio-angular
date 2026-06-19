@@ -377,7 +377,7 @@ export class AppComponent implements OnInit, DoCheck {
           this.currentAudio = null;
         } else {
           this.currentAudio = new Audio(songUrl);
-          this.currentAudio.play();
+          this.playCurrentAudio();
         }
         this._sharedService.emitChange({
           from: 'app',
@@ -395,7 +395,7 @@ export class AppComponent implements OnInit, DoCheck {
         });
       }
     } else {
-      this.currentAudio.play();
+      this.playCurrentAudio();
       this._sharedService.emitChange({
         from: 'app',
         to: 'music',
@@ -403,6 +403,21 @@ export class AppComponent implements OnInit, DoCheck {
         thing: this.currentAudio,
       });
     }
+  }
+
+  private playCurrentAudio() {
+    const playAttempt = this.currentAudio?.play?.();
+    if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.catch((error: unknown) => {
+        if (!this.isExpectedAudioPlayBlock(error)) {
+          console.warn(error);
+        }
+      });
+    }
+  }
+
+  private isExpectedAudioPlayBlock(error: unknown) {
+    return (error as { name?: string })?.name === 'NotAllowedError';
   }
 
   pause() {

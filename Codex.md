@@ -288,3 +288,28 @@
   - `npm run build` exited 0; initial browser bundle total was `1.08 MB` raw / `260.45 kB` estimated transfer.
   - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
   - `git diff --check` exited 0; it only reported expected Windows LF-to-CRLF working-copy warnings.
+
+## 2026-06-19 04:53 Central Time - Final frontend polish after production audit
+
+- Parallel audit agents reviewed the post-cutover production frontend:
+  - Data/media audit found no public API media objects missing both `cdnUrl` and `location`, no `get-file` strings in public API JSON, and 77 non-blocking legacy S3 `location` strings that also have `cdnUrl`.
+  - Production SSR/visual audit found `/`, `/book`, `/webs`, `/cv`, `/music`, `/reel`, and `/blog` returning HTTP 200 in desktop and mobile Chrome with no blank routes and no `get-file` network requests.
+  - Ops/security audit confirmed PR #7, SSR artifacts, and infra deploys were green for release `e78fca9e1d88e35841d48a109be951ce7de809b0`.
+- Implemented small non-destructive polish fixes on `work/frontend-final-polish`:
+  - `AppComponent` now catches expected `NotAllowedError` audio autoplay promise rejections instead of leaving uncaught promise noise in production consoles.
+  - Global `<main>` now reserves bottom padding for the fixed footer/audio controls using `padding-bottom: calc(7rem + env(safe-area-inset-bottom))`.
+  - `GenericButtonComponent` now calls `NgxAngoraService.updateClasses()` only when filtered `ank-` tokens exist, avoiding empty/no-op Angora updates.
+  - `AppComponent` unit tests mock `NgxAngoraService` so unit setup no longer emits Angora diagnostics unrelated to component behavior.
+- TDD evidence:
+  - App focused red run failed as expected with `TOTAL: 2 FAILED, 2 SUCCESS` for missing autoplay catch and bottom clearance.
+  - Generic button focused red run failed as expected with `TOTAL: 1 FAILED, 1 SUCCESS` for no-Angora token update behavior.
+- Validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless --include=src/app/app.component.spec.ts` exited 0 with `TOTAL: 4 SUCCESS`.
+  - `npm test -- --watch=false --browsers=ChromeHeadless --include=src/app/shared/components/generic-button/generic-button.component.spec.ts` exited 0 with `TOTAL: 3 SUCCESS`.
+  - `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 49 SUCCESS`.
+  - `npm run build` exited 0; initial browser bundle total was `1.08 MB` raw / `260.62 kB` estimated transfer.
+  - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
+  - `git diff --check` exited 0; it only reported expected Windows LF-to-CRLF working-copy warnings.
+- Residual non-blocking console debt:
+  - Full test output can still include existing `WebService.consoleLog` lines and occasional Ngx Angora diagnostics from components using real Angora services in tests.
+  - The production visual audit classified remaining media cancellations as non-blocking because direct CDN `HEAD` checks returned HTTP 200 for the WAV and MP4 assets.
