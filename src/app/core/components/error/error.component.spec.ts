@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { ErrorComponent } from './error.component';
 
@@ -8,7 +10,13 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ErrorComponent ]
+      imports: [ErrorComponent],
+      providers: [
+        provideRouter([]),
+        provideMockStore({
+          initialState: { main: { loading: false }, sesion: { active: false } },
+        }),
+      ],
     })
     .compileComponents();
   });

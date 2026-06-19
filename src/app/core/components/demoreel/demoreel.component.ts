@@ -58,7 +58,7 @@ export class DemoreelComponent implements OnInit {
 
   /* Utility */
   public edit: boolean = false;
-  public windowWidth = window.innerWidth;
+  public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
   /* State */
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -123,9 +123,11 @@ export class DemoreelComponent implements OnInit {
     this.getMain();
     this.getVideos();
 
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
+    if (typeof document !== 'undefined') {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.body.appendChild(tag);
+    }
   }
   /* State */
   getMain() {

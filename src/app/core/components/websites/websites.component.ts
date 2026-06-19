@@ -74,7 +74,9 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   public webSite = signal<WebSite>(new WebSite('', '', '', '', '', '', '', '', '', null, null, null, 0));
   public lang = signal<string>('es');
   public edit = signal<boolean>(false);
-  public windowWidth = signal<number>(window.innerWidth);
+  public windowWidth = signal<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 0
+  );
   
   // Loading states
   public isLoading = signal<boolean>(false);

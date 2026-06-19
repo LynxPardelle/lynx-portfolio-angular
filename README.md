@@ -2,8 +2,8 @@
 
 <div align="center">
 
-[![Angular](https://img.shields.io/badge/Angular-19.2.14-red?style=for-the-badge&logo=angular)](https://angular.io)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Angular](https://img.shields.io/badge/Angular-21.2.x-red?style=for-the-badge&logo=angular)](https://angular.io)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Docker](https://img.shields.io/badge/Docker-Multi--Stage-blue?style=for-the-badge&logo=docker)](https://www.docker.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -18,7 +18,7 @@ A sophisticated, production-ready Angular portfolio application featuring **Serv
 ## ✨ Features
 
 ### 🎯 **Core Features**
-- **Modern Angular 19** with SSR support
+- **Modern Angular 21** with SSR support
 - **Responsive Design** with Bootstrap 5
 - **Internationalization (i18n)** - Spanish & English
 - **State Management** with NgRx
@@ -46,7 +46,7 @@ A sophisticated, production-ready Angular portfolio application featuring **Serv
 ### Prerequisites
 - **Docker** & **Docker Compose** installed
 - **Make** (for convenient commands)
-- **Node.js 16+** (for local development)
+- **Node.js 20.19+, 22.12+, or 24+** (for local development)
 
 ### 🐳 Docker Setup (Recommended)
 
@@ -178,9 +178,14 @@ npm run build
 # Run tests
 npm test
 
+# Build and package the AWS Lambda SSR artifact
+npm run package:ssr:lambda
+
 # Serve SSR build
 npm run serve:ssr
 ```
+
+`npm run package:ssr:lambda` writes the deployable server bundle to `dist/ssr-lambda/ssr-handler.zip` and a manifest to `dist/ssr-lambda/manifest.json`. The infra repo consumes those files through the existing `lynx-portfolio` S3 bucket under `frontend/angular-ssr/{env}/releases/{releaseId}/`.
 
 ### 📦 Package Management
 
@@ -276,7 +281,7 @@ NODE_OPTIONS=--max-old-space-size=4096
 
 ### Build Optimization Features
 
-#### Angular 19 Optimizations
+#### Angular 21 Optimizations
 
 All build optimizations are now handled declaratively in `angular.json`:
 

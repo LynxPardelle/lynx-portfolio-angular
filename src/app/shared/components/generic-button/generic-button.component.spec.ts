@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericButtonComponent } from './generic-button.component';
+import { HarshifyPipe } from '../../pipes/harshify.pipe';
 
 describe('GenericButtonComponent', () => {
   let component: GenericButtonComponent;
@@ -8,7 +9,8 @@ describe('GenericButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GenericButtonComponent ]
+      imports: [GenericButtonComponent],
+      providers: [HarshifyPipe],
     })
     .compileComponents();
 

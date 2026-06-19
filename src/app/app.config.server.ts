@@ -1,6 +1,8 @@
-import { provideServerRendering } from '@angular/ssr';
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode, mergeApplicationConfig } from '@angular/core';
+import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection, isDevMode, mergeApplicationConfig } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling, withPreloading, PreloadAllModules, NoPreloading } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 import { provideHttpClient, withInterceptors, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { appConfig } from './app.config';
@@ -13,12 +15,11 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 // NGX-Translate
 import { importProvidersFrom } from '@angular/core';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // Third-party libraries
 import { NgxUploaderModule } from '@angular-ex/uploader';
-import { MomentModule } from 'ngx-moment';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
 // NGX-Bootstrap
@@ -35,10 +36,7 @@ import { ROOT_REDUCERS } from './state/app.state';
 import { MainEffects } from './state/effects/main.effects';
 import { environment } from '../environments/environment';
 
-// Factory function for TranslateHttpLoader
-export function HttpLoaderFactory(): TranslateHttpLoader {
-  return new TranslateHttpLoader();
-}
+registerLocaleData(localeEs);
 
 /**
  * Server-side configuration for Angular Universal SSR
@@ -69,7 +67,8 @@ const serverConfig: ApplicationConfig = {
     ),
     provideAnimations(),
     // Use server rendering instead of client hydration for SSR
-    provideServerRendering(),
+    provideServerRendering(withRoutes(serverRoutes)),
+    { provide: LOCALE_ID, useValue: 'es' },
     
     // State Management (NgRx) with optimizations
     provideStore(ROOT_REDUCERS, {
@@ -88,42 +87,27 @@ const serverConfig: ApplicationConfig = {
       connectInZone: true,
     }),
     
-    // Translate HTTP Loader Configuration
-    {
-      provide: TRANSLATE_HTTP_LOADER_CONFIG,
-      useValue: {
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
         prefix: './assets/i18n/',
-        suffix: '.json'
-      }
-    },
+        suffix: '.json',
+      }),
+      fallbackLang: 'en',
+      lang: 'es',
+    }),
     
     // Third-party modules as providers
     importProvidersFrom(
-      // NGX-Translate with loader configuration
-      TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-        },
-        isolate: false,
-        fallbackLang: 'en',
-      }),
-      
       // Third-party libraries
       NgxUploaderModule,
-      MomentModule.forRoot({
-        relativeTimeThresholdOptions: {
-          m: 59,
-        },
-      }),
       YouTubePlayerModule,
       
       // NGX-Bootstrap modules
-      BsDropdownModule.forRoot(),
-      AccordionModule.forRoot(),
-      ModalModule.forRoot(),
-      TooltipModule.forRoot(),
-      CarouselModule.forRoot()
+      BsDropdownModule,
+      AccordionModule,
+      ModalModule,
+      TooltipModule,
+      CarouselModule
     )
   ]
 };

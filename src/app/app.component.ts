@@ -166,7 +166,7 @@ export class AppComponent implements OnInit, DoCheck {
 
     if (typeof window !== 'undefined') {
       this._translate.addLangs(['es', 'en']);
-      this._translate.setDefaultLang(this.lang);
+      this._translate.setFallbackLang(this.lang);
       this.lang =
         this._translate.getBrowserLang() &&
         this._translate.getBrowserLang() !== undefined &&
