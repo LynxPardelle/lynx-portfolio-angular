@@ -1,0 +1,32 @@
+:host ::ng-deep .portfolio-cv-panel.panel.card {
+  background-color: var(--portfolio-cv-panel-bg, #ff5555) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: var(--portfolio-cv-panel-text, #ffffff) !important;
+  overflow: hidden;
+}
+
+:host ::ng-deep .portfolio-cv-panel > .panel-heading.card-header {
+  background-color: var(--portfolio-cv-panel-bg, #ff5555) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: var(--portfolio-cv-title-color, #f9c24f) !important;
+}
+
+:host ::ng-deep .portfolio-cv-panel .panel-body,
+:host ::ng-deep .portfolio-cv-panel .card-body,
+:host ::ng-deep .portfolio-cv-panel .panel-collapse {
+  background-color: var(--portfolio-cv-panel-bg, #ff5555) !important;
+  color: var(--portfolio-cv-panel-text, #ffffff) !important;
+}
+
+:host ::ng-deep .portfolio-cv-panel .portfolio-cv-heading-title,
+:host ::ng-deep .portfolio-cv-panel .portfolio-cv-heading-icon {
+  color: var(--portfolio-cv-title-color, #f9c24f) !important;
+}
+
+:host ::ng-deep .portfolio-cv-subpanel.panel.card,
+:host ::ng-deep .portfolio-cv-subpanel > .panel-heading.card-header,
+:host ::ng-deep .portfolio-cv-subpanel .panel-body,
+:host ::ng-deep .portfolio-cv-subpanel .card-body,
+:host ::ng-deep .portfolio-cv-subpanel .panel-collapse {
+  background-color: var(--portfolio-cv-panel-bg, #000000) !important;
+}

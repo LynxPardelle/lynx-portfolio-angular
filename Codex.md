@@ -133,3 +133,46 @@
   - Local SSR static checks returned `robots.txt` as `text/plain`, `sitemap.xml` as `application/xml`, and `manifest.webmanifest` as `application/manifest+json`.
   - Full `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 27 SUCCESS`.
   - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
+
+## 2026-06-18 20:46 Central Time - TST remote validation after promotion
+
+- Frontend commit `a998f6941b91f1228e731bc737cda1ac4515f116` was published as the TST frontend release.
+- `https://tst.lynxpardelle.com/blog` returned SSR HTML with `No hay artículos.` and without `Cargando...`.
+- `https://api.lynxpardelle.com/api/article/articles/1/5/_id/all/all` returned HTTP `200` with body `{"status":"success","total_items":0,"pages":0,"articles":[]}` after infra promotion to prod.
+- Browser route smoke passed on TST for `/`, `/webs`, `/reel`, `/book`, `/music`, `/cv`, and `/blog`.
+  - No route showed `Cargando...` after hydration.
+  - Displayed image checks reported `0` broken displayed images across the tested routes.
+  - `/reel` displayed 3 Dailymotion iframes and no visible error text in the page DOM.
+  - `/blog` displayed `No hay artículos.` after hydration.
+  - The language button background was `rgb(255, 85, 85)`.
+  - The menu offcanvas opened with black page background and visible navigation; no white full-screen panel reproduced.
+- Static public metadata was verified remotely:
+  - `/robots.txt` returned `text/plain`.
+  - `/sitemap.xml` returned `application/xml`.
+  - `/manifest.webmanifest` returned `application/manifest+json`.
+- Lighthouse reports were saved outside the repo at `C:\Users\lince\Documents\Codex\2026-06-18\lynx-tst-lighthouse`.
+  - `/blog`: performance `66`, accessibility `87`, best practices `92`, SEO `100`, LCP `3643 ms`, CLS `0.355`.
+  - `/webs`: performance `55`, accessibility `87`, best practices `92`, SEO `100`, LCP `3919 ms`, CLS `0.937`.
+  - Lighthouse CLI generated reports but exited with code `1` due to an `EPERM` cleanup error deleting a temporary `lighthouse.*` directory under `%TEMP%`.
+- Remaining Lighthouse work is a separate optimization task: add explicit dimensions/reserved aspect ratios for dynamic media and review cache TTL for existing `assets.lynxpardelle.com` media assets.
+
+## 2026-06-18 21:24 Central Time - CV color and /webs CLS fixes
+
+- User-reported TST `/cv` issue: accordion panels showed white/light backgrounds with white text, making content unreadable.
+- Root cause: `ngx-bootstrap` generated `.panel.card` and `.card-header` elements; Bootstrap card/header styles overrode Angora `panelClass` background utilities after SSR/hydration.
+- Fix: added CV-local CSS variables and `portfolio-cv-panel` styles so panel/header/body/title colors are applied from component state and do not depend on Angora cascade order.
+- `/webs` Lighthouse CLS root cause: dynamic media layout depended on Angora runtime-generated sizing/position classes and rendered route content after the first layout.
+- Fixes:
+  - Added explicit `width`/`height` attributes using observed natural screenshot ratios: desktop `1920x1080`, tablet `533x760`, mobile `369x800`.
+  - Moved critical website-device layout from Angora runtime classes to component SCSS.
+  - Added SSR-visible loading placeholders to reserve route height before API data arrives.
+  - Added fixed header logo dimensions.
+- Local validation:
+  - `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 27 SUCCESS`.
+  - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
+  - `npm run package:ssr:lambda` exited 0 and produced `dist/ssr-lambda/ssr-handler.zip` with SHA-256 `e39698d3a64c8ea85c288b032e239654ffa9f59741dd08b1c184e2a542087c45`.
+  - Local SSR direct `/webs` returned 200 and initial HTML contained `portfolio-website-skeleton`.
+  - Local browser style check for `/cv` reported outer panel `rgb(255, 85, 85)`, outer header text `rgb(249, 194, 79)`, nested panel `rgb(0, 0, 0)`, nested header text `rgb(255, 255, 255)`.
+  - Local browser `/webs` check reported `missingDimensionAttrs: 0`, `skeletonCount: 0` after hydration, and first device images loaded with natural dimensions matching the attributes.
+  - Local Lighthouse `/webs` report saved at `C:\Users\lince\Documents\Codex\2026-06-18\lynx-cv-cls-lighthouse\webs-local-static-device-css.report.json`: performance `54`, accessibility `87`, best practices `96`, SEO `100`, CLS `0.0607`, LCP `23523 ms`, TBT `202 ms`.
+  - Lighthouse CLI still generated reports but exited with code `1` due to the known Windows `%TEMP%\lighthouse.*` cleanup `EPERM` issue.

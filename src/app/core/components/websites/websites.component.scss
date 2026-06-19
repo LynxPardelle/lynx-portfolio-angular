@@ -1,0 +1,159 @@
+:host .portfolio-website-device-stage {
+  height: 300px;
+  width: 100%;
+}
+
+:host .portfolio-website-media-wrap {
+  width: 100%;
+}
+
+:host .portfolio-website-header {
+  width: 95%;
+}
+
+:host .portfolio-website-content {
+  width: 90%;
+}
+
+:host .portfolio-website-skeleton {
+  min-height: 620px;
+}
+
+:host .portfolio-skeleton-line,
+:host .portfolio-skeleton-device {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  display: block;
+}
+
+:host .portfolio-skeleton-title {
+  height: 2rem;
+  margin-bottom: 0.75rem;
+  width: min(18rem, 70%);
+}
+
+:host .portfolio-skeleton-subtitle {
+  height: 1.5rem;
+  width: min(12rem, 45%);
+}
+
+:host .portfolio-skeleton-stage {
+  height: clamp(300px, 48vw, 520px);
+  margin-block: 1rem 2rem;
+  width: min(90%, 900px);
+}
+
+:host .portfolio-skeleton-desktop {
+  height: 55%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 74%;
+}
+
+:host .portfolio-skeleton-tablet {
+  bottom: 10%;
+  height: 48%;
+  position: absolute;
+  right: 5%;
+  width: 24%;
+}
+
+:host .portfolio-skeleton-mobile {
+  bottom: 0;
+  height: 42%;
+  position: absolute;
+  right: 28%;
+  width: 14%;
+}
+
+:host .portfolio-skeleton-desc {
+  height: 4.5rem;
+  width: min(38rem, 90%);
+}
+
+:host .portfolio-skeleton-link {
+  height: 1.5rem;
+  margin-top: 2rem;
+  width: min(20rem, 70%);
+}
+
+:host .portfolio-website-image {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+:host .portfolio-website-image-desktop {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+:host .portfolio-website-image-tablet {
+  bottom: 25%;
+  position: absolute;
+  right: 0;
+  width: 33%;
+}
+
+:host .portfolio-website-image-mobile {
+  bottom: 0;
+  position: absolute;
+  right: 25%;
+  width: 20%;
+}
+
+@media (min-width: 576px) and (max-width: 766px) {
+  :host .portfolio-website-device-stage {
+    height: 600px;
+    width: 90%;
+  }
+}
+
+@media (min-width: 767px) {
+  :host .portfolio-website-device-stage {
+    align-items: flex-end;
+    display: flex;
+    height: auto;
+    justify-content: space-between;
+    min-height: clamp(220px, 33vw, 540px);
+    width: 75%;
+  }
+
+  :host .portfolio-website-media-wrap {
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+  }
+
+  :host .portfolio-website-image-desktop,
+  :host .portfolio-website-image-tablet,
+  :host .portfolio-website-image-mobile {
+    position: relative;
+  }
+
+  :host .portfolio-website-image-desktop {
+    width: 50%;
+  }
+
+  :host .portfolio-website-image-tablet {
+    width: 15%;
+  }
+
+  :host .portfolio-website-image-mobile {
+    width: 10%;
+  }
+}
+
+@media (max-width: 766px) {
+  :host .portfolio-website-skeleton {
+    min-height: 590px;
+  }
+
+  :host .portfolio-skeleton-stage {
+    height: 300px;
+    width: 100%;
+  }
+}
