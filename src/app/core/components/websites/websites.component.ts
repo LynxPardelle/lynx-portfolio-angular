@@ -45,6 +45,7 @@ import { MainMainSelector } from '../../../state/selectors/main.selector';
 import { LoadMain } from '../../../state/actions/main.actions';
 // Shared Components
 import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
+import { assetUrl } from '../../../shared/utils/asset-url';
 // Pipes
 import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -136,9 +137,6 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   // Constants
   public readonly document = 'websites.component.ts';
   public readonly customConsoleCSS = 'background-color: rgba(70, 35, 70, 1); color: white; padding: 1em;';
-  private readonly s3AssetsOrigin =
-    'https://lynx-portfolio.s3.us-east-1.amazonaws.com';
-  private readonly cdnAssetsOrigin = 'https://assets.lynxpardelle.com';
 
   // Observables
   public main$: Observable<IMain | undefined>;
@@ -532,14 +530,7 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   }
 
   public mediaUrl(file: any): string {
-    const location =
-      typeof file?.location === 'string' ? file.location.trim() : '';
-
-    if (location) {
-      return location.replace(this.s3AssetsOrigin, this.cdnAssetsOrigin);
-    }
-
-    return file?._id ? `${this.urlMain()}get-file/${file._id}` : '';
+    return assetUrl(file);
   }
 
   public websiteImageLoading(index: number): 'eager' | 'lazy' {

@@ -29,4 +29,10 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+
+  it('does not generate API file URLs when media location is missing', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.assetUrl({ _id: 'file-id' })).toBe('');
+  });
 });

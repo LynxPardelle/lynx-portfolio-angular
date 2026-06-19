@@ -4,6 +4,7 @@ import { BlogService } from '../../services/blog.service';
 import Swal from 'sweetalert2';
 import { WebService } from '../../../shared/services/web.service';
 import { valuefyTemplate } from '../../utils/valuefy-template';
+import { assetUrl } from '../../../shared/utils/asset-url';
 
 @Component({
   selector: 'article-sections',
@@ -371,5 +372,9 @@ export class ArticleSectionsComponent {
   /* Complex functions */
   valuefy(text: string): string {
     return valuefyTemplate(text, this);
+  }
+
+  articleFileUrl(file: any): string {
+    return assetUrl(file);
   }
 }

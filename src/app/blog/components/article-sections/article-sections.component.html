@@ -216,7 +216,7 @@
                           class="ank ank-wmx-100per ank-hmx-360px my-0 mx-auto d-block ank-text-tlight"
                           >
                           <source
-                            src="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
+                            src="{{ articleFileUrl(section.principalFile) }}"
                             type="audio/mpeg"
                             />
                             Tu navegador no soporta videos.
@@ -266,7 +266,7 @@
                             }
                             <audio class="d-block mx-auto ank ank-text-tlight" controls>
                               <source
-                                src="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
+                                src="{{ articleFileUrl(section.principalFile) }}"
                                 type="audio/mpeg"
                                 />
                                 Tu navegador no soporta archivos de audio.
@@ -320,7 +320,7 @@
                                   </button>
                                 }
                                 <a
-                                  href="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
+                                  href="{{ articleFileUrl(section.principalFile) }}"
                                   class="text-center mt-3 mb-2 ank ank-text-fullyellow"
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -362,7 +362,7 @@
                                           </p>
                                           <video controls class="ank ank-wmx-100per ank-text-tlight">
                                             <source
-                                              src="{{ apiBlog + 'get-file/' + file.file }}"
+                                              src="{{ articleFileUrl(file) }}"
                                               type="audio/mpeg"
                                               />
                                               Tu navegador no soporta videos.
@@ -392,7 +392,7 @@
                                             <slide
                                               >
                                               <img
-                                                src="{{ apiBlog + 'get-file/' + file.file }}"
+                                                src="{{ articleFileUrl(file) }}"
                                                 alt="{{ file.file }}"
                                                 (click)="lgModal.show()"
                                                 title="{{ file.file }}"
@@ -472,13 +472,13 @@
                                                             </button>
                                                           }
                                                           <a
-                                                            href="{{ apiBlog + 'get-file/' + file.file }}"
+                                                            href="{{ articleFileUrl(file) }}"
                                                             title="{{ file.file }}"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             >
                                                             <img
-                                                              src="{{ apiBlog + 'get-file/' + file.file }}"
+                                                              src="{{ articleFileUrl(file) }}"
                                                               alt="{{ file.file }}"
                                                               title="{{ file.file }}"
                                                               class="d-block mx-auto ank ank-wmx-100per"
@@ -545,7 +545,7 @@
                                             }
                                             <img
                                               class="d-block mx-auto ank ank-hmx-300px ank-wmx-100per"
-                                              src="{{ apiBlog + 'get-file/' + section.principalFile.file }}"
+                                              src="{{ articleFileUrl(section.principalFile) }}"
                                               title="{{ section.principalFile.file }}"
                                               alt="{{ section.principalFile.file }}"
                                               />
@@ -618,7 +618,7 @@
                                                       >
                                                       <div>
                                                         <img
-                                                          src="{{ apiBlog + 'get-file/' + file.file }}"
+                                                          src="{{ articleFileUrl(file) }}"
                                                           alt="{{ file.file }}"
                                                           title="{{ file.file }}"
                                                           (click)="lgModal.show()"
@@ -678,13 +678,13 @@
                                                                       </button>
                                                                     }
                                                                     <a
-                                                                      href="{{ apiBlog + 'get-file/' + file.file }}"
+                                                                      href="{{ articleFileUrl(file) }}"
                                                                       target="_blank"
                                                                       rel="noopener noreferrer"
                                                                       class="d-block mx-auto"
                                                                       >
                                                                       <img
-                                                                        src="{{ apiBlog + 'get-file/' + file.file }}"
+                                                                        src="{{ articleFileUrl(file) }}"
                                                                         alt="{{ file.file }}"
                                                                         title="{{ file.file }}"
                                                                         class="d-block my-0 mx-auto ank ank-wmx-100per"
@@ -733,7 +733,7 @@
                                                           }
                                                           <a
                                                             class="ank ank-text-fullYellow"
-                                                            href="{{ apiBlog + 'get-file/' + file.file }}"
+                                                            href="{{ articleFileUrl(file) }}"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             >
@@ -782,7 +782,7 @@
                                                                 }
                                                                 <audio controls class="d-block mx-auto ank ank-text-tlight">
                                                                   <source
-                                                                    src="{{ apiBlog + 'get-file/' + file.file }}"
+                                                                    src="{{ articleFileUrl(file) }}"
                                                                     type="audio/mpeg"
                                                                     />
                                                                     Tu navegador no soporta archivos de audio.

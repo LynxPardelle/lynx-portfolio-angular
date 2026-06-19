@@ -39,4 +39,8 @@ describe('InicioComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('does not generate API file URLs when media location is missing', () => {
+    expect(component.assetUrl({ _id: 'file-id' })).toBe('');
+  });
 });

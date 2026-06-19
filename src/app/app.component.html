@@ -1,7 +1,7 @@
 @if (main && main.backgroundImg && main.backgroundImg.location){
 <div
   class="position-fixed top-0 start-0 ank ank-wmn-100vw ank-hmn-100vh ank-z-MIN20 ank-backgroundColor-abyss ank-backgroundSize-cover ank-backgroundPosition-center__center ank-backgroundRepeat-noMINrepeat ank-backgroundImage-{{
-    befysize('url(' + urlMain + 'get-file/' + main.backgroundImg._id + ')')
+    befysize('url(' + assetUrl(main.backgroundImg) + ')')
   }}
   "
 ></div>
@@ -21,7 +21,7 @@
     >
       @if (main && main.logo && main.logo.location) {
       <img
-        src="{{ urlMain + 'get-file/' + main.logo._id }}"
+        src="{{ assetUrl(main.logo) }}"
         alt="{{ lang === 'es' ? main.logo.title : main.logo.titleEng }}"
         width="45"
         height="45"
@@ -279,10 +279,10 @@
       !== '') ){<button
         (click)="
           copyToClipBoard(
-            currentSong.song &&
+              currentSong.song &&
               currentSong.song.location &&
               currentSong.song.location !== ''
-              ? urlMain + 'get-file/' + currentSong.song._id
+              ? assetUrl(currentSong.song)
               : currentSong.link && currentSong.link !== ''
               ? currentSong.link
               : ''
@@ -296,7 +296,7 @@
             (currentSong.song &&
             currentSong.song.location &&
             currentSong.song.location !== ''
-              ? urlMain + 'get-file/' + currentSong.song._id
+              ? assetUrl(currentSong.song)
               : currentSong.link && currentSong.link !== ''
               ? currentSong.link
               : '')
@@ -305,7 +305,7 @@
         [isDisabled]="
           (!currentSong.song ||
             copiedToClipBoard !==
-              urlMain + 'get-file/' + currentSong.song._id) &&
+              assetUrl(currentSong.song)) &&
           copiedToClipBoard !== currentSong.link
         "
       >

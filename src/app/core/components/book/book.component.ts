@@ -21,6 +21,7 @@ import { MainMainSelector } from '../../../state/selectors/main.selector';
 import { LoadMain } from '../../../state/actions/main.actions';
 // Shared Components
 import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
+import { assetUrl } from '../../../shared/utils/asset-url';
 
 @Component({
   selector: 'book',
@@ -52,9 +53,6 @@ export class BookComponent implements OnInit, OnDestroy {
   // Utility
   public edit: boolean = false;
   private isDestroyed = false;
-  private readonly s3AssetsOrigin =
-    'https://lynx-portfolio.s3.us-east-1.amazonaws.com';
-  private readonly cdnAssetsOrigin = 'https://assets.lynxpardelle.com';
   // State
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -412,14 +410,7 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   public mediaUrl(file: any): string {
-    const location =
-      typeof file?.location === 'string' ? file.location.trim() : '';
-
-    if (location) {
-      return location.replace(this.s3AssetsOrigin, this.cdnAssetsOrigin);
-    }
-
-    return file?._id ? `${this.urlMain}get-file/${file._id}` : '';
+    return assetUrl(file);
   }
 
   public bookImageLoading(index: number): 'eager' | 'lazy' {

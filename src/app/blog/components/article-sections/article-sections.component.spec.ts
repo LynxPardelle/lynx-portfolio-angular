@@ -29,4 +29,19 @@ describe('ArticleSectionsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('resolves article file URLs from assets CDN metadata', () => {
+    expect(
+      component.articleFileUrl({
+        cdnUrl: 'https://assets.lynxpardelle.com/uploads/blog/file.webp',
+        file: 'legacy-file-id',
+      })
+    ).toBe('https://assets.lynxpardelle.com/uploads/blog/file.webp');
+  });
+
+  it('does not generate article get-file URLs when CDN metadata is missing', () => {
+    component.apiBlog = 'https://api.lynxpardelle.com/api/article/';
+
+    expect(component.articleFileUrl({ file: 'legacy-file-id' })).toBe('');
+  });
 });

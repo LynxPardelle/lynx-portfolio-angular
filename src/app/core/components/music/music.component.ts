@@ -23,6 +23,7 @@ import { LoadMain } from '../../../state/actions/main.actions';
 import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
 /* Libraries */
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { assetUrl } from '../../../shared/utils/asset-url';
 
 @Component({
   selector: 'music',
@@ -49,6 +50,7 @@ export class MusicComponent implements OnInit, OnDestroy {
 
   // Urls
   public urlMain: string = environment.api + '/main/';
+  public assetUrl = assetUrl;
 
   // Console Settings
   public document: string = 'music.component.ts';

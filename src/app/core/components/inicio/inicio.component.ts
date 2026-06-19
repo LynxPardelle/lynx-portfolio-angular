@@ -25,6 +25,7 @@ import { FileUploaderComponent } from '../../../shared/components/file-uploader/
 // Pipes
 import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
 import { TranslatePipe } from '@ngx-translate/core';
+import { assetUrl } from '../../../shared/utils/asset-url';
 @Component({
   selector: 'inicio',
   templateUrl: './inicio.component.html',
@@ -45,6 +46,7 @@ export class InicioComponent implements OnInit {
   public lang: string = 'es';
   // Urls
   public urlMain: string = environment.api + '/main/';
+  public assetUrl = assetUrl;
   // Console Settings
   public document: string = 'inicio.component.ts';
   public customConsoleCSS =
