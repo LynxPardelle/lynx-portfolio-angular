@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // RxJs
 import { Observable } from 'rxjs';
@@ -51,9 +51,10 @@ export class BookComponent implements OnInit, OnDestroy {
 
   // Utility
   public edit: boolean = false;
-  public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
-  private bookShuffleInterval?: ReturnType<typeof setInterval>;
   private isDestroyed = false;
+  private readonly s3AssetsOrigin =
+    'https://lynx-portfolio.s3.us-east-1.amazonaws.com';
+  private readonly cdnAssetsOrigin = 'https://assets.lynxpardelle.com';
   // State
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -77,9 +78,6 @@ export class BookComponent implements OnInit, OnDestroy {
             break;
           case 'identity':
             this.identity = sharedContent.thing;
-            break;
-          case 'windowWidth':
-            this.windowWidth = sharedContent.thing;
             break;
           case 'onlyConsoleMessage':
             this._webService.consoleLog(
@@ -118,9 +116,6 @@ export class BookComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isDestroyed = true;
-    if (this.bookShuffleInterval) {
-      clearInterval(this.bookShuffleInterval);
-    }
   }
 
   private refreshView(): void {
@@ -141,17 +136,6 @@ export class BookComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    if (this.bookImgs && this.bookImgs[0]) {
-      for (let bookImg of this.bookImgs) {
-        if (bookImg.img && bookImg.img.location) {
-          this.checkImgWNH(bookImg);
-        }
-      }
-    }
-  }
-
   async getBookImgs() {
     try {
       let bookImgs = await this._mainService.getBookImgs().toPromise();
@@ -161,21 +145,7 @@ export class BookComponent implements OnInit, OnDestroy {
       }
 
       this.bookImgs = bookImgs.bookImgs;
-      this.bookImgs = this.shuffle(bookImgs.bookImgs);
       this.refreshView();
-
-      if (typeof window !== 'undefined') {
-        this.bookShuffleInterval = setInterval(() => {
-          this.bookImgs = this.shuffle(bookImgs.bookImgs);
-          this.refreshView();
-        }, 15000);
-      }
-
-      for (let bookImg of this.bookImgs) {
-        if (bookImg.img?.location && !bookImg.width) {
-          this.checkImgWNH(bookImg);
-        }
-      }
     } catch (err) {
       this._webService.consoleLog(
         err,
@@ -441,73 +411,22 @@ export class BookComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkImgWNH(file: BookImg) {
-    if (typeof Image === 'undefined') {
-      return;
+  public mediaUrl(file: any): string {
+    const location =
+      typeof file?.location === 'string' ? file.location.trim() : '';
+
+    if (location) {
+      return location.replace(this.s3AssetsOrigin, this.cdnAssetsOrigin);
     }
 
-    try {
-      let img = new Image();
-      img.src = this.urlMain + 'get-file/' + file.img._id;
-      img.onload = () => {
-        let width = 100;
-        if (this.windowWidth >= 768) {
-          width =
-            img.width > 1200
-              ? img.width / 4
-              : img.width > 768
-              ? img.width / 3
-              : img.width > 576
-              ? img.width / 2
-              : img.width;
-        } else if (this.windowWidth >= 576 && this.windowWidth < 768) {
-          width =
-            img.width > 1200
-              ? img.width / 5
-              : img.width > 768
-              ? img.width / 4
-              : img.width > 576
-              ? img.width / 3
-              : img.width;
-        } else {
-          width =
-            img.width > 1200
-              ? img.width / 6
-              : img.width > 768
-              ? img.width / 5
-              : img.width > 576
-              ? img.width / 4
-              : img.width;
-        }
-        file.width = width;
-        this.refreshView();
-      };
-    } catch (err) {
-      this._webService.consoleLog(
-        err,
-        this.document + ' 452',
-        this.customConsoleCSS
-      );
-    }
+    return file?._id ? `${this.urlMain}get-file/${file._id}` : '';
   }
 
-  shuffle(array: BookImg[]) {
-    let currentIndex = array.length,
-      randomIndex;
+  public bookImageLoading(index: number): 'eager' | 'lazy' {
+    return index === 0 ? 'eager' : 'lazy';
+  }
 
-    // While there remain elements to shuffle...
-    while (currentIndex != 0) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-
-    return array;
+  public bookImageFetchPriority(index: number): 'high' | 'auto' {
+    return index === 0 ? 'high' : 'auto';
   }
 }

@@ -1,10 +1,6 @@
 <!-- Edit/Delete Buttons -->
 @if (identity && identity.role == 'ROLE_ADMIN') {
-<div
-  class="position-fixed end-0 ank ank-z-15 {{
-    windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per'
-  }}"
->
+<div class="portfolio-book-admin-actions position-fixed end-0 ank ank-z-15">
   @if (edit === false) {
   <button
     class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
@@ -40,58 +36,13 @@
 
 <h2 class="text-center ank ank-my-3rem">Book</h2>
 
-<section>
-  <article
-    class="d-flex flex-wrap align-items-center mx-auto ank ank-w-95per p-1 my-3 position-relative"
-  >
+<section class="portfolio-book-section">
+  <article class="portfolio-book-grid mx-auto p-1 my-3 position-relative">
     @for (bookimg of bookImgs; track bookimg._id; let i = $index) {
-    <div
-      class="mx-auto p-1 {{
-        bookimg.width < windowWidth / 12
-          ? 'col-1'
-          : bookimg.width >= windowWidth / 12 &&
-            bookimg.width < (windowWidth / 12) * 2
-          ? 'col-2'
-          : bookimg.width >= (windowWidth / 12) * 2 &&
-            bookimg.width < (windowWidth / 12) * 3
-          ? 'col-3'
-          : bookimg.width >= (windowWidth / 12) * 3 &&
-            bookimg.width < (windowWidth / 12) * 4
-          ? 'col-4'
-          : bookimg.width >= (windowWidth / 12) * 4 &&
-            bookimg.width < (windowWidth / 12) * 5
-          ? 'col-5'
-          : bookimg.width >= (windowWidth / 12) * 5 &&
-            bookimg.width < (windowWidth / 12) * 6
-          ? 'col-6'
-          : bookimg.width >= (windowWidth / 12) * 6 &&
-            bookimg.width < (windowWidth / 12) * 7
-          ? 'col-7'
-          : bookimg.width >= (windowWidth / 12) * 7 &&
-            bookimg.width < (windowWidth / 12) * 8
-          ? 'col-8'
-          : bookimg.width >= (windowWidth / 12) * 8 &&
-            bookimg.width < (windowWidth / 12) * 9
-          ? 'col-9'
-          : bookimg.width >= (windowWidth / 12) * 9 &&
-            bookimg.width < (windowWidth / 12) * 10
-          ? 'col-10'
-          : bookimg.width >= (windowWidth / 12) * 10 &&
-            bookimg.width < (windowWidth / 12) * 11
-          ? 'col-11'
-          : bookimg.width >= (windowWidth / 12) * 11 &&
-            bookimg.width < windowWidth
-          ? 'col-12'
-          : 'col'
-      }}"
-    >
+    <div class="portfolio-book-item mx-auto p-1 position-relative">
       <!-- Edit/Delete Buttons -->
       @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
-      <div
-        class="position-absolute end-0 ank ank-top-20per ank-z-10 {{
-          windowWidth <= 767 ? 'ank-top-50px' : 'ank-top-5per'
-        }}"
-      >
+      <div class="portfolio-book-item-actions position-absolute end-0 ank ank-z-10">
         @if (bookImg._id !== bookimg._id) {
         <button
           class="btn ank ank-btn-fullYellow ank-text-tdark mr-2"
@@ -144,10 +95,15 @@
       } @if ( bookimg?.img?.location && bookimg?.img?.title )
       {
       <img
-        class="obj-fit-cover w-100"
-        src="{{ urlMain + 'get-file/' + bookimg.img._id }}"
+        class="portfolio-book-image obj-fit-cover w-100"
+        [src]="mediaUrl(bookimg.img)"
         alt="{{ lang === 'es' ? bookimg.title : bookimg.titleEng }}"
         title="{{ lang === 'es' ? bookimg.title : bookimg.titleEng }}"
+        width="640"
+        height="640"
+        [loading]="bookImageLoading(i)"
+        [attr.fetchpriority]="bookImageFetchPriority(i)"
+        decoding="async"
       />
       }
     </div>
@@ -213,7 +169,7 @@
       @if (bookImg && bookImg.img && bookImg.img.location) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
-        src="{{ urlMain + 'get-file/' + bookImg.img._id }}"
+        [src]="mediaUrl(bookImg.img)"
         alt="{{ lang === 'es' ? bookImg.title : bookImg.titleEng }}"
       />
       }

@@ -234,3 +234,34 @@
   - Local optimized `/cv` with WebP background: performance `82`, accessibility `88`, best practices `96`, SEO `100`, FCP `1513 ms`, LCP `2251 ms`, TBT `0 ms`, CLS `0.02`, TTFB `578 ms`.
   - Lighthouse CLI generated JSON reports but exited with code `1` after report creation due to the known Windows `%TEMP%\lighthouse.*` cleanup `EPERM` issue.
 - Tests: `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 27 SUCCESS`.
+
+## 2026-06-19 01:22 Central Time - Book and websites media performance optimization
+
+- Production baseline before this change:
+  - `/book`: Lighthouse desktop performance `52`, accessibility `87`, best practices `96`, SEO `100`, FCP `822 ms`, LCP `2577 ms`, TBT `7 ms`, CLS `1.72`, TTFB `3426 ms`.
+  - `/webs`: Lighthouse desktop performance `79`, accessibility `87`, best practices `96`, SEO `100`, FCP `784 ms`, LCP `3110 ms`, TBT `0 ms`, CLS `0.04`, TTFB `1208 ms`.
+- `/book` root issue: image cards depended on runtime image measurement, responsive column classes, and a 15 second shuffle interval. That made SSR layout unstable and caused large layout shift.
+- `/book` fix:
+  - Replaced runtime column sizing with a component-local CSS grid and fixed square media boxes.
+  - Removed browser-only resize measurement and periodic shuffling.
+  - Rewrote media URLs from the old S3 origin to `https://assets.lynxpardelle.com` when API metadata includes `location`.
+  - Kept the API `get-file` route only as a fallback when file metadata has no direct location.
+  - Marked the first image as eager/high priority and later images as lazy/auto.
+- `/webs` fix:
+  - Rewrote desktop/tablet/mobile screenshot URLs to `https://assets.lynxpardelle.com` when API metadata includes the old S3 location.
+  - Kept `get-file` only as a fallback.
+  - Marked the first website image set as eager/high priority and later sets as lazy/auto.
+- Local SSR smoke through the host-rewrite proxy confirmed `/book` and `/webs` returned SSR HTML with `assets.lynxpardelle.com`, no `/api/main/get-file/`, one high-priority image, and lazy images.
+- Local Lighthouse comparison:
+  - `/book` optimized local: performance `79`, accessibility `87`, best practices `96`, SEO `100`, FCP `1151 ms`, LCP `3043 ms`, TBT `18 ms`, CLS `0.06`, TTFB `586 ms`.
+  - `/webs` optimized local: performance `78`, accessibility `87`, best practices `96`, SEO `100`, FCP `1185 ms`, LCP `3286 ms`, TBT `0 ms`, CLS `0.04`, TTFB `641 ms`.
+  - `/webs` performance was neutral locally, but the change still reduces API media proxy dependence.
+  - Lighthouse CLI generated JSON reports but exited with code `1` after report creation due to the known Windows `%TEMP%\lighthouse.*` cleanup `EPERM` issue.
+- Focused validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless --include=src/app/core/components/book/book.component.spec.ts --include=src/app/core/components/websites/websites.component.spec.ts` exited 0 with `TOTAL: 8 SUCCESS`.
+  - `npm run build` exited 0.
+- Full validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 33 SUCCESS`.
+  - `npm run build` exited 0; `book-component` lazy chunk was `14.66 kB` raw / `4.07 kB` estimated transfer and `websites-component` lazy chunk was `27.83 kB` raw / `6.18 kB` estimated transfer.
+  - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
+  - `git diff --check` exited 0; it only reported expected Windows LF-to-CRLF working-copy warnings.

@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.portfolio-book-admin-actions {
+  top: 15%;
+}
+
+.portfolio-book-section {
+  min-height: 70vh;
+}
+
+.portfolio-book-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  width: min(95%, 1440px);
+}
+
+.portfolio-book-item {
+  aspect-ratio: 1;
+  inline-size: 100%;
+  overflow: hidden;
+}
+
+.portfolio-book-image {
+  aspect-ratio: 1;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.portfolio-book-item-actions {
+  top: 5%;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .portfolio-book-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .portfolio-book-grid {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
+}
+
+@media (max-width: 766px) {
+  .portfolio-book-admin-actions {
+    top: 150px;
+  }
+
+  .portfolio-book-grid {
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  }
+
+  .portfolio-book-item-actions {
+    top: 50px;
+  }
+}
