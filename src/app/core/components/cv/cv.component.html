@@ -2,9 +2,7 @@
   <!-- Edit/Delete Buttons -->
   @if (identity && identity.role == 'ROLE_ADMIN') {
   <div
-    class="position-fixed end-0 ank {{
-      windowWidth < 767 ? 'ank-top-150px' : 'ank-top-15per'
-    }}"
+    class="portfolio-cv-admin-actions position-fixed end-0 ank"
   >
     @if (edit === false) {
     <button
@@ -41,18 +39,13 @@
 
   <!-- CVBackground -->
   @if (main && main.CVBackground && main.CVBackground.location) {
-  <img
+  <div
     id="CVBG"
-    src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
-    alt="{{
-      lang === 'es' ? main.CVBackground.title : main.CVBackground.titleEng
-    }}"
-    title="{{
-      lang === 'es' ? main.CVBackground.title : main.CVBackground.titleEng
-    }}"
-    class="obj-fit-cover d-block position-absolute top-0 start-0 ank ank-w-100vw ank-hmn-100vh"
-    [ngClass]="classCreator(('ank-h-' + checkHeight() + 'px').toString(), true)"
-  />
+    class="portfolio-cv-background position-absolute top-0 start-0 ank ank-w-100vw ank-hmn-100vh"
+    [style.background-image]="cvBackgroundStyle()"
+    aria-hidden="true"
+    role="presentation"
+  ></div>
   }
 
   <!-- Title -->
@@ -62,12 +55,14 @@
   @if (main && main.CVImage && main.CVImage.location) {
   <img
     id="CVImage"
-    src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
+    [src]="mediaUrl(main.CVImage)"
     alt="{{ lang === 'es' ? main.CVImage.title : main.CVImage.titleEng }}"
     title="{{ lang === 'es' ? main.CVImage.title : main.CVImage.titleEng }}"
-    class="obj-fit-cover d-block mx-auto my-3 ank ank-rounded-15px ank-boxShadow-0__0__5px__tlight {{
-      windowWidth < 767 ? 'ank-w-50vw ank-h-50vw' : 'ank-w-25vw ank-h-25vw'
-    }}"
+    width="320"
+    height="320"
+    decoding="async"
+    fetchpriority="high"
+    class="portfolio-cv-image obj-fit-cover d-block mx-auto my-3 ank ank-rounded-15px ank-boxShadow-0__0__5px__tlight"
   />
   }
 
@@ -75,9 +70,7 @@
   @if ( main && main.CVDesc && main.CVDesc !== '' && main.CVDescEng &&
   main.CVDescEng !== '' ) {
   <div
-    class="text-center ank ank-text-tlight d-block mx-auto my-5 fw-bold {{
-      windowWidth < 767 ? 'ank-w-80vw' : 'ank-w-50vw'
-    }}"
+    class="portfolio-cv-description text-center ank ank-text-tlight d-block mx-auto my-5 fw-bold"
   >
     @if (lang === 'es') { @if (main.CVDesc && main.CVDesc !== '') {
     <div
@@ -97,8 +90,6 @@
     [closeOthers]="true"
     [isAnimated]="true"
     class="portfolio-cv-accordion mx-auto d-block ank position-relative"
-    [class.ank-w-80vw]="windowWidth < 767"
-    [class.ank-w-66vw]="windowWidth >= 767"
   >
     <!-- Edit/Delete Buttons -->
     @if (identity && identity.role == 'ROLE_ADMIN' && edit === true) {
@@ -442,9 +433,7 @@
   @if (main && main.CVDesc2 && main.CVDesc2 !== '' && main.CVDesc2Eng &&
   main.CVDesc2Eng !== '') {
   <div
-    class="text-center ank ank-text-tlight d-block mx-auto my-5 fw-bold"
-    [class.ank-w-80vw]="windowWidth < 767"
-    [class.ank-w-50vw]="windowWidth >= 767"
+    class="portfolio-cv-description text-center ank ank-text-tlight d-block mx-auto my-5 fw-bold"
   >
     @if (lang === 'es') { @if (main.CVDesc2 && main.CVDesc2 !== '') {
     <div
@@ -557,7 +546,7 @@
         @if (main && main.CVImage && main.CVImage.location) {
         <img
           class="ank ank-wmx-75 d-block mx-auto ank-hmx-25vh my-3"
-          src="{{ urlMain + 'get-file/' + main.CVImage._id }}"
+          [src]="mediaUrl(main.CVImage)"
           alt="{{ main.CVImage.title }}"
         />
         }
@@ -581,7 +570,7 @@
         @if (main && main.CVBackground && main.CVBackground.location) {
         <img
           class="ank ank-wmx-75 d-block mx-auto ank-hmx-25vh my-3"
-          src="{{ urlMain + 'get-file/' + main.CVBackground._id }}"
+          [src]="mediaUrl(main.CVBackground)"
           alt="{{ main.CVBackground.title }}"
         />
         }

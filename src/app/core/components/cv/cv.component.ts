@@ -114,8 +114,13 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
 
   // Utility 
   public edit: boolean = false;
-  public windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+  public loadCvBackground = false;
   private isDestroyed = false;
+  private readonly s3AssetsOrigin =
+    'https://lynx-portfolio.s3.us-east-1.amazonaws.com';
+  private readonly cdnAssetsOrigin = 'https://assets.lynxpardelle.com';
+  private readonly optimizedCvBackgroundUrl =
+    '/assets/images/UndergroundSunBackGround.webp';
   // State 
   public main$: Observable<IMain | undefined>;
   constructor(
@@ -140,9 +145,6 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
             break;
           case 'identity':
             this.identity = sharedContent.thing;
-            break;
-          case 'windowWidth':
-            this.windowWidth = sharedContent.thing;
             break;
           case 'onlyConsoleMessage':
             this._webService.consoleLog(
@@ -182,6 +184,7 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
 
     this.getMain();
     this.getCVSections();
+    this.scheduleCvBackgroundLoad();
   }
 
   ngDoCheck(): void {}
@@ -221,6 +224,53 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     return trimmedColor.replace('#', 'a');
+  }
+
+  public mediaUrl(file: any): string {
+    const location =
+      typeof file?.location === 'string' ? file.location.trim() : '';
+
+    if (location) {
+      return location.replace(this.s3AssetsOrigin, this.cdnAssetsOrigin);
+    }
+
+    return file?._id ? `${this.urlMain}get-file/${file._id}` : '';
+  }
+
+  public cvBackgroundStyle(): string | null {
+    if (!this.loadCvBackground || !this.main?.CVBackground?.location) {
+      return null;
+    }
+
+    const backgroundUrl = this.optimizedCvBackgroundUrl;
+
+    return backgroundUrl ? `url("${backgroundUrl.replace(/"/g, '\\"')}")` : null;
+  }
+
+  private scheduleCvBackgroundLoad(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const showBackground = () => {
+      this.loadCvBackground = true;
+      this.refreshView();
+    };
+    const requestIdleCallback = (
+      window as typeof window & {
+        requestIdleCallback?: (
+          callback: () => void,
+          options?: { timeout: number }
+        ) => number;
+      }
+    ).requestIdleCallback;
+
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(showBackground, { timeout: 1500 });
+      return;
+    }
+
+    window.setTimeout(showBackground, 1200);
   }
 
   // State 
@@ -805,15 +855,6 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
     } else {
       console.log('no event');
     }
-  }
-
-  checkHeight(id: string = 'CV') {
-    var CVHeight =
-      document.getElementById('CV') && document.getElementById('CV') !== null
-        ? document.getElementById('CV')!.offsetHeight
-        : '0';
-
-    return CVHeight;
   }
 
   classCreator(newClass: string, condition: any) {
