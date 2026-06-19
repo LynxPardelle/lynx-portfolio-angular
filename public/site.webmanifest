@@ -1,0 +1,18 @@
+{
+  "name": "Lynx Pardelle",
+  "short_name": "Lynx",
+  "description": "Portfolio de Lynx Pardelle.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#ff5555",
+  "icons": [
+    {
+      "src": "/assets/images/Lince.png",
+      "sizes": "590x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

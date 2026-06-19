@@ -116,3 +116,20 @@
   - `npm run package:ssr:lambda` exited 0 and produced `dist/ssr-lambda/ssr-handler.zip` with SHA-256 `d1e98f75ebbb73529829e6b0a4505c9123cbca4f2d75964f28315ca71350f26d`.
   - Local SSR smoke against `http://localhost:6173` with Chrome reported `/book` 23/23 images loaded, `/music` 31/31 images loaded, `/reel` 3 iframes, `/cv` 3/3 images loaded, and language button background `rgb(255, 85, 85)`.
 - Remaining data issue: `/blog` still calls `https://api.lynxpardelle.com/api/article/articles/1/5/_id/all/all` and receives HTTP 404, so Blog remains a content/API migration gap separate from the route render bug.
+
+## 2026-06-18 20:22 Central Time - TST SSR, empty blog, and public metadata fixes
+
+- User decision: keep using `https://tst.lynxpardelle.com`; do not add or repair `test.lynxpardelle.com` for this migration path.
+- Blog data truth: the recovered backend has no articles, so an empty blog is a valid state, not a content-loading failure.
+- Fixed BlogComponent so successful empty article responses and the legacy `404 No hay artículos.` response both render `No hay artículos.` and stop showing `Cargando...`.
+- Adjusted Blog SSR behavior so server-rendered `/blog` does not print the loading state when articles are empty.
+- Simplified `app.config.server.ts` to server-only providers on top of `appConfig`; the previous server config duplicated router/providers and produced shell-only direct SSR HTML in deployed TST.
+- Removed Express `X-Powered-By` from the SSR server.
+- Added `robots.txt`, `sitemap.xml`, `manifest.webmanifest`, and `site.webmanifest` to `public/`, and linked the manifest/theme metadata from `src/index.html`.
+- Local validation passed:
+  - `npm test -- --watch=false --browsers=ChromeHeadless --include=src/app/blog/components/blog/blog.component.spec.ts` exited 0 with `TOTAL: 3 SUCCESS`.
+  - `npm run package:ssr:lambda` exited 0 and produced `dist/ssr-lambda/ssr-handler.zip` with SHA-256 `3d154c5c6593978745f8402553116e9ee9d55c50988780a53dbc9b8847b721ca`.
+  - Local SSR direct checks with `NG_ALLOWED_HOSTS=localhost,127.0.0.1` showed `/webs` length `67025` and `/blog` length `31863`, both non-shell, with `/blog` containing `No hay artículos.` and not containing `Cargando...`.
+  - Local SSR static checks returned `robots.txt` as `text/plain`, `sitemap.xml` as `application/xml`, and `manifest.webmanifest` as `application/manifest+json`.
+  - Full `npm test -- --watch=false --browsers=ChromeHeadless` exited 0 with `TOTAL: 27 SUCCESS`.
+  - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.

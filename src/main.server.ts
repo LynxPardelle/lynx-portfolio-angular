@@ -1,4 +1,4 @@
-import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import {
   bootstrapApplication,
   BootstrapContext,
@@ -11,15 +11,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-// Bootstrap function that properly handles Angular 19 SSR context
 const bootstrap = (context: BootstrapContext) =>
-  bootstrapApplication(
-    AppComponent,
-    {
-      ...config,
-      providers: [provideZoneChangeDetection(), ...config.providers],
-    },
-    context
-  );
+  bootstrapApplication(AppComponent, config, context);
 
 export default bootstrap;
