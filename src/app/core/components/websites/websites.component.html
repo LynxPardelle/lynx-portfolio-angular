@@ -40,7 +40,31 @@
 
 <h2 class="text-center ank ank-my-3rem">{{ "app.websites" | translate }}</h2>
 
-<section>
+<section class="portfolio-websites-section">
+  @if (isLoading() && webSites().length === 0) {
+  @for (placeholder of loadingPlaceholders; track placeholder) {
+  <article
+    aria-hidden="true"
+    class="portfolio-website-skeleton my-5 py-5 ank ank-bg-tdark__OPA__0_75 position-relative"
+  >
+    <div class="portfolio-website-header d-flex flex-column px-3 mx-auto">
+      <span class="portfolio-skeleton-line portfolio-skeleton-title"></span>
+      <span class="portfolio-skeleton-line portfolio-skeleton-subtitle"></span>
+    </div>
+    <div
+      class="portfolio-website-content d-flex flex-column align-items-center my-3 mx-auto overflow-hidden"
+    >
+      <div class="portfolio-skeleton-stage position-relative mx-auto">
+        <span class="portfolio-skeleton-device portfolio-skeleton-desktop"></span>
+        <span class="portfolio-skeleton-device portfolio-skeleton-tablet"></span>
+        <span class="portfolio-skeleton-device portfolio-skeleton-mobile"></span>
+      </div>
+      <span class="portfolio-skeleton-line portfolio-skeleton-desc"></span>
+      <span class="portfolio-skeleton-line portfolio-skeleton-link"></span>
+    </div>
+  </article>
+  }
+  }
   @for (website of webSites(); track website._id; let i = $index) {
   <article
     class="my-5 py-5 ank ank-bg-tdark__OPA__0_75 position-relative"
@@ -101,9 +125,9 @@
     </div>
     }
     <div
-      class="d-flex flex-column px-3 ank ank-w-95per mx-auto {{
-        i % 2 === 0 ? 'align-items-start' : 'align-items-end'
-      }}"
+      class="portfolio-website-header d-flex flex-column px-3 mx-auto"
+      [class.align-items-start]="i % 2 === 0"
+      [class.align-items-end]="i % 2 !== 0"
     >
       <h3>
         @if (lang() === 'es') {
@@ -121,72 +145,64 @@
       </h4>
     </div>
     <div
-      class="d-flex flex-column align-items-center my-3 ank ank-w-90per mx-auto overflow-hidden"
+      class="portfolio-website-content d-flex flex-column align-items-center my-3 mx-auto overflow-hidden"
     >
       @if ( website && ((website.desktopImg && website.desktopImg.location) ||
       (website.tabletImg && website.tabletImg.location) || (website.mobileImg &&
       website.mobileImg.location)) ) {
       <div
-        class="{{ windowWidth() < 767 ? 'w-100' : 'mt-3 mb-5' }} ank-order-{{
-          i % 2 === 0 ? 2 : 1
-        }}"
+        class="portfolio-website-media-wrap"
+        [class.order-2]="i % 2 === 0"
+        [class.order-1]="i % 2 !== 0"
       >
         <div
-          class="position-relative mx-auto ank {{
-            windowWidth() < 575
-              ? 'ank-h-300px'
-              : windowWidth() < 767 && windowWidth() >= 576
-              ? 'ank-h-600px ank-w-90per'
-              : windowWidth() > 767
-              ? 'd-flex justify-content-between align-items-end ank-w-75per'
-              : ''
-          }}"
+          class="portfolio-website-device-stage position-relative mx-auto"
         >
           @if (website && website.desktopImg && website.desktopImg.location) {
           <img
             src="{{ urlMain() + 'get-file/' + website.desktopImg._id }}"
             alt="{{ website.desktopImg.title }}"
-            class="ank ank-rounded-5px {{
-              windowWidth() < 767
-                ? 'position-absolute top-0 start-0 w-100'
-                : 'position-relative w-50'
-            }}"
+            width="1920"
+            height="1080"
+            loading="lazy"
+            decoding="async"
+            class="portfolio-website-image portfolio-website-image-desktop ank ank-rounded-5px"
           />
           } @if (website && website.tabletImg && website.tabletImg.location) {
           <img
             src="{{ urlMain() + 'get-file/' + website.tabletImg._id }}"
             alt="{{ website.tabletImg.title }}"
-            class="ank ank-rounded-5px {{
-              windowWidth() < 767
-                ? 'position-absolute ank-bot-25per end-0 ank-w-33per'
-                : 'position-relative ank-w-15per'
-            }}"
+            width="533"
+            height="760"
+            loading="lazy"
+            decoding="async"
+            class="portfolio-website-image portfolio-website-image-tablet ank ank-rounded-5px"
           />
           } @if (website && website.mobileImg && website.mobileImg.location) {
           <img
             src="{{ urlMain() + 'get-file/' + website.mobileImg._id }}"
             alt="{{ website.mobileImg.title }}"
-            class="ank ank-rounded-5px {{
-              windowWidth() < 767
-                ? 'position-absolute bottom-0 ank-end-25per ank-w-20per'
-                : 'position-relative ank-w-10per'
-            }}"
+            width="369"
+            height="800"
+            loading="lazy"
+            decoding="async"
+            class="portfolio-website-image portfolio-website-image-mobile ank ank-rounded-5px"
           />
           }
         </div>
       </div>
       } @if (website.insert && website.insert !== '') {
       <div
-        class="{{ windowWidth() < 767 ? 'w-100' : 'mt-3 mb-5' }} ank ank-order{{
-          i % 2 === 0 ? 2 : 1
-        }}"
+        class="portfolio-website-media-wrap"
+        [class.order-2]="i % 2 === 0"
+        [class.order-1]="i % 2 !== 0"
         [innerHTML]="website.insert | safeHtml"
       ></div>
       }
       <div
-        class="ank w-100 ank-text-ulight px-2 mx-auto text-center ank ank-order-{{
-          i % 2 === 1 ? 1 : 2
-        }}"
+        class="ank w-100 ank-text-ulight px-2 mx-auto text-center"
+        [class.order-1]="i % 2 === 1"
+        [class.order-2]="i % 2 !== 1"
       >
         @if (lang() === 'es') {
         {{ website.desc }}

@@ -43,6 +43,30 @@ import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
   ],
 })
 export class CvComponent implements OnInit, DoCheck, OnDestroy {
+  private readonly themeColors: Record<string, string> = {
+    fullRed: '#ff5555',
+    midRed: '#dd5555',
+    fullYellow: '#f9c24f',
+    fullGreen: '#55ff55',
+    facebook: '#0a58ca',
+    whatsApp: '#48c02d',
+    twitter: '#1c9bea',
+    gmail: '#cf4b3b',
+    linkedIn: '#2465aa',
+    udark: '#050505',
+    tdark: '#000000',
+    ulight: '#f5f5f5',
+    tlight: '#ffffff',
+    transparent: 'rgba(0, 0, 0, 0)',
+    trdark25: 'rgba(0, 0, 0, 0.25)',
+    trdark5: 'rgba(0, 0, 0, 0.5)',
+    trdark75: 'rgba(0, 0, 0, 0.75)',
+    trlight25: 'rgba(255, 255, 255, 0.25)',
+    trlight5: 'rgba(255, 255, 255, 0.5)',
+    fRed25: 'rgba(255, 85, 85, 0.25)',
+    fRed5: 'rgba(255, 85, 85, 0.5)',
+  };
+
   public identity: any;
   public main!: Main;
   public CVSections: CVSection[] = [];
@@ -172,6 +196,33 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
+  public resolveThemeColor(
+    color: string | null | undefined,
+    fallbackToken: string
+  ): string {
+    const fallback = this.themeColors[fallbackToken] ?? fallbackToken;
+    const trimmedColor = color?.trim();
+
+    if (!trimmedColor) {
+      return fallback;
+    }
+
+    return this.themeColors[trimmedColor] ?? trimmedColor;
+  }
+
+  public colorClassToken(
+    color: string | null | undefined,
+    fallbackToken: string
+  ): string {
+    const trimmedColor = color?.trim();
+
+    if (!trimmedColor) {
+      return fallbackToken;
+    }
+
+    return trimmedColor.replace('#', 'a');
+  }
+
   // State 
   getMain() {
     this.main$.subscribe({
@@ -198,16 +249,34 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
       let colors: any = {};
 
       for (let section of this.CVSections) {
-        colors[section.titleColor.replace('#', 'a')] = section.titleColor;
-        colors[section.textColor.replace('#', 'a')] = section.textColor;
-        colors[section.linkColor.replace('#', 'a')] = section.linkColor;
-        colors[section.bgColor.replace('#', 'a')] = section.bgColor;
+        if (section.titleColor) {
+          colors[section.titleColor.replace('#', 'a')] = section.titleColor;
+        }
+        if (section.textColor) {
+          colors[section.textColor.replace('#', 'a')] = section.textColor;
+        }
+        if (section.linkColor) {
+          colors[section.linkColor.replace('#', 'a')] = section.linkColor;
+        }
+        if (section.bgColor) {
+          colors[section.bgColor.replace('#', 'a')] = section.bgColor;
+        }
         for (let subsection of section.CVSubSections) {
-          colors[subsection.titleColor.replace('#', 'a')] =
-            subsection.titleColor;
-          colors[subsection.textColor.replace('#', 'a')] = subsection.textColor;
-          colors[subsection.linkColor.replace('#', 'a')] = subsection.linkColor;
-          colors[subsection.bgColor.replace('#', 'a')] = subsection.bgColor;
+          if (subsection.titleColor) {
+            colors[subsection.titleColor.replace('#', 'a')] =
+              subsection.titleColor;
+          }
+          if (subsection.textColor) {
+            colors[subsection.textColor.replace('#', 'a')] =
+              subsection.textColor;
+          }
+          if (subsection.linkColor) {
+            colors[subsection.linkColor.replace('#', 'a')] =
+              subsection.linkColor;
+          }
+          if (subsection.bgColor) {
+            colors[subsection.bgColor.replace('#', 'a')] = subsection.bgColor;
+          }
         }
       }
 

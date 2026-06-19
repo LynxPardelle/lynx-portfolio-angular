@@ -77,11 +77,13 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   public windowWidth = signal<number>(
     typeof window !== 'undefined' ? window.innerWidth : 0
   );
+  public readonly loadingPlaceholders = Array.from({ length: 8 }, (_, index) => index);
   
   // Loading states
-  public isLoading = signal<boolean>(false);
+  public isLoading = signal<boolean>(true);
   public isSubmitting = signal<boolean>(false);
   public isDeleting = signal<boolean>(false);
+  private webSitesRequestInFlight = false;
 
   // Computed values
   public readonly urlMain = computed(() => environment.api + '/main/');
@@ -265,8 +267,9 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   }
 
   async getWebSites(): Promise<void> {
-    if (this.isLoading()) return; // Prevent concurrent calls
+    if (this.webSitesRequestInFlight) return; // Prevent concurrent calls
     
+    this.webSitesRequestInFlight = true;
     this.isLoading.set(true);
     try {
       const webSites = await firstValueFrom(
@@ -291,6 +294,7 @@ export class WebsitesComponent implements OnInit, OnDestroy {
     } catch (error) {
       await this.handleApiError(error, 'getWebSites');
     } finally {
+      this.webSitesRequestInFlight = false;
       this.isLoading.set(false);
     }
   }
