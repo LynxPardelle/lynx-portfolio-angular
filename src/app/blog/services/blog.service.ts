@@ -37,7 +37,7 @@ export class BlogService {
           this.identity = i;
         }
       },
-      error: (e) => console.error(e),
+      error: () => {},
     });
   }
   /* Create */

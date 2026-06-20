@@ -263,7 +263,12 @@ export class WebsitesComponent implements OnInit, OnDestroy {
           this.main = m;
         }
       },
-      error: (e: unknown) => console.error(e),
+      error: (error: unknown) =>
+        this.webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
 
@@ -276,7 +281,11 @@ export class WebsitesComponent implements OnInit, OnDestroy {
       const webSites = await firstValueFrom(
         this.mainService.getWebSites().pipe(
           catchError((error) => {
-            console.error('Error fetching websites:', error);
+            this.webService.consoleLog(
+              error,
+              this.document + ' getWebSites request error',
+              this.customConsoleCSS
+            );
             return EMPTY;
           })
         )

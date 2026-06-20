@@ -330,3 +330,22 @@
 - Final production smoke returned HTTP `200` for `/`, `/book`, `/webs`, `/cv`, `/music`, `/reel`, `/blog`, and `https://www.lynxpardelle.com/`.
 - Final production HTML/API audit found `0` `api/main/get-file/` matches and browser first load through system Chrome reported `0` page errors and `0` `NotAllowedError` matches.
 - Remaining non-blocking cleanup candidates: reduce noisy browser console logs, remove raw S3 `location` fields from public payloads once consumers no longer need them, and revisit CSP `'unsafe-inline'` during the deferred security hardening pass.
+
+## 2026-06-20 Central Time - Non-blocking console and CDN-only media cleanup
+
+- Branch: `work/nonblocking-frontend-cleanup`.
+- Reduced app-owned console noise:
+  - `WebService.consoleLog()` is now disabled by default behind `debugConsole = false`.
+  - Removed stray `console.log`, `console.error`, and `console.warn` calls from app-owned runtime code.
+  - Errors that still need diagnostic context route through `WebService.consoleLog()`, which is gated off by default; expected UI/admin errors continue to surface through existing UI flows.
+- Updated route templates and `AppComponent.playAudio()` so rendered media checks use `assetUrl()`/`mediaUrl()` instead of requiring legacy file `location` fields. This keeps media rendering compatible with public API payloads that expose `cdnUrl` without raw S3 `location`.
+- Added `src/app/shared/services/web.service.spec.ts` to prove default diagnostic output does not call `console.trace`, `console.log`, or `console.dir`.
+- Added an `assetUrl` regression proving `cdnUrl` is used when raw `location` is absent.
+- Validation passed:
+  - Focused red run first failed as expected because `WebService.consoleLog()` still wrote to console.
+  - Focused green run passed with `TOTAL: 6 SUCCESS` for `assetUrl` and `WebService`.
+  - Full Karma suite passed with `TOTAL: 51 SUCCESS`.
+  - `npm run build` exited 0; initial browser bundle total was `1.08 MB` raw / `260.65 kB` estimated transfer.
+  - `npm audit --omit=dev` exited 0 with `found 0 vulnerabilities`.
+  - `git diff --check` exited 0; it only reported expected Windows LF-to-CRLF working-copy warnings.
+- Residual note: the full test output can still include Ngx Angora dependency diagnostics when invalid runtime CSS rule insertion happens inside tests. This cleanup removes app-owned debug logging, not dependency-internal diagnostics.

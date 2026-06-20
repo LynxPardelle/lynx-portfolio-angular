@@ -252,7 +252,6 @@ export class LinkifyPipe implements PipeTransform {
     if (customEmojis != null) {
       text = this.Emojify.transform({ text, customEmojis });
     }
-    console.log('linkify', { text, matches: realMatches });
     return { text, matches: realMatches };
   }
 }

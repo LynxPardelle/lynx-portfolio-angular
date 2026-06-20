@@ -38,7 +38,7 @@
   }
 
   <!-- CVBackground -->
-  @if (main && main.CVBackground && main.CVBackground.location) {
+  @if (main && main.CVBackground && mediaUrl(main.CVBackground)) {
   <div
     id="CVBG"
     class="portfolio-cv-background position-absolute top-0 start-0 ank ank-w-100vw ank-hmn-100vh"
@@ -52,7 +52,7 @@
   <h2 class="text-center mt-3 mb-5">CV</h2>
 
   <!-- CVImage -->
-  @if (main && main.CVImage && main.CVImage.location) {
+  @if (main && main.CVImage && mediaUrl(main.CVImage)) {
   <img
     id="CVImage"
     [src]="mediaUrl(main.CVImage)"
@@ -543,7 +543,7 @@
         <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
           Subida de la imagen del CV
         </h3>
-        @if (main && main.CVImage && main.CVImage.location) {
+        @if (main && main.CVImage && mediaUrl(main.CVImage)) {
         <img
           class="ank ank-wmx-75 d-block mx-auto ank-hmx-25vh my-3"
           [src]="mediaUrl(main.CVImage)"
@@ -567,7 +567,7 @@
         <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
           Subida del fondo del CV
         </h3>
-        @if (main && main.CVBackground && main.CVBackground.location) {
+        @if (main && main.CVBackground && mediaUrl(main.CVBackground)) {
         <img
           class="ank ank-wmx-75 d-block mx-auto ank-hmx-25vh my-3"
           [src]="mediaUrl(main.CVBackground)"

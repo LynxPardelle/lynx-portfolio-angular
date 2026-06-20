@@ -46,7 +46,6 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError(this.handleError),
       tap({
         next: () => {
-          console.log('HTTP request successful, updating CSS...');
           setTimeout(() => {
             this._ankService.cssCreate();
           }, this._ankService.timeBetweenReCreate * 1.5);
@@ -56,7 +55,6 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   handleError(e: HttpErrorResponse) {
-    console.error(e);
     let eMessage = e.error && e.error.message ? e.error.message : e.message;
     return throwError(() => new Error(eMessage));
   }
@@ -82,7 +80,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(reqClone).pipe(
     catchError((e: HttpErrorResponse) => {
-      console.error(e);
       let eMessage = e.error && e.error.message ? e.error.message : e.message;
       return throwError(() => new Error(eMessage));
     })

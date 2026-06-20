@@ -152,7 +152,12 @@ export class DemoreelComponent implements OnInit, OnDestroy {
           this.main = m;
         }
       },
-      error: (e) => console.error(e),
+      error: (error) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
 

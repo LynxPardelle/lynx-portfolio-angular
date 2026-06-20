@@ -13,8 +13,7 @@ export const MainReducer = createReducer(
   on(MainActions.MainLoaded, (s, { main }) => {
     return { ...s, loading: false, main: main };
   }),
-  on(MainActions.ErrorMain, (s, e) => {
-    console.error(e.error);
+  on(MainActions.ErrorMain, (s) => {
     return { ...s, loading: false };
   })
 );

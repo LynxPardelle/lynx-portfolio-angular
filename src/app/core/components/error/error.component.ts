@@ -37,7 +37,7 @@ export class ErrorComponent implements OnInit {
           this.main = m;
         }
       },
-      error: (e: unknown) => console.error(e),
+      error: () => {},
     });
   }
 

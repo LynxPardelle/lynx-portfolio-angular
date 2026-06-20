@@ -113,7 +113,7 @@
                   }
                 </h3>
                 @if (
-                  videoO.video && videoO.video.location && videoO.video.location !== ''
+                  videoO.video && assetUrl(videoO.video)
                   ) {
                   <video
                     class="w-100 ank ank-wmx-100vw ank-hmx-100vh mx-auto"
@@ -247,7 +247,7 @@
                                     Subida de video
                                   </h3>
                                   @if (
-                                    video.video && video.video.location && video.video.location !== ''
+                                    video.video && assetUrl(video.video)
                                     ) {
                                     <video
                                       class="w-100 ank ank-wmx-100vw ank-hmx-100vh mx-auto"
