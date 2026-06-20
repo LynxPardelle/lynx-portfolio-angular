@@ -229,7 +229,7 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public cvBackgroundStyle(): string | null {
-    if (!this.loadCvBackground || !this.main?.CVBackground?.location) {
+    if (!this.loadCvBackground || !assetUrl(this.main?.CVBackground)) {
       return null;
     }
 
@@ -273,7 +273,12 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
           this.refreshView();
         }
       },
-      error: (e: unknown) => console.error(e),
+      error: (error: unknown) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
 
@@ -839,14 +844,7 @@ export class CvComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  checkAccordion(event: any) {
-    if (event) {
-      console.log('event: ');
-      console.log(event);
-    } else {
-      console.log('no event');
-    }
-  }
+  checkAccordion(_event: any) {}
 
   classCreator(newClass: string, condition: any) {
     let jsonReturn: any = {};

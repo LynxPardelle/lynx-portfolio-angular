@@ -234,7 +234,6 @@ export class BlogSubcatEditComponent implements OnInit {
         }
         break;
       case event === 'aceptCat':
-        console.log('aceptCat');
         this.onSubmitSubCat();
         break;
       default:

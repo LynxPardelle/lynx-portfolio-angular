@@ -84,7 +84,6 @@ export class BlogCatEditComponent implements OnInit {
   }
 
   onSubmitCat(): void {
-    console.log('cat', this.cat);
     if (
       this.cat.buttonColor == '' ||
       this.cat.titleColor == '' ||
@@ -226,7 +225,6 @@ export class BlogCatEditComponent implements OnInit {
         }
         break;
       case event === 'aceptCat':
-        console.log('aceptCat');
         this.onSubmitCat();
         break;
       default:

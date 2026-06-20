@@ -1,4 +1,4 @@
-@if (main && main.backgroundImg && main.backgroundImg.location){
+@if (main && main.backgroundImg && assetUrl(main.backgroundImg)){
 <div
   class="position-fixed top-0 start-0 ank ank-wmn-100vw ank-hmn-100vh ank-z-MIN20 ank-backgroundColor-abyss ank-backgroundSize-cover ank-backgroundPosition-center__center ank-backgroundRepeat-noMINrepeat ank-backgroundImage-{{
     befysize('url(' + assetUrl(main.backgroundImg) + ')')
@@ -19,7 +19,7 @@
       [routerLink]="['/']"
       class="text-center ank ank-wmx-15per ank-wSEL__img-45px ank-hSEL__img-45px"
     >
-      @if (main && main.logo && main.logo.location) {
+      @if (main && main.logo && assetUrl(main.logo)) {
       <img
         src="{{ assetUrl(main.logo) }}"
         alt="{{ lang === 'es' ? main.logo.title : main.logo.titleEng }}"
@@ -229,8 +229,7 @@
     <div
       class="d-flex ank ank-bg-tdark__OPA__0_75 ank-boxShadow-0__0__10px__fullRed ank-rounded-50px p-3 justify-content-between align-items-center"
     >
-      @if(currentSong.song && currentSong.song.location &&
-      currentSong.song.location !== '' && currentAudio && currentAudio.paused !== false)
+      @if(currentSong.song && assetUrl(currentSong.song) && currentAudio && currentAudio.paused !== false)
       {<button
         (click)="playAudio(currentSong)"
         class="btn w-10 ank ank-text-fullRed ank-boxShadow-0__0__10px__fullRed ank-p-6px ank-mx-6px rounded-circle"
@@ -274,14 +273,12 @@
       >
         {{ currentSong.title }}
       </a>
-      @if( (currentSong.song && currentSong.song.location &&
-      currentSong.song.location !== '') || (currentSong.link && currentSong.link
+      @if( (currentSong.song && assetUrl(currentSong.song)) || (currentSong.link && currentSong.link
       !== '') ){<button
         (click)="
           copyToClipBoard(
               currentSong.song &&
-              currentSong.song.location &&
-              currentSong.song.location !== ''
+              assetUrl(currentSong.song)
               ? assetUrl(currentSong.song)
               : currentSong.link && currentSong.link !== ''
               ? currentSong.link
@@ -294,8 +291,7 @@
             ? 'Copied to ClipBoard: '
             : 'Copiado al portapapeles: ') +
             (currentSong.song &&
-            currentSong.song.location &&
-            currentSong.song.location !== ''
+            assetUrl(currentSong.song)
               ? assetUrl(currentSong.song)
               : currentSong.link && currentSong.link !== ''
               ? currentSong.link

@@ -16,8 +16,7 @@ export const SesionReducer = createReducer(
   on(SesionActions.CloseSesion, (s) => {
     return { ...s, active: false };
   }),
-  on(SesionActions.ErrorSesion, (s, e) => {
-    console.error(e.error);
+  on(SesionActions.ErrorSesion, (s) => {
     return { ...s, active: false };
   })
 );

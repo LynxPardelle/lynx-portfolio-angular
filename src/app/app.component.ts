@@ -296,7 +296,12 @@ export class AppComponent implements OnInit, DoCheck {
           this.main = m;
         }
       },
-      error: (e) => console.error(e),
+      error: (error) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
   getIdentity() {
@@ -306,7 +311,12 @@ export class AppComponent implements OnInit, DoCheck {
           this.identity = i;
         }
       },
-      error: (e) => console.error(e),
+      error: (error) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getIdentity error',
+          this.customConsoleCSS
+        ),
     });
   }
   async getSongs() {
@@ -322,7 +332,11 @@ export class AppComponent implements OnInit, DoCheck {
       this.playAudio(this.songs[0]);
       this.pause();
     } catch (err) {
-      console.error(err);
+      this._webService.consoleLog(
+        err,
+        this.document + ' getSongs error',
+        this.customConsoleCSS
+      );
     }
   }
 
@@ -368,8 +382,7 @@ export class AppComponent implements OnInit, DoCheck {
       if (
         this.currentSong &&
         this.currentSong.song &&
-        this.currentSong.song.location &&
-        this.currentSong.song.location !== '' &&
+        this.assetUrl(this.currentSong.song) &&
         isPlatformBrowser(this.platformId)
       ) {
         const songUrl = this.assetUrl(this.currentSong.song);
@@ -410,7 +423,11 @@ export class AppComponent implements OnInit, DoCheck {
     if (playAttempt && typeof playAttempt.catch === 'function') {
       playAttempt.catch((error: unknown) => {
         if (!this.isExpectedAudioPlayBlock(error)) {
-          console.warn(error);
+          this._webService.consoleLog(
+            error,
+            this.document + ' playCurrentAudio error',
+            this.customConsoleCSS
+          );
         }
       });
     }

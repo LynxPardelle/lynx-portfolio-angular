@@ -92,7 +92,7 @@
           </svg>
         </button>
       </div>
-      } @if ( bookimg?.img?.location && bookimg?.img?.title )
+      } @if ( mediaUrl(bookimg?.img) && bookimg?.img?.title )
       {
       <img
         class="portfolio-book-image obj-fit-cover w-100"
@@ -166,7 +166,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de imagen
       </h3>
-      @if (bookImg && bookImg.img && bookImg.img.location) {
+      @if (bookImg && bookImg.img && mediaUrl(bookImg.img)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         [src]="mediaUrl(bookImg.img)"

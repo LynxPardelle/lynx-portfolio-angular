@@ -12,6 +12,7 @@ import { MainService } from '../../core/services/main.service';
 export class WebService {
   /* Identity */
   public identity: any = null;
+  public debugConsole = false;
 
   constructor(private _http: HttpClient, private _mainService: MainService) {}
 
@@ -51,7 +52,6 @@ export class WebService {
     let B = hexToB(hex);
 
     let rgb = R + ', ' + G + ', ' + B;
-    console.log(rgb);
 
     return rgb;
 
@@ -441,14 +441,10 @@ export class WebService {
   uploadFiles(files: File[], url: string): Observable<any> {
     let formData = new FormData();
 
-    console.log(files);
-
     let i = 0;
 
     for (let file of files) {
-      console.log(file);
       formData.append('file' + i, file);
-      console.log(formData);
       i++;
     }
 
@@ -573,6 +569,10 @@ export class WebService {
   }
 
   consoleLog(thing: any, line: string = '', style: string = 'padding: 1em;') {
+    if (!this.debugConsole) {
+      return;
+    }
+
     this.identity = this._mainService.getIdentity();
 
     /*

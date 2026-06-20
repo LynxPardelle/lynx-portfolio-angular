@@ -28,6 +28,15 @@ describe('assetUrl', () => {
     ).toBe('https://assets.lynxpardelle.com/uploads/blog/hero.webp');
   });
 
+  it('uses cdnUrl when raw location is not exposed by the public API', () => {
+    expect(
+      assetUrl({
+        _id: 'file-id',
+        cdnUrl: 'https://assets.lynxpardelle.com/uploads/main/image.webp',
+      })
+    ).toBe('https://assets.lynxpardelle.com/uploads/main/image.webp');
+  });
+
   it('does not generate API get-file URLs when location is missing', () => {
     expect(assetUrl({ _id: 'file-id' })).toBe('');
   });

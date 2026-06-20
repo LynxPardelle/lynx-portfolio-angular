@@ -118,7 +118,12 @@ export class InicioComponent implements OnInit {
           this.main = m;
         }
       },
-      error: (e: unknown) => console.error(e),
+      error: (error: unknown) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
 

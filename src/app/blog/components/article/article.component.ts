@@ -182,7 +182,12 @@ export class ArticleComponent implements OnInit {
           this.main = m;
         }
       },
-      error: (e) => console.error(e),
+      error: (error) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
 
@@ -329,8 +334,6 @@ export class ArticleComponent implements OnInit {
       (!this.canEdit || !this.isEdit) && this.article._id !== undefined
         ? []
         : ['title', 'ytvideo', 'intro', 'outro', 'stitle', 'sp', 'syoutube'];
-    console.log(this.edits);
-    console.log(this.isEdit);
     this.createButtons();
   }
 

@@ -388,7 +388,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de la imagen del logo
       </h3>
-      @if (main && main.logo && main.logo.location) {
+      @if (main && main.logo && assetUrl(main.logo)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ assetUrl(main.logo) }}"
@@ -412,7 +412,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida del fondo
       </h3>
-      @if (main && main.backgroundImg && main.backgroundImg.location) {
+      @if (main && main.backgroundImg && assetUrl(main.backgroundImg)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ assetUrl(main.backgroundImg) }}"
@@ -436,7 +436,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de la imagen del CV
       </h3>
-      @if (main && main.CVImage && main.CVImage.location) {
+      @if (main && main.CVImage && assetUrl(main.CVImage)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ assetUrl(main.CVImage) }}"
@@ -460,7 +460,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida del fondo del CV
       </h3>
-      @if (main && main.CVBackground && main.CVBackground.location) {
+      @if (main && main.CVBackground && assetUrl(main.CVBackground)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ assetUrl(main.CVBackground) }}"

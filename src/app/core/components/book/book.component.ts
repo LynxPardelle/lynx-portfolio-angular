@@ -130,7 +130,12 @@ export class BookComponent implements OnInit, OnDestroy {
           this.main = m;
         }
       },
-      error: (e: unknown) => console.error(e),
+      error: (error: unknown) =>
+        this._webService.consoleLog(
+          error,
+          this.document + ' getMain error',
+          this.customConsoleCSS
+        ),
     });
   }
 

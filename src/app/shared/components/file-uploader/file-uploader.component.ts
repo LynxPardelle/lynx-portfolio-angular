@@ -127,7 +127,6 @@ export class FileUploaderComponent implements OnInit {
       if (this.id !== '') {
         this.modalRef = this.modalService.show(template);
       } else {
-        console.error('No hay id');
         alert('No hay id - error');
       }
     })();

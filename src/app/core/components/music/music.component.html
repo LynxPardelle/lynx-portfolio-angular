@@ -63,8 +63,7 @@
         </a>
         @if (
           songi.song &&
-          songi.song.location &&
-          songi.song.location !== '' &&
+          assetUrl(songi.song) &&
           (currentSong._id !== songi._id ||
             (currentSong._id === songi._id &&
               (!currentAudio ||
@@ -90,8 +89,7 @@
         }
         @if (
           songi.song &&
-          songi.song.location &&
-          songi.song.location !== '' &&
+          assetUrl(songi.song) &&
           currentSong._id === songi._id &&
           currentAudio &&
           currentAudio.paused === false
@@ -115,13 +113,13 @@
         </button>
         }
         @if (
-          (songi.song && songi.song.location && songi.song.location !== '') ||
+          (songi.song && assetUrl(songi.song)) ||
           (songi.link && songi.link !== '')
         ) {
         <button
           (click)="
             copyToClipBoard(
-              songi.song && songi.song.location && songi.song.location !== ''
+              songi.song && assetUrl(songi.song)
                 ? assetUrl(songi.song)
                 : songi.link && songi.link !== ''
                 ? songi.link
@@ -133,7 +131,7 @@
             (lang === 'en'
               ? 'Copied to ClipBoard: '
               : 'Copiado al portapapeles: ') +
-              (songi.song && songi.song.location && songi.song.location !== ''
+              (songi.song && assetUrl(songi.song)
                 ? assetUrl(songi.song)
                 : songi.link && songi.link !== ''
                 ? songi.link
@@ -296,8 +294,7 @@
         @if (
           albumi &&
           albumi.img &&
-          albumi.img.location &&
-          albumi.img.location !== ''
+          assetUrl(albumi.img)
         ) {
         <img
           class="ank ank-w-40vw ank-h-40vw ank-w-md-18_75vw ank-h-md-18_75vw {{
@@ -433,7 +430,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de imagen
       </h3>
-      @if (album && album.img && album.img.location) {
+      @if (album && album.img && assetUrl(album.img)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ assetUrl(album.img) }}"
@@ -533,7 +530,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de imagen
       </h3>
-      @if (song && song.coverArt && song.coverArt.location) {
+      @if (song && song.coverArt && assetUrl(song.coverArt)) {
       <img
         class="ank ank-wmx-75per d-block mx-auto ank-hmx-25vh my-3"
         src="{{ assetUrl(song.coverArt) }}"
@@ -557,7 +554,7 @@
       <h3 class="ank ank-text-tlight text-center w-75 my-3 d-block mx-auto">
         Subida de la canción
       </h3>
-      @if (song.song && song.song.location && song.song.location !== '') {
+      @if (song.song && assetUrl(song.song)) {
       <audio
         controls
       >
