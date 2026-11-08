@@ -3,7 +3,7 @@
   <h2>Editor del blog</h2>
   <p role="status">{{ message() }}</p>
     <div class="actions">
-      <button class="portfolio-btn" type="button" (click)="open()">Nuevo borrador</button>
+      <button class="portfolio-btn" type="button" [disabled]="busy()" (click)="open()">Nuevo borrador</button>
     </div>
     <h3>Borradores y publicaciones</h3>
     <ul>

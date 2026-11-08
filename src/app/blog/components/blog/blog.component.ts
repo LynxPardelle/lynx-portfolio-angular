@@ -8,6 +8,7 @@ import { catchError, combineLatest, map, of, startWith, Subject, switchMap, time
 import { IArticle } from '../../interfaces/blog';
 import { BlogService } from '../../services/blog.service';
 import { BlogAssistantComponent } from '../assistant/blog-assistant.component';
+import { BlogTestReader } from './blog-test-reader.component';
 
 interface Feed {
   status: 'loading' | 'ready' | 'error';
@@ -23,7 +24,7 @@ const feedKey = makeStateKey<Feed>('portfolio-blog-feed');
   selector: 'blog',
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
-  imports: [DatePipe, BlogAssistantComponent, RouterLink],
+  imports: [DatePipe, BlogAssistantComponent, BlogTestReader, RouterLink],
 })
 export class BlogComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);

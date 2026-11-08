@@ -3,6 +3,7 @@
     <p class="portfolio-kicker">{{ english ? 'Notes and projects' : 'Notas y proyectos' }}</p>
     <h1>Blog</h1>
   </header>
+  <blog-test-reader [english]="english" />
   <blog-assistant />
   @if (articles.length > 0) {
     <div class="blog-articles">

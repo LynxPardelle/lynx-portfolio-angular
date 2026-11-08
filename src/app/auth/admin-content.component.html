@@ -28,7 +28,7 @@
         @if (editing()) {
           <form class="portfolio-form" (ngSubmit)="save()">
             <h3>{{ active() ? 'Editar registro' : 'Nuevo registro' }}</h3>
-            <div class="fields">
+            <fieldset class="fields" [disabled]="busy()">
               @for (field of current.fields; track field[0]) {
                 <label [class.wide]="field[2] === 'long'">
                   {{ field[1] }}
@@ -42,6 +42,9 @@
                     @case ('media') {
                       <select [name]="field[0]" [(ngModel)]="values[field[0]]">
                         <option [ngValue]="null">Sin archivo</option>
+                        @if (missingMedia(values[field[0]])) {
+                          <option [ngValue]="values[field[0]]">Archivo actual</option>
+                        }
                         @for (file of media(); track file.id) {
                           <option [ngValue]="file.id">{{ file.title }}{{ file.type ? ' · ' + file.type : '' }}</option>
                         }
@@ -54,7 +57,7 @@
                   }
                 </label>
               }
-            </div>
+            </fieldset>
             <div class="content-nav">
               <button class="portfolio-btn" type="submit" [disabled]="busy()">Guardar cambios</button>
               @if (active() && selected() !== 'mains' && !confirmDelete()) {

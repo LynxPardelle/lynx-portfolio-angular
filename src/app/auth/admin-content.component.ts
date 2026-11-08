@@ -3,6 +3,10 @@ import { afterNextRender, Component, computed, DestroyRef, inject, signal } from
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import english from '../../../public/assets/i18n/en.json';
+import spanish from '../../../public/assets/i18n/es.json';
+import { LoadMain } from '../state/actions/main.actions';
 import { AdminSession } from './admin-session.service';
 
 type Value = string | number | null;
@@ -14,6 +18,13 @@ interface Media { id: string; title: string; type?: string }
 const publicRoutes: Record<string, string> = {
   mains: '/', websites: '/webs', bookimgs: '/book', videos: '/reel', albums: '/music', songs: '/music',
 };
+const profileDefaults: Record<string, string> = {
+  profileHeadline: spanish['portfolio.headline'], profileHeadlineEng: english['portfolio.headline'],
+  profileSummary: spanish['portfolio.summary'], profileSummaryEng: english['portfolio.summary'],
+  awsIntro: spanish['portfolio.aws.intro'], awsIntroEng: english['portfolio.aws.intro'],
+  genaiIntro: spanish['portfolio.genai.intro'], genaiIntroEng: english['portfolio.genai.intro'],
+};
+const normalize = (value: Value | undefined) => value === '' ? null : value ?? null;
 
 @Component({
   selector: 'admin-content',
@@ -25,6 +36,10 @@ export class AdminContent {
   protected readonly session = inject(AdminSession);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly store = inject(Store);
+  private readonly pending = signal(0);
+  private loadId = 0;
+  private baseline: Record<string, Value> = {};
   protected readonly sections = signal<[string, Collection][]>([]);
   protected readonly media = signal<Media[]>([]);
   protected readonly selected = signal('mains');
@@ -33,7 +48,7 @@ export class AdminContent {
   protected readonly records = signal<RecordEntry[]>([]);
   protected readonly active = signal<RecordEntry | null>(null);
   protected readonly editing = signal(false);
-  protected readonly busy = signal(false);
+  protected readonly busy = computed(() => this.pending() > 0);
   protected readonly confirmDelete = signal(false);
   protected readonly message = signal('');
   protected values: Record<string, Value> = {};
@@ -46,7 +61,15 @@ export class AdminContent {
 
   protected open(record: RecordEntry | null) {
     this.active.set(record);
-    this.values = { ...record?.values };
+    this.baseline = { ...record?.values };
+    if (record && this.selected() === 'mains') {
+      for (const [key] of this.definition()?.fields || []) {
+        if (Object.hasOwn(profileDefaults, key) && !this.baseline[key]) {
+          this.baseline[key] = profileDefaults[key];
+        }
+      }
+    }
+    this.values = { ...this.baseline };
     this.editing.set(true);
     this.confirmDelete.set(false);
     this.message.set('');
@@ -56,17 +79,22 @@ export class AdminContent {
     return record.values['title'] || record.values['titleEng'] || this.definition()?.label || record.id;
   }
 
+  protected missingMedia(value: Value) {
+    return typeof value === 'string' && value !== '' && !this.media().some((file) => file.id === value);
+  }
+
   protected save() {
     const current = this.active();
     const collection = this.selected();
-    const values = Object.fromEntries(Object.entries(this.values).filter(([key, value]) =>
-      (value ?? null) !== (current?.values[key] ?? null),
-    ));
+    const values = Object.fromEntries(Object.entries(this.values)
+      .map(([key, value]) => [key, normalize(value)] as const)
+      .filter(([key, value]) => value !== normalize(this.baseline[key])));
     if (!Object.keys(values).length) { this.message.set('Cambia al menos un campo antes de guardar.'); return; }
     return this.run(async () => {
       const saved = current
         ? await this.session.request<RecordEntry>('PUT', `admin/content/${collection}/${current.id}`, { values, version: current.version })
         : await this.session.request<RecordEntry>('POST', `admin/content/${collection}`, { values });
+      if (collection === 'mains') this.store.dispatch(LoadMain());
       if (this.selected() !== collection) return;
       await this.load(collection, saved.id);
       this.message.set('Cambios guardados en el sitio.');
@@ -107,8 +135,9 @@ export class AdminContent {
   }
 
   private async load(collection: string, activeId?: string) {
+    const loadId = ++this.loadId;
     const { records } = await this.session.request<{ records: RecordEntry[] }>('GET', `admin/content/${collection}`);
-    if (this.selected() !== collection) return;
+    if (loadId !== this.loadId || this.selected() !== collection) return;
     this.records.set(records);
     this.editing.set(false);
     const selected = activeId ? records.find((record) => record.id === activeId) : records[0];
@@ -116,12 +145,12 @@ export class AdminContent {
   }
 
   private async run(action: () => Promise<void>) {
-    this.busy.set(true);
+    this.pending.update((count) => count + 1);
     this.message.set('');
     try { await action(); }
     catch (error) {
       this.message.set(error instanceof HttpErrorResponse && error.error?.error
         ? error.error.error : 'No fue posible completar la operación.');
-    } finally { this.busy.set(false); }
+    } finally { this.pending.update((count) => count - 1); }
   }
 }

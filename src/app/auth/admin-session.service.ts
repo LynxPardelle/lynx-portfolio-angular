@@ -51,7 +51,7 @@ export class AdminSession {
     this.accessToken = access_token;
     this.currentRole.set(role);
     const destination = typeof saved.destination === 'string' ? saved.destination : '';
-    return /^\/admin(?:\/[a-z0-9-]+)*$/.test(destination) ? destination : callback;
+    return destination === '/blog' || /^\/admin(?:\/[a-z0-9-]+)*$/.test(destination) ? destination : callback;
   }
 
   logout() {

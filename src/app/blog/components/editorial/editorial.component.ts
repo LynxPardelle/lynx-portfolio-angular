@@ -47,7 +47,11 @@ export class EditorialComponent {
   protected previewLang: 'es' | 'en' = 'es';
 
   constructor() {
-    afterNextRender(() => void this.run(() => this.refresh()));
+    afterNextRender(() => void this.run(async () => {
+      await this.refresh();
+      const [latest] = this.drafts();
+      if (latest) this.open(latest);
+    }));
   }
 
   protected open(draft = emptyDraft()) {
@@ -56,7 +60,7 @@ export class EditorialComponent {
     this.titleEn = draft.en?.title || '';
     this.markdownEs = draft.es?.markdown || '';
     this.markdownEn = draft.en?.markdown || '';
-    this.sourceText = draft.sources.join('\n');
+    this.sourceText = (draft.sources || []).join('\n');
     this.tagText = (draft.tags || []).join(', ');
     this.subcategoryText = (draft.subcategories || []).join(', ');
     this.preview.set('');
