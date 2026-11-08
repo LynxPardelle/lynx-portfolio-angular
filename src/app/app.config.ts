@@ -13,8 +13,10 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 // NGX-Translate
 import { importProvidersFrom } from '@angular/core';
-import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateLoader, provideTranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import english from '../../public/assets/i18n/en.json';
+import spanish from '../../public/assets/i18n/es.json';
 
 // Third-party libraries
 import { NgxUploaderModule } from '@angular-ex/uploader';
@@ -80,10 +82,7 @@ export const appConfig: ApplicationConfig = {
     }),
     
     provideTranslateService({
-      loader: provideTranslateHttpLoader({
-        prefix: '/assets/i18n/',
-        suffix: '.json',
-      }),
+      loader: provideTranslateLoader(() => ({ getTranslation: (language: string) => of(language === 'es' ? spanish : english) })),
       fallbackLang: 'en',
       lang: 'es',
     }),
