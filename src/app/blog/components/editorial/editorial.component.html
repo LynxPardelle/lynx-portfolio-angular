@@ -1,22 +1,15 @@
 <section class="studio">
-  <a routerLink="/blog">Blog público</a>
-  <h1>Editor del blog</h1>
+  <h2>Editor del blog</h2>
   <p role="status">{{ message() }}</p>
-  @if (!signedIn()) {
-    <button type="button" [disabled]="busy()" (click)="login()">Iniciar sesión</button>
-  } @else {
     <div class="actions">
       <button type="button" (click)="open()">Nuevo borrador</button>
-      <button type="button" (click)="logout()">Cerrar sesión</button>
     </div>
-    <h2>Borradores y publicaciones</h2>
+    <h3>Borradores y publicaciones</h3>
     <ul>
       @for (item of drafts(); track item.slug) {
         <li><button type="button" [disabled]="busy()" (click)="open(item)">{{ item.es?.title || item.en?.title }} · {{ item.status }} · {{ item.origin }}</button></li>
       }
     </ul>
-    <p>Aprobaciones consecutivas de Desktop · {{ policy().streak }}</p>
-    <button type="button" [disabled]="busy() || (!policy().auto && policy().streak < 6)" (click)="toggleAuto()">{{ policy().auto ? 'Pausar' : 'Activar' }} publicación automática</button>
     <form (ngSubmit)="save()">
       <label>Identificador <input name="slug" [(ngModel)]="draft.slug" required [readOnly]="draft.version > 0" pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="80"></label>
       <label>Categoría <select name="category" [(ngModel)]="draft.category"><option value="art">Arte</option><option value="technology">Tecnología</option><option value="other">Otros</option></select></label>
@@ -42,12 +35,11 @@
       </div>
     </form>
     @if (preview()) { <article [innerHTML]="preview()"></article> }
-    <h2>Beta privada del asistente</h2>
+    <h3>Beta privada del asistente</h3>
     <form (ngSubmit)="askBeta()">
       <label>Pregunta sobre el blog <input name="question" [(ngModel)]="question" maxlength="400" required></label>
       <label>Idioma <select name="betaLang" [(ngModel)]="betaLang"><option value="es">Español</option><option value="en">English</option></select></label>
       <button type="submit" [disabled]="busy()">Consultar</button>
       <p role="status">{{ beta() }}</p>
     </form>
-  }
 </section>

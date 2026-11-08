@@ -65,14 +65,26 @@ export const routes: Routes = [
       ),
   })),
   {
-    path: 'admin/blog',
-    title: 'Editor del blog · Lynx Pardelle',
-    loadComponent: () => import('./blog/components/editorial/editorial.component').then((m) => m.EditorialComponent),
+    path: 'admin',
+    loadComponent: () => import('./auth/admin-shell.component').then((m) => m.AdminShell),
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'blog' },
+      {
+        path: 'blog',
+        title: 'Editor del blog · Lynx Pardelle',
+        loadComponent: () => import('./blog/components/editorial/editorial.component').then((m) => m.EditorialComponent),
+      },
+      {
+        path: 'settings',
+        title: 'Administración · Lynx Pardelle',
+        loadComponent: () => import('./auth/admin-settings.component').then((m) => m.AdminSettings),
+      },
+    ],
   },
   {
     path: 'auth',
     pathMatch: 'full',
-    redirectTo: 'admin/blog',
+    redirectTo: 'admin',
   },
   {
     path: '**',

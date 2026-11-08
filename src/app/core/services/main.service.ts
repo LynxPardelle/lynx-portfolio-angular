@@ -149,21 +149,6 @@ export class MainService {
     return this._http.get(this.urlMain + 'web-sites');
   }
 
-  login(user_to_login: any, gettoken: any = null): Observable<any> {
-    if (gettoken != null) {
-      user_to_login.gettoken = gettoken;
-    }
-
-    let body = JSON.stringify(user_to_login);
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this._http.post(this.urlMain + 'login', body, {
-      headers: headers,
-    });
-  }
-
   /* Put */
   updateAlbum(id: string, album: any): Observable<any> {
     let body = JSON.stringify(album);
