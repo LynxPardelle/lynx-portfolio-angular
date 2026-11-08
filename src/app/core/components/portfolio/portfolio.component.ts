@@ -18,7 +18,7 @@ import { portfolioCopy, PortfolioCopyKey } from '../../interfaces/main';
 export class PortfolioComponent {
   private readonly translate = inject(TranslateService);
   private readonly language = toSignal(this.translate.onLangChange.pipe(map((event) => event.lang)), {
-    initialValue: this.translate.getCurrentLang(),
+    initialValue: this.translate.getCurrentLang() ?? 'es',
   });
   private readonly profile = toSignal(inject(Store<AppState>).select(MainMainSelector));
   protected copy(key: PortfolioCopyKey) { return portfolioCopy(this.profile(), key, this.language()); }
