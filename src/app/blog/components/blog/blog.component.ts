@@ -1,227 +1,85 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-
-import { RouterModule, ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { BlogAssistantComponent } from '../assistant/blog-assistant.component';
-// RxJs 
-import { Observable } from 'rxjs';
-// Environment 
-import { environment } from '../../../../environments/environment';
-// Interfaces 
+import { DatePipe, isPlatformServer } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { afterNextRender, Component, DestroyRef, inject, makeStateKey, OnInit, PLATFORM_ID, signal, TransferState } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { catchError, combineLatest, map, of, startWith, Subject, switchMap, timeout } from 'rxjs';
 import { IArticle } from '../../interfaces/blog';
-import { IMain } from '../../../core/interfaces/main';
-// Models 
-import { Main } from '../../../core/models/main';
-// Services 
 import { BlogService } from '../../services/blog.service';
-import { MainService } from '../../../core/services/main.service';
-import { WebService } from '../../../shared/services/web.service';
-import { SharedService } from '../../../shared/services/shared.service';
-// State 
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../state/app.state';
-import { MainMainSelector } from '../../../state/selectors/main.selector';
-import { LoadMain } from '../../../state/actions/main.actions';
-// Directives 
+import { BlogAssistantComponent } from '../assistant/blog-assistant.component';
 
+interface Feed {
+  status: 'loading' | 'ready' | 'error';
+  articles: IArticle[];
+  page: number;
+  pages: number;
+}
+
+const empty: Feed = { status: 'ready', articles: [], page: 1, pages: 0 };
+const feedKey = makeStateKey<Feed>('portfolio-blog-feed');
 
 @Component({
   selector: 'blog',
   templateUrl: './blog.component.html',
-  styleUrls: ['./blog.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [
-    FormsModule,
-    DatePipe,
-    BlogAssistantComponent,
-    RouterModule
-],
+  styleUrl: './blog.component.scss',
+  imports: [DatePipe, BlogAssistantComponent, RouterLink],
 })
 export class BlogComponent implements OnInit {
-  public identity: any;
-  public main!: Main;
-  // Models
-  public articles: IArticle[] = [];
+  private readonly route = inject(ActivatedRoute);
+  private readonly blog = inject(BlogService);
+  private readonly translate = inject(TranslateService, { optional: true });
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly transfer = inject(TransferState);
+  private readonly server = isPlatformServer(inject(PLATFORM_ID));
+  private readonly retry = new Subject<void>();
+  protected readonly feed = signal(this.transfer.get(feedKey, empty));
 
-  // Utility
-  public page: number = 1;
-  public next_page: number = 2;
-  public prev_page: number = 1;
-  public total: number = 0;
-  public itemsPerPage: number = 5;
+  public get articles() { return this.feed().articles; }
+  public get loading() { return this.feed().status === 'loading'; }
+  protected get english() { return this.translate?.getCurrentLang() === 'en'; }
 
-  public noMore: boolean = false;
+  constructor() {
+    afterNextRender(() => this.load());
+  }
 
-  public search: string = '';
+  ngOnInit() {
+    if (this.server) this.load();
+  }
 
-  public loading: boolean = false;
-  // Translate 
-  public lang: string = 'es';
+  protected reload() { this.retry.next(); }
 
-  // Urls 
-  public urlMain: string = environment.api + '/main/';
-
-  // Console Settings 
-  public document: string = 'blog.component.ts';
-  public customConsoleCSS =
-    'background-color: rgba(75, 5, 200, 1); color: white; padding: 1em;';
-
-  // Utility 
-  public edit: boolean = false;
-  public windowWidth: number = 1200;
-  // State 
-  public main$: Observable<IMain | undefined>;
-  constructor(
-    private _route: ActivatedRoute,
-    private _mainService: MainService,
-
-    private _webService: WebService,
-    private _blogService: BlogService,
-    private _sharedService: SharedService,
-    private store: Store<AppState>
-  ) {
-    _sharedService.changeEmitted$.subscribe((sharedContent) => {
-      if (
-        typeof sharedContent === 'object' &&
-        sharedContent.from !== 'blog' &&
-        (sharedContent.to === 'blog' || sharedContent.to === 'all')
-      ) {
-        switch (sharedContent.property) {
-          case 'lang':
-            this.lang = sharedContent.thing;
-            break;
-          case 'identity':
-            this.identity = sharedContent.thing;
-            break;
-          case 'windowWidth':
-            this.windowWidth = sharedContent.thing;
-            break;
-          case 'onlyConsoleMessage':
-            this._webService.consoleLog(
-              sharedContent.thing,
-              this.document + ' 67',
-              this.customConsoleCSS
-            );
-            break;
+  private load() {
+    combineLatest([this.route.params, this.retry.pipe(startWith(undefined))]).pipe(
+      switchMap(([params]) => {
+        const page = Math.max(1, Number(params['page']) || 1);
+        const previous = this.feed();
+        if (previous.page !== page || !this.transfer.hasKey(feedKey)) {
+          this.feed.set({ ...empty, page, status: 'loading' });
         }
-      }
-    });
-    this.main$ = store.select(MainMainSelector);
-
-    // Identity 
-    this.identity = this._mainService.getIdentity();
-    this._webService.consoleLog(
-      this.identity,
-      this.document + ' 79',
-      this.customConsoleCSS
-    );
-    this._sharedService.emitChange({
-      from: 'blog',
-      to: 'all',
-      property: 'identity',
-      thing: this.identity,
-    });
-    this.store.dispatch(LoadMain());
-  }
-
-  ngOnInit(): void {
-    this._sharedService.emitChange({
-      from: 'blog',
-      to: 'all',
-      property: 'onlyConsoleMessage',
-      thing: 'Data from blog',
-    });
-    this.getMain();
-    this.getBlog();
-
-    // Set window width for SSR compatibility
-
-    if (typeof window !== 'undefined') {
-      this.windowWidth = window.innerWidth;
-    }
-  }
-  // State 
-  getMain() {
-    this.main$.subscribe({
-      next: (m: any) => {
-        if (m !== undefined) {
-          this.main = m;
-        }
-      },
-      error: (error: unknown) =>
-        this._webService.consoleLog(
-          error,
-          this.document + ' getMain error',
-          this.customConsoleCSS
-        ),
-    });
-  }
-
-  getBlog() {
-    this.articles = [];
-    this.loading = typeof window !== 'undefined';
-    // Get page from url 
-    this._route.params.subscribe({
-      next: (params: any) => {
-        this.page = Math.max(1, Number(params['page']) || 1);
-        this.search = params['search']
-          ? params['search']
-          : params['cat']
-          ? params['cat']
-          : params['subcat']
-          ? params['subcat']
-          : this.search;
-        this.next_page = this.page + 1;
-        this.prev_page = this.page > 1 ? this.page - 1 : 1;
-        this._blogService
-          .getArticles(
-            this.page,
-            5,
-            '-create_at',
-            'all',
-            'all',
-            this.search || undefined
-          )
-          .subscribe({
-            next: (b) => {
-              this.articles = Array.isArray(b?.articles) ? b.articles : [];
-              this.total = Number.isFinite(b?.total_items) ? b.total_items : this.articles.length;
-              this.itemsPerPage = Number.isFinite(b?.itemsPerPage) ? b.itemsPerPage : this.itemsPerPage;
-              this.noMore = this.articles.length === 0 || this.page >= (b?.pages || 1);
-              this.loading = false;
-              this._webService.consoleLog(
-                b,
-                this.document + ' 114',
-                this.customConsoleCSS
-              );
-            },
-            error: (e) => {
-              this.articles = [];
-              this.loading = false;
-              this._webService.consoleLog(
-                e,
-                this.document + ' 165',
-                this.customConsoleCSS
-              );
-            },
-          });
-      },
-      error: (e) => {
-        this.loading = false;
-        this._webService.consoleLog(
-          e,
-          this.document + ' 165',
-          this.customConsoleCSS
+        this.transfer.remove(feedKey);
+        return this.blog.getArticles(page, 5, '-create_at', 'all', 'all', undefined).pipe(
+          timeout(8000),
+          map((result): Feed => ({
+            status: 'ready', page,
+            articles: Array.isArray(result?.articles) ? result.articles : [],
+            pages: Number.isFinite(result?.pages) ? result.pages : 0,
+          })),
+          catchError((error) => of<Feed>({
+            ...empty, page, status: error instanceof HttpErrorResponse && error.status === 404 ? 'ready' : 'error',
+          })),
         );
-      },
+      }),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe((feed) => {
+      this.feed.set(feed);
+      if (this.server) this.transfer.set(feedKey, feed);
     });
   }
 
-  categoryLabel(category: string): string {
-    if (category === 'technology') return this.lang === 'en' ? 'Technology' : 'Tecnología';
-    if (category === 'art') return this.lang === 'en' ? 'Art' : 'Arte';
-    return this.lang === 'en' ? 'Other' : 'Otros';
+  protected categoryLabel(category: string): string {
+    if (category === 'technology') return this.english ? 'Technology' : 'Tecnología';
+    if (category === 'art') return this.english ? 'Art' : 'Arte';
+    return this.english ? 'Other' : 'Otros';
   }
 }

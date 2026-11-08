@@ -1,9 +1,9 @@
 :host { display: block; }
-.portfolio-shell { width: min(70rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1.25rem, 5vw, 4rem); color: #fff; background: #121319; border: 1px solid #41434d; border-radius: 1rem; }
+.portfolio-shell { width: min(70rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1.25rem, 5vw, 4rem); }
 .portfolio-shell p, .portfolio-shell li { max-width: 72ch; }
 .portfolio-shell h2 { margin-top: 2.25rem; }
-.portfolio-shell a { color: #ffda78; }
-.eyebrow { color: #ffda78; font-weight: 700; margin: 1rem 0 .5rem; }
+.portfolio-shell a { color: var(--portfolio-accent-hover); }
+.eyebrow { color: var(--portfolio-accent); font-weight: 700; margin: 1rem 0 .5rem; }
 .portfolio-links { display: flex; flex-wrap: wrap; gap: 1rem; }
 .timeline { padding-inline-start: 1.5rem; }
 .timeline li { margin-bottom: 1.4rem; }

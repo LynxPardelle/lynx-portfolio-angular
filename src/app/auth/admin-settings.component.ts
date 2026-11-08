@@ -4,12 +4,12 @@ import { AdminSession, EditorialPolicy } from './admin-session.service';
 @Component({
   selector: 'admin-settings',
   template: `
-    <section class="studio">
+    <section class="studio portfolio-surface">
       <h2>Configuración del blog</h2>
       @if (session.role() === 'admin') {
         @if (policy(); as current) {
           <p>Aprobaciones consecutivas de Desktop · {{ current.streak }}</p>
-          <button type="button" [disabled]="busy() || (!current.auto && current.streak < 6)" (click)="toggle(current)">
+          <button class="portfolio-btn" type="button" [disabled]="busy() || (!current.auto && current.streak < 6)" (click)="toggle(current)">
             {{ current.auto ? 'Pausar' : 'Activar' }} publicación automática
           </button>
         }

@@ -1,8 +1,7 @@
-.studio { width: min(65rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1rem, 4vw, 3rem); background: #121319; color: #fff; border: 1px solid #41434d; border-radius: .75rem; }
-.studio a { color: #ffda78; }
+.studio { margin-block: 1.25rem; }
 .studio form { display: grid; gap: 1rem; margin: 1rem 0; }
-.studio label { display: grid; gap: .3rem; }
-.studio input, .studio textarea, .studio select { padding: .5rem; max-width: 100%; }
-.studio button { padding: .45rem .65rem; margin-block: .15rem; }
-.studio article { padding: 1rem; border: 1px solid #777984; overflow-wrap: anywhere; }
+.studio ul { list-style: none; padding: 0; display: grid; gap: .5rem; }
+.studio h3 { border-block-start: 1px solid var(--portfolio-line); padding-block-start: 1rem; margin-block-start: 1.5rem; }
+.studio article { padding: 1rem; border: 1px solid var(--portfolio-line); overflow-wrap: anywhere; }
+.studio-hint { color: var(--portfolio-muted); margin: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; }

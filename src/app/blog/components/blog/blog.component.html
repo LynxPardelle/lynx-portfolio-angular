@@ -1,24 +1,36 @@
-<section class="blog-list">
-  <h1>Blog</h1>
+<section class="blog-list portfolio-surface">
+  <header>
+    <p class="portfolio-kicker">{{ english ? 'Notes and projects' : 'Notas y proyectos' }}</p>
+    <h1>Blog</h1>
+  </header>
   <blog-assistant />
   @if (articles.length > 0) {
     <div class="blog-articles">
       @for (article of articles; track article._id) {
         <article>
-          <h2><a [routerLink]="['/blog/article', article.urltitle || article._id]">{{ lang === 'en' ? (article.titleEng || article.title) : article.title }}</a></h2>
+          <h2><a [routerLink]="['/blog/article', article.urltitle || article._id]">{{ english ? (article.titleEng || article.title) : article.title }}</a></h2>
           @if (article.create_at) { <time>{{ article.create_at | date:'mediumDate' }}</time> }
           @if (article.editorial?.category) { <p>{{ categoryLabel(article.editorial?.category || '') }}</p> }
-          @if (article.editorial?.origin === 'desktop') { <p>{{ lang === 'en' ? 'Written with AI assistance' : 'Redactado con asistencia de IA' }}</p> }
+          @if (article.editorial?.origin === 'desktop') { <p>{{ english ? 'Written with AI assistance' : 'Redactado con asistencia de IA' }}</p> }
         </article>
       }
     </div>
-    <nav aria-label="Blog pages">
-      @if (page > 1) { <a [routerLink]="['/blog', prev_page]">{{ lang === 'en' ? 'Previous' : 'Anterior' }}</a> }
-      @if (!noMore) { <a [routerLink]="['/blog', next_page]">{{ lang === 'en' ? 'Next' : 'Siguiente' }}</a> }
-    </nav>
-  } @else if (!loading) {
-    <p>{{ lang === 'en' ? 'No articles yet.' : 'No hay artículos.' }}</p>
   } @else {
-    <p>{{ lang === 'en' ? 'Loading…' : 'Cargando...' }}</p>
+    <div class="blog-state" role="status">
+      @switch (feed().status) {
+        @case ('loading') { <p>{{ english ? 'Loading…' : 'Cargando...' }}</p> }
+        @case ('error') {
+          <p>{{ english ? 'Could not load the blog.' : 'No se pudo cargar el blog.' }}</p>
+          <button class="portfolio-btn" type="button" (click)="reload()">{{ english ? 'Try again' : 'Reintentar' }}</button>
+        }
+        @default { <p>{{ english ? 'No articles yet.' : 'No hay artículos.' }}</p> }
+      }
+    </div>
+  }
+  @if (feed().page > 1 || feed().page < feed().pages) {
+    <nav aria-label="Blog">
+      @if (feed().page > 1) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page - 1]">{{ english ? 'Previous' : 'Anterior' }}</a> }
+      @if (feed().page < feed().pages) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page + 1]">{{ english ? 'Next' : 'Siguiente' }}</a> }
+    </nav>
   }
 </section>

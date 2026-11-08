@@ -1,6 +1,12 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
+import { MainMainSelector } from '../../../state/selectors/main.selector';
+import { AppState } from '../../../state/app.state';
+import { portfolioCopy, PortfolioCopyKey } from '../../interfaces/main';
 
 @Component({
   selector: 'portfolio-page',
@@ -10,6 +16,13 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './portfolio.component.scss',
 })
 export class PortfolioComponent {
+  private readonly translate = inject(TranslateService);
+  private readonly language = toSignal(this.translate.onLangChange.pipe(map((event) => event.lang)), {
+    initialValue: this.translate.getCurrentLang(),
+  });
+  private readonly profile = toSignal(inject(Store<AppState>).select(MainMainSelector));
+  protected copy(key: PortfolioCopyKey) { return portfolioCopy(this.profile(), key, this.language()); }
+  protected caseIntro(item: string) { return this.copy(item === 'aws' ? 'awsIntro' : 'genaiIntro'); }
   protected readonly view = inject(ActivatedRoute).snapshot.data['view'] as string;
   protected readonly roles = [
     { name: 'Continental General', date: '2026-02', role: 'AI Cloud Engineer', key: 'continental' },

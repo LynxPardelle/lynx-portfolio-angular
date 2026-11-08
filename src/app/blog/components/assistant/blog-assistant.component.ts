@@ -16,10 +16,10 @@ interface Answer { answer: string; sources: { title: string; url: string }[] }
       <section class="assistant" aria-labelledby="blog-assistant-title">
         <h2 id="blog-assistant-title">{{ english ? 'Ask the blog' : 'Pregúntale al blog' }}</h2>
         <p>{{ english ? 'Answers use published articles and include links to sources.' : 'Las respuestas consultan artículos publicados e incluyen enlaces a las fuentes.' }}</p>
-        <form (ngSubmit)="ask()">
+        <form class="portfolio-form" (ngSubmit)="ask()">
           <label for="blog-question">{{ english ? 'Question' : 'Pregunta' }}</label>
           <input id="blog-question" name="question" [(ngModel)]="question" maxlength="400" required>
-          <button type="submit" [disabled]="busy() || !question.trim()">{{ english ? 'Ask' : 'Consultar' }}</button>
+          <button class="portfolio-btn" type="submit" [disabled]="busy() || !question.trim()">{{ english ? 'Ask' : 'Consultar' }}</button>
         </form>
         <p role="status">{{ busy() ? (english ? 'Looking for sources…' : 'Buscando fuentes…') : answer() }}</p>
         @if (sources().length) {
@@ -28,9 +28,9 @@ interface Answer { answer: string; sources: { title: string; url: string }[] }
       </section>
     }
   `,
-  styles: [`.assistant { background: #1e2028; padding: 1rem; border: 1px solid #51545f; border-radius: .6rem; margin-block: 1.5rem; }
-    form { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
-    input { flex: 1; min-width: min(100%, 12rem); padding: .5rem; } button { padding: .5rem; } a { color: #ffda78; }`],
+  styles: [`.assistant { background: var(--portfolio-field-bg); padding: clamp(1rem, 3vw, 1.5rem); border: 1px solid var(--portfolio-line); border-radius: .6rem; margin-block: 1.5rem; }
+    form { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+    input { flex: 1; min-width: min(100%, 12rem); } a { color: var(--portfolio-accent-hover); }`],
 })
 export class BlogAssistantComponent {
   private readonly http = new HttpClient(inject(HttpBackend));

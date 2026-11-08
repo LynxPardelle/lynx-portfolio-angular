@@ -1,18 +1,30 @@
-<section class="studio">
+<section class="studio portfolio-surface">
+  <p class="portfolio-kicker">Publicaciones</p>
   <h2>Editor del blog</h2>
   <p role="status">{{ message() }}</p>
     <div class="actions">
-      <button type="button" (click)="open()">Nuevo borrador</button>
+      <button class="portfolio-btn" type="button" (click)="open()">Nuevo borrador</button>
     </div>
     <h3>Borradores y publicaciones</h3>
     <ul>
       @for (item of drafts(); track item.slug) {
-        <li><button type="button" [disabled]="busy()" (click)="open(item)">{{ item.es?.title || item.en?.title }} · {{ item.status }} · {{ item.origin }}</button></li>
+        <li><button class="portfolio-btn portfolio-btn-secondary" type="button" [disabled]="busy()" (click)="open(item)">
+          {{ item.es?.title || item.en?.title }} · {{ isPrivate(item) ? 'Prueba privada' : item.status }}
+        </button></li>
+      } @empty {
+        @if (!busy()) { <li>Por ahora no hay borradores.</li> }
       }
     </ul>
-    <form (ngSubmit)="save()">
+    <form class="portfolio-form" (ngSubmit)="save()">
       <label>Identificador <input name="slug" [(ngModel)]="draft.slug" required [readOnly]="draft.version > 0" pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="80"></label>
-      <label>Categoría <select name="category" [(ngModel)]="draft.category"><option value="art">Arte</option><option value="technology">Tecnología</option><option value="other">Otros</option></select></label>
+      <label>Categoría <select name="category" [(ngModel)]="draft.category">
+        <option value="art">Arte</option><option value="technology">Tecnología</option><option value="other">Otros</option>
+        @if (session.role() === 'admin') { <option value="test">Test · privado</option> }
+      </select></label>
+      <label>Subcategorías <input name="subcategories" [(ngModel)]="subcategoryText" placeholder="control-editorial, vista-previa"></label>
+      <label>Etiquetas <input name="tags" [(ngModel)]="tagText" placeholder="angular, tutorial"></label>
+      <p class="studio-hint">Separa las etiquetas y subcategorías con comas. Usa guiones entre palabras.</p>
+      @if (editingPrivate) { <p class="studio-hint">Prueba privada · visible únicamente para administradores.</p> }
       <label>Fecha del hecho <input type="date" name="date" [(ngModel)]="draft.eventDate"></label>
       <label>Título en español <input name="titleEs" [(ngModel)]="titleEs" maxlength="160"></label>
       <label>Texto en español (Markdown) <textarea name="es" [(ngModel)]="markdownEs" maxlength="15000" rows="7"></textarea></label>
@@ -20,26 +32,38 @@
       <label>Texto en inglés (Markdown) <textarea name="en" [(ngModel)]="markdownEn" maxlength="15000" rows="7"></textarea></label>
       <label>Fuentes HTTPS, una por línea <textarea name="sources" [(ngModel)]="sourceText" rows="3"></textarea></label>
       <div class="actions">
-        <button [disabled]="busy()" type="submit">Guardar borrador</button>
+        <button class="portfolio-btn" [disabled]="busy()" type="submit">Guardar borrador</button>
         <label>Idioma de vista previa <select name="previewLang" [(ngModel)]="previewLang"><option value="es">Español</option><option value="en">English</option></select></label>
-        <button [disabled]="busy()" type="button" (click)="review()">Previsualizar</button>
+        <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy()" type="button" (click)="review()">Previsualizar</button>
         @if (draft.version > 0) {
-          <button [disabled]="busy() || draft.status === 'published'" type="button" (click)="action('publish')">Publicar versión guardada</button>
-          @if (draft.status === 'published' || draft.status === 'draft') {
-            <button [disabled]="busy()" type="button" (click)="action('withdraw')">Retirar</button>
+          @if (!editingPrivate && !isPrivate(draft)) {
+            <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy() || draft.status === 'published'" type="button" (click)="action('publish')">Publicar versión guardada</button>
+          }
+          @if (!isPrivate(draft) && (draft.status === 'published' || draft.status === 'draft')) {
+            <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy()" type="button" (click)="action('withdraw')">Retirar</button>
           }
           @if (draft.origin === 'desktop' && draft.status === 'draft') {
-            <button [disabled]="busy()" type="button" (click)="action('reject')">Rechazar borrador</button>
+            <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy()" type="button" (click)="action('reject')">Rechazar borrador</button>
+          }
+          @if (session.role() === 'admin' && !confirmDelete()) {
+            <button class="portfolio-btn portfolio-btn-danger" [disabled]="busy()" type="button" (click)="confirmDelete.set(true)">Eliminar artículo</button>
           }
         }
       </div>
+      @if (confirmDelete()) {
+        <p>¿Eliminar este artículo y su versión pública, si existe?</p>
+        <div class="actions">
+          <button class="portfolio-btn portfolio-btn-danger" [disabled]="busy()" type="button" (click)="remove()">Confirmar eliminación</button>
+          <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="confirmDelete.set(false)">Cancelar</button>
+        </div>
+      }
     </form>
     @if (preview()) { <article [innerHTML]="preview()"></article> }
     <h3>Beta privada del asistente</h3>
-    <form (ngSubmit)="askBeta()">
+    <form class="portfolio-form" (ngSubmit)="askBeta()">
       <label>Pregunta sobre el blog <input name="question" [(ngModel)]="question" maxlength="400" required></label>
       <label>Idioma <select name="betaLang" [(ngModel)]="betaLang"><option value="es">Español</option><option value="en">English</option></select></label>
-      <button type="submit" [disabled]="busy()">Consultar</button>
+      <button class="portfolio-btn" type="submit" [disabled]="busy()">Consultar</button>
       <p role="status">{{ beta() }}</p>
     </form>
 </section>

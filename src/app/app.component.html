@@ -79,7 +79,12 @@
     </button>
   </div>
 
-  <div class="w-100 d-flex justify-content-end p-3">
+  <div class="w-100 d-flex justify-content-end gap-2 p-3">
+    @if (adminSession.role() === 'admin') {
+      <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="editLink">
+        {{ lang === 'es' ? 'Editar contenido' : 'Edit content' }}
+      </a>
+    }
     <div class="btn-group" dropdown placement="bottom right">
       <button
         id="button-lang-dropdown"
@@ -202,7 +207,7 @@
           {{ "app.cv" | translate }}
         </a>
       </li>
-      <!-- <li class="text-center my-4 h3">
+      <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
           href="/blog"
@@ -211,7 +216,7 @@
         >
           {{ "app.blog" | translate }}
         </a>
-      </li> -->
+      </li>
     </ul>
   </div>
 </div>

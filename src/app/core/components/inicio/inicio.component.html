@@ -38,15 +38,15 @@
 </div>
 }
 
-<section class="portfolio-intro">
+<section class="portfolio-intro portfolio-surface">
   <p class="portfolio-name">Alec Montaño / Lynx Pardelle</p>
-  <h1>{{ 'portfolio.headline' | translate }}</h1>
-  <p>{{ 'portfolio.summary' | translate }}</p>
+  <h1>{{ copy('profileHeadline') || ('portfolio.headline' | translate) }}</h1>
+  <p>{{ copy('profileSummary') || ('portfolio.summary' | translate) }}</p>
   <div class="portfolio-cases">
-    <a routerLink="/proyectos/aws">{{ 'portfolio.aws.label' | translate }}</a>
-    <a routerLink="/proyectos/genai">{{ 'portfolio.genai.label' | translate }}</a>
+    <a class="portfolio-btn portfolio-btn-secondary" routerLink="/proyectos/aws">{{ 'portfolio.aws.label' | translate }}</a>
+    <a class="portfolio-btn portfolio-btn-secondary" routerLink="/proyectos/genai">{{ 'portfolio.genai.label' | translate }}</a>
   </div>
-  <a routerLink="/cv">{{ 'portfolio.cvLink' | translate }}</a>
+  <a class="portfolio-btn" routerLink="/cv">{{ 'portfolio.cvLink' | translate }}</a>
 </section>
 
 <nav>

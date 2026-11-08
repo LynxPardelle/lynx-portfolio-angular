@@ -79,6 +79,11 @@ export const routes: Routes = [
         title: 'Administración · Lynx Pardelle',
         loadComponent: () => import('./auth/admin-settings.component').then((m) => m.AdminSettings),
       },
+      ...['content', 'content/:collection'].map((path) => ({
+        path,
+        title: 'Contenido · Lynx Pardelle',
+        loadComponent: () => import('./auth/admin-content.component').then((m) => m.AdminContent),
+      })),
     ],
   },
   {

@@ -1,0 +1,78 @@
+<section class="portfolio-surface">
+  <p class="portfolio-kicker">Portafolio</p>
+  <h2>Contenido del sitio</h2>
+  @if (session.role() === 'admin') {
+    <p>Elige una colección, edita sus datos y guarda para actualizar la página pública.</p>
+    <nav class="content-nav" aria-label="Colecciones">
+      @for (entry of sections(); track entry[0]) {
+        <a class="portfolio-btn portfolio-btn-secondary" [class.active]="selected() === entry[0]"
+           [routerLink]="['/admin/content', entry[0]]">{{ entry[1].label }}</a>
+      }
+    </nav>
+    <p role="status">{{ message() }}</p>
+    @if (definition(); as current) {
+      <div class="workspace">
+        <aside>
+          <h3>{{ current.label }}</h3>
+          <a [routerLink]="pageLink()">Ver página pública</a>
+          @if (selected() !== 'mains') {
+            <button class="portfolio-btn" type="button" [disabled]="busy()" (click)="open(null)">Nuevo registro</button>
+          }
+          @for (record of records(); track record.id) {
+            <button class="portfolio-btn portfolio-btn-secondary" type="button" [disabled]="busy()"
+              [class.active]="active()?.id === record.id && editing()" (click)="open(record)">{{ label(record) }}</button>
+          } @empty {
+            @if (!busy()) { <p>Esta colección está vacía.</p> }
+          }
+        </aside>
+        @if (editing()) {
+          <form class="portfolio-form" (ngSubmit)="save()">
+            <h3>{{ active() ? 'Editar registro' : 'Nuevo registro' }}</h3>
+            <div class="fields">
+              @for (field of current.fields; track field[0]) {
+                <label [class.wide]="field[2] === 'long'">
+                  {{ field[1] }}
+                  @switch (field[2]) {
+                    @case ('long') {
+                      <textarea [name]="field[0]" [(ngModel)]="values[field[0]]" rows="4" maxlength="12000"></textarea>
+                    }
+                    @case ('number') {
+                      <input type="number" [name]="field[0]" [(ngModel)]="values[field[0]]" min="0" max="999999" step="1">
+                    }
+                    @case ('media') {
+                      <select [name]="field[0]" [(ngModel)]="values[field[0]]">
+                        <option [ngValue]="null">Sin archivo</option>
+                        @for (file of media(); track file.id) {
+                          <option [ngValue]="file.id">{{ file.title }}{{ file.type ? ' · ' + file.type : '' }}</option>
+                        }
+                      </select>
+                    }
+                    @default {
+                      <input [name]="field[0]" [(ngModel)]="values[field[0]]" maxlength="600"
+                        [type]="field[2] === 'text' ? 'text' : 'url'">
+                    }
+                  }
+                </label>
+              }
+            </div>
+            <div class="content-nav">
+              <button class="portfolio-btn" type="submit" [disabled]="busy()">Guardar cambios</button>
+              @if (active() && selected() !== 'mains' && !confirmDelete()) {
+                <button class="portfolio-btn portfolio-btn-danger" type="button" [disabled]="busy()" (click)="confirmDelete.set(true)">Eliminar</button>
+              }
+            </div>
+            @if (confirmDelete()) {
+              <p>¿Eliminar este registro del sitio?</p>
+              <div class="content-nav">
+                <button class="portfolio-btn portfolio-btn-danger" type="button" [disabled]="busy()" (click)="remove()">Confirmar eliminación</button>
+                <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="confirmDelete.set(false)">Cancelar</button>
+              </div>
+            }
+          </form>
+        }
+      </div>
+    }
+  } @else {
+    <p>Esta sección requiere el rol de administrador.</p>
+  }
+</section>

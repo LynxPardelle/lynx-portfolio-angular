@@ -1,5 +1,6 @@
-.blog-list { width: min(70rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1rem, 4vw, 3rem); background: #121319; color: #fff; border-radius: .75rem; }
-.blog-list a { color: #ffda78; }
-.blog-articles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
-.blog-articles article { border: 1px solid #51545f; border-radius: .5rem; padding: 1rem; }
+.blog-list { width: min(70rem, calc(100% - 2rem)); margin: 3rem auto; }
+.blog-list header { margin-block-end: 1.5rem; }
+.blog-articles article, .blog-state { border-block-start: 1px solid var(--portfolio-line); padding-block: 1.25rem; }
+.blog-articles h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
+.blog-articles p, time { color: var(--portfolio-muted); }
 .blog-list nav { display: flex; gap: 1rem; margin-top: 1rem; }

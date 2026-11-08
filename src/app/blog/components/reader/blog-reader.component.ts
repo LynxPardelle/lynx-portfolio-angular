@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, timeout } from 'rxjs';
 import { IArticle, IArticleSection } from '../../interfaces/blog';
 import { BlogService } from '../../services/blog.service';
 
@@ -10,8 +10,8 @@ import { BlogService } from '../../services/blog.service';
   selector: 'blog-reader',
   imports: [RouterLink],
   template: `
-    <article>
-      <a routerLink="/blog">Blog</a>
+    <article class="portfolio-surface">
+      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog">Blog</a>
       @if (article(); as item) {
         <h1>{{ english ? (item.titleEng || item.title) : item.title }}</h1>
         @if (item.editorial?.origin === 'desktop') { <p>{{ english ? 'Written with AI assistance' : 'Redactado con asistencia de IA' }}</p> }
@@ -32,7 +32,7 @@ import { BlogService } from '../../services/blog.service';
       }
     </article>
   `,
-  styles: [`article { width: min(54rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1rem, 4vw, 3rem); color: #fff; background: #121319; border-radius: .75rem; overflow-wrap: anywhere; } a { color: #ffda78; } h1 { margin-block: 1rem; }`],
+  styles: [`article { width: min(54rem, calc(100% - 2rem)); margin: 3rem auto; overflow-wrap: anywhere; } a { color: var(--portfolio-accent-hover); } h1 { margin-block: 1rem; }`],
 })
 export class BlogReaderComponent {
   private readonly route = inject(ActivatedRoute);
@@ -40,6 +40,7 @@ export class BlogReaderComponent {
   private readonly translate = inject(TranslateService);
   protected readonly article = toSignal(this.route.paramMap.pipe(switchMap((params) =>
     this.blog.getArticle(encodeURIComponent(params.get('id') || '')).pipe(
+      timeout(8000),
       map((result) => result.article as IArticle & { sections: IArticleSection[] }),
       catchError(() => of(null)),
     )),

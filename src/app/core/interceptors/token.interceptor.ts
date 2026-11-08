@@ -7,6 +7,7 @@ import {
   HttpHeaders,
   HttpErrorResponse,
   HttpInterceptorFn,
+  HttpContextToken,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 /* RxJs */
@@ -61,7 +62,10 @@ export class TokenInterceptor implements HttpInterceptor {
 }
 
 // Modern functional interceptor for Angular 19
+export const publicRequest = new HttpContextToken(() => false);
+
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
+  if (req.context.get(publicRequest)) return next(req);
   const mainService = inject(MainService);
 
   const reqClone: HttpRequest<unknown> =

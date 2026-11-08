@@ -6,7 +6,7 @@ import { lastValueFrom, Observable } from 'rxjs';
 // Environment
 import { environment } from '../../../../environments/environment';
 // Interfaces
-import { IMain } from '../../interfaces/main';
+import { IMain, portfolioCopy, PortfolioCopy, PortfolioCopyKey } from '../../interfaces/main';
 // Models
 import { Main } from '../../models/main';
 // Services
@@ -40,7 +40,8 @@ import { assetUrl } from '../../../shared/utils/asset-url';
 })
 export class InicioComponent implements OnInit {
   public identity: any;
-  public main!: Main;
+  public main!: Main & PortfolioCopy;
+  protected copy(key: PortfolioCopyKey) { return portfolioCopy(this.main, key, this.lang); }
   // Translate
   public lang: string = 'es';
   // Urls

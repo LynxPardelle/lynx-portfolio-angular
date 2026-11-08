@@ -10,7 +10,8 @@ import {
   PLATFORM_ID,
   inject,
 } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { AdminSession } from './auth/admin-session.service';
 import { Location, isPlatformBrowser } from '@angular/common';
 /* RXJS */
 import { lastValueFrom, Observable } from 'rxjs';
@@ -61,6 +62,14 @@ import { assetUrl } from './shared/utils/asset-url';
   ],
 })
 export class AppComponent implements OnInit, DoCheck {
+  protected readonly adminSession = inject(AdminSession);
+  private readonly router = inject(Router);
+  protected get editLink(): string {
+    const section = this.router.lastSuccessfulNavigation()?.finalUrl?.toString().split(/[/?#]/)[1] || '';
+    const collections: Record<string, string> = { webs: 'websites', reel: 'videos', book: 'bookimgs', music: 'songs' };
+    if (section === 'blog') return '/admin/blog';
+    return `/admin/content/${collections[section] || 'mains'}`;
+  }
   public identity: any;
   public main!: Main;
   public songs: Song[] = [];

@@ -1,0 +1,8 @@
+.content-nav { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: 1rem; }
+.workspace { display: grid; grid-template-columns: minmax(10rem, 1fr) minmax(0, 3fr); gap: clamp(1rem, 3vw, 2rem); border-block-start: 1px solid var(--portfolio-line); padding-block-start: 1.25rem; }
+aside { display: flex; flex-direction: column; align-items: stretch; gap: .55rem; min-width: 0; }
+aside h3, form h3 { font-size: 1.25rem; }
+aside button { text-align: start; justify-content: flex-start; overflow-wrap: anywhere; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.wide { grid-column: 1 / -1; }
+@media (max-width: 700px) { .workspace, .fields { grid-template-columns: minmax(0, 1fr); } }

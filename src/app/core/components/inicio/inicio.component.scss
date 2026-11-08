@@ -1,7 +1,5 @@
 
-.portfolio-intro { width: min(62rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1.25rem, 5vw, 4rem); background: #121319; color: #fff; border: 1px solid #41434d; border-radius: 1rem; }
+.portfolio-intro { width: min(62rem, calc(100% - 2rem)); margin: 3rem auto; padding: clamp(1.25rem, 5vw, 4rem); }
 .portfolio-name { color: #ffda78; font-weight: 700; }
 .portfolio-intro p { max-width: 65ch; }
 .portfolio-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; margin-block: 1.5rem; }
-.portfolio-intro a { color: #ffda78; }
-.portfolio-cases a { display: block; border: 1px solid #777984; border-radius: .5rem; padding: .85rem; font-weight: 700; }

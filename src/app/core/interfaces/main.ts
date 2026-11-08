@@ -1,4 +1,7 @@
-export interface IMain {
+export type PortfolioCopyKey = 'profileHeadline' | 'profileSummary' | 'awsIntro' | 'genaiIntro';
+export type PortfolioCopy = Partial<Record<PortfolioCopyKey | `${PortfolioCopyKey}Eng`, string | null>>;
+
+export interface IMain extends PortfolioCopy {
   welcome: string;
   welcomeEng: string;
   logo: any;
@@ -15,4 +18,8 @@ export interface IMain {
   errorMessageEng: string;
   seoTags: string;
   seoImg: string;
+}
+
+export function portfolioCopy(main: PortfolioCopy | undefined, key: PortfolioCopyKey, language: string) {
+  return main?.[language === 'en' ? `${key}Eng` as const : key];
 }

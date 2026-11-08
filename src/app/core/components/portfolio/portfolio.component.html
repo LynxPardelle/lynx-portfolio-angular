@@ -1,10 +1,10 @@
-<section class="portfolio-shell">
+<section class="portfolio-shell portfolio-surface">
   @switch (view) {
     @case ('cv') {
       <p class="eyebrow">{{ 'app.cv' | translate }}</p>
       <h1>Alec Jonathan Montaño Romero</h1>
-      <p class="lead">{{ 'portfolio.headline' | translate }}</p>
-      <p>{{ 'portfolio.summary' | translate }}</p>
+      <p class="lead">{{ copy('profileHeadline') || ('portfolio.headline' | translate) }}</p>
+      <p>{{ copy('profileSummary') || ('portfolio.summary' | translate) }}</p>
       <p>{{ 'portfolio.languages' | translate }}</p>
       <nav class="portfolio-links" [attr.aria-label]="'portfolio.contact' | translate">
         <a href="https://github.com/LynxPardelle">GitHub</a>
@@ -34,7 +34,7 @@
         <li>{{ 'portfolio.coderhouse' | translate }}</li>
         <li>{{ 'portfolio.gmartell' | translate }}</li>
       </ul>
-      <a routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
+      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
     }
     @case ('projects') {
       <h1>{{ 'portfolio.cases' | translate }}</h1>
@@ -43,7 +43,7 @@
           <article>
             <p class="eyebrow">{{ 'portfolio.' + item + '.label' | translate }}</p>
             <h2><a [routerLink]="['/proyectos', item]">{{ 'portfolio.' + item + '.title' | translate }}</a></h2>
-            <p>{{ 'portfolio.' + item + '.intro' | translate }}</p>
+            <p>{{ caseIntro(item) || ('portfolio.' + item + '.intro' | translate) }}</p>
           </article>
         }
       </div>
@@ -52,7 +52,7 @@
       <a routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
       <p class="eyebrow">{{ 'portfolio.' + view + '.label' | translate }}</p>
       <h1>{{ 'portfolio.' + view + '.title' | translate }}</h1>
-      <p class="lead">{{ 'portfolio.' + view + '.intro' | translate }}</p>
+      <p class="lead">{{ caseIntro(view) || ('portfolio.' + view + '.intro' | translate) }}</p>
       @for (section of ['problem', 'decision', 'evidence']; track section) {
         <h2>{{ 'portfolio.' + section | translate }}</h2>
         <p>{{ 'portfolio.' + view + '.' + section | translate }}</p>

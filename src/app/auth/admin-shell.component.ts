@@ -1,33 +1,37 @@
 import { afterNextRender, Component, inject, signal } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AdminSession } from './admin-session.service';
 
 @Component({
   selector: 'admin-shell',
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   template: `
     <section class="admin">
-      <a routerLink="/blog">Blog público</a>
-      <h1>Administración del portafolio</h1>
+      <header class="portfolio-surface admin-heading">
+        <p class="portfolio-kicker">Lynx Pardelle</p>
+        <h1>Administración del portafolio</h1>
+        <a routerLink="/">Volver al sitio</a>
+      </header>
       <p role="status">{{ message() }}</p>
       @if (session.role()) {
         <nav aria-label="Administración">
-          <a routerLink="/admin/blog">Editor del blog</a>
+          <a class="portfolio-btn portfolio-btn-secondary" routerLinkActive="active" routerLink="/admin/blog">Editor del blog</a>
           @if (session.role() === 'admin') {
-            <a routerLink="/admin/settings">Configuración</a>
+            <a class="portfolio-btn portfolio-btn-secondary" routerLinkActive="active" routerLink="/admin/content">Contenido del sitio</a>
+            <a class="portfolio-btn portfolio-btn-secondary" routerLinkActive="active" routerLink="/admin/settings">Configuración</a>
           }
-          <button type="button" (click)="session.logout()">Cerrar sesión</button>
+          <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="session.logout()">Cerrar sesión</button>
         </nav>
         <router-outlet />
       } @else {
-        <button type="button" [disabled]="busy()" (click)="login()">Iniciar sesión</button>
+        <button class="portfolio-btn" type="button" [disabled]="busy()" (click)="login()">Iniciar sesión</button>
       }
     </section>
   `,
   styles: `
-    .admin { width: min(65rem, calc(100% - 2rem)); margin: 3rem auto; color: #fff; }
-    .admin a { color: #ffda78; }
-    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+    .admin { width: min(72rem, calc(100% - 2rem)); margin: 3rem auto; color: var(--portfolio-text); }
+    .admin-heading { padding-block: 1.5rem; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-block: 1rem; }
   `,
 })
 export class AdminShell {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
+import { publicRequest } from '../../core/interceptors/token.interceptor';
 /* RxJs */
 import { Observable } from 'rxjs';
 /* Environment */
@@ -74,7 +75,8 @@ export class BlogService {
     return this._http.get(
       `${this.urlBlog}articles/${page}/${ipp}/${sort}${
         rootAccess ? `/${rootAccess}` : ''
-      }${type ? `/${type}` : ''}${search ? `/${search}` : ''}`
+      }${type ? `/${type}` : ''}${search ? `/${encodeURIComponent(search)}` : ''}`,
+      { context: new HttpContext().set(publicRequest, true) },
     );
   }
   getArticleCats(): Observable<any> {
@@ -84,7 +86,7 @@ export class BlogService {
     return this._http.get(`${this.urlBlog}article-sub-cats`);
   }
   getArticle(id: string): Observable<any> {
-    return this._http.get(`${this.urlBlog}article/${id}`);
+    return this._http.get(`${this.urlBlog}article/${id}`, { context: new HttpContext().set(publicRequest, true) });
   }
   /* Update */
   updateArticle(article: any): Observable<any> {

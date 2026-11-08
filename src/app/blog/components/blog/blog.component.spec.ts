@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
@@ -96,4 +96,19 @@ describe('BlogComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('No hay artículos.');
     expect(fixture.nativeElement.textContent).not.toContain('Cargando...');
   });
+
+  it('stops loading and supports retry when the feed times out', fakeAsync(() => {
+    fixture.detectChanges();
+    const first = httpTesting.expectOne(articlesUrl);
+    expect(component.loading).toBeTrue();
+    tick(8001);
+    fixture.detectChanges();
+    expect(first.cancelled).toBeTrue();
+    expect(component.loading).toBeFalse();
+    expect(fixture.nativeElement.textContent).toContain('No se pudo cargar el blog.');
+    fixture.nativeElement.querySelector('.blog-state button').click();
+    httpTesting.expectOne(articlesUrl).flush({ articles: [], pages: 0 });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('No hay artículos.');
+  }));
 });
