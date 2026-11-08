@@ -71,10 +71,8 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    loadComponent: () =>
-      import('./auth/components/login/login.component').then(
-        (m) => m.LoginComponent
-      ),
+    pathMatch: 'full',
+    redirectTo: 'admin/blog',
   },
   {
     path: '**',
