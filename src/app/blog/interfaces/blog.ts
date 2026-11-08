@@ -24,6 +24,7 @@ export interface IArticle {
   langs: string[];
   show: boolean;
   create_at: Date;
+  editorial?: { category: string; sources: string[]; eventDate: string; revision: number; origin: string };
 }
 
 export interface IArticleCat {

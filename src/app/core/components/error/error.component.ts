@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 /* RxJs */
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { LoadMain } from '../../../state/actions/main.actions';
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class ErrorComponent implements OnInit {

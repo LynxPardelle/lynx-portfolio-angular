@@ -40,7 +40,7 @@ app.use(
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.get('*', (req, res, next) => {
+app.get('/{*splat}', (req, res) => {
   angularApp
     .handle(req)
     .then((response) => {

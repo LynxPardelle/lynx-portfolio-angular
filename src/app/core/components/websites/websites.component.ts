@@ -13,7 +13,7 @@
  * - Type-safe interfaces
  * - Enhanced component lifecycle management
  */
-import { Component, OnInit, OnDestroy, inject, signal, computed, effect } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal, computed, effect, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // Environment
 import { environment } from '../../../../environments/environment';
@@ -54,6 +54,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './websites.component.html',
   styleUrls: ['./websites.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     FileUploaderComponent,

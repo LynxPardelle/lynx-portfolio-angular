@@ -1,7 +1,7 @@
 import { ActionReducerMap } from '@ngrx/store';
 
 /* Interfaces */
-import { ISesion } from 'src/app/auth/interfaces/sesion';
+import { ISesion } from '../auth/interfaces/sesion';
 // import { Token } from '../auth/interfaces/token';
 import MainState from '../core/interfaces/main.state';
 

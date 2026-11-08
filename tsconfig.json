@@ -15,7 +15,6 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     /* 
     "forceConsistentCasingInFileNames": true,

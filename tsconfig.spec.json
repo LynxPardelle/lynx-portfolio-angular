@@ -7,16 +7,15 @@
     "types": [
       "jasmine"
     ],
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "@core/*": ["src/app/core/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@components/*": ["src/app/core/components/*"],
-      "@services/*": ["src/app/core/services/*"],
-      "@types/*": ["src/app/core/types/*"],
-      "@interfaces/*": ["src/app/core/interfaces/*"],
-      "@environments/*": ["src/environments/*"]
+      "@/*": ["./src/*"],
+      "@core/*": ["./src/app/core/*"],
+      "@shared/*": ["./src/app/shared/*"],
+      "@components/*": ["./src/app/core/components/*"],
+      "@services/*": ["./src/app/core/services/*"],
+      "@types/*": ["./src/app/core/types/*"],
+      "@interfaces/*": ["./src/app/core/interfaces/*"],
+      "@environments/*": ["./src/environments/*"]
     }
   },
   "files": [
@@ -25,5 +24,13 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

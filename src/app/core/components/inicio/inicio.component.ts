@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 // RxJs
@@ -23,7 +23,6 @@ import { LoadMain } from '../../../state/actions/main.actions';
 // Shared Components
 import { FileUploaderComponent } from '../../../shared/components/file-uploader/file-uploader.component';
 // Pipes
-import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
 import { TranslatePipe } from '@ngx-translate/core';
 import { assetUrl } from '../../../shared/utils/asset-url';
 @Component({
@@ -31,11 +30,11 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     RouterModule,
     FileUploaderComponent,
-    SafeHtmlPipe,
     TranslatePipe
   ],
 })

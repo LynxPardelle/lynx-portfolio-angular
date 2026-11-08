@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { GenericButtonComponent } from '../generic-button/generic-button.component';
@@ -22,7 +22,7 @@ describe('GenericInputComponent', () => {
         GenericButtonComponent,
         GenericDropdownComponent,
       ],
-      providers: [HarshifyPipe, provideHttpClient(), provideHttpClientTesting()],
+      providers: [HarshifyPipe, provideHttpClient(withXhr()), provideHttpClientTesting()],
     })
     .compileComponents();
 

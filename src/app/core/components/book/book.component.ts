@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // RxJs
 import { Observable } from 'rxjs';
@@ -28,6 +28,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     FileUploaderComponent,

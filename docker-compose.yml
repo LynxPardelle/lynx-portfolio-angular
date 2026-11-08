@@ -60,7 +60,7 @@ services:
         NODE_ENV: production
         PROD_PORT: ${PROD_PORT:-4000}
       cache_from:
-        - node:22-alpine
+        - node:24-alpine
     container_name: ${APP_NAME:-lynx-portfolio}-prod
     ports:
       - "${PROD_PORT:-4000}:${PROD_PORT:-4000}"
@@ -88,7 +88,7 @@ services:
         <<: *common-variables
         NODE_ENV: production
       cache_from:
-        - node:22-alpine
+        - node:24-alpine
     container_name: ${APP_NAME:-lynx-portfolio}-prod-no-ssr
     ports:
       - "${PROD_NO_SSR_PORT:-6163}:80"

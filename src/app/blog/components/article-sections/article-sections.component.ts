@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { IArticle, IArticleSection } from '../../interfaces/blog';
 import { BlogService } from '../../services/blog.service';
 import Swal from 'sweetalert2';
@@ -10,6 +10,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   selector: 'article-sections',
   templateUrl: './article-sections.component.html',
   styleUrls: ['./article-sections.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ArticleSectionsComponent {

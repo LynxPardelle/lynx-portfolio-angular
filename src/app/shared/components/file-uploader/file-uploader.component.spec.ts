@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { importProvidersFrom } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -14,7 +14,7 @@ describe('FileUploaderComponent', () => {
     await TestBed.configureTestingModule({
       imports: [FileUploaderComponent],
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         importProvidersFrom(ModalModule),
       ],

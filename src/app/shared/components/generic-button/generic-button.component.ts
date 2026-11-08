@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /* Services */
@@ -19,6 +19,7 @@ export type TAvailablePlacement = 'auto' | 'top' | 'bottom' | 'left' | 'right';
   templateUrl: './generic-button.component.html',
   styleUrls: ['./generic-button.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, SafeHtmlPipe, TooltipModule],
 })
 export class GenericButtonComponent implements OnInit {

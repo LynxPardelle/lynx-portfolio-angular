@@ -10,7 +10,7 @@
 # -----------------------------------------------------------------------------
 # Dependencies Stage - Shared base for dependency installation
 # -----------------------------------------------------------------------------
-FROM node:22-alpine AS dependencies
+FROM node:24-alpine AS dependencies
 
 # Set build arguments for configuration
 ARG NODE_ENV=production
@@ -61,7 +61,7 @@ RUN npm cache clean --force
 # -----------------------------------------------------------------------------
 # Dev dependencies stage - install all dependencies for building
 # -----------------------------------------------------------------------------
-FROM node:22-alpine AS dev-dependencies
+FROM node:24-alpine AS dev-dependencies
 
 # Install system dependencies and security updates
 RUN apk update

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { BlogAssistantComponent } from '../assistant/blog-assistant.component';
 // RxJs 
 import { Observable } from 'rxjs';
 // Environment 
@@ -29,8 +31,11 @@ import { LoadMain } from '../../../state/actions/main.actions';
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
+    DatePipe,
+    BlogAssistantComponent,
     RouterModule
 ],
 })
@@ -160,7 +165,7 @@ export class BlogComponent implements OnInit {
     // Get page from url 
     this._route.params.subscribe({
       next: (params: any) => {
-        this.page = params['page'] ? params['page'] : this.page;
+        this.page = Math.max(1, Number(params['page']) || 1);
         this.search = params['search']
           ? params['search']
           : params['cat']
@@ -174,7 +179,7 @@ export class BlogComponent implements OnInit {
           .getArticles(
             this.page,
             5,
-            '_id',
+            '-create_at',
             'all',
             'all',
             this.search || undefined
@@ -212,5 +217,11 @@ export class BlogComponent implements OnInit {
         );
       },
     });
+  }
+
+  categoryLabel(category: string): string {
+    if (category === 'technology') return this.lang === 'en' ? 'Technology' : 'Tecnología';
+    if (category === 'art') return this.lang === 'en' ? 'Art' : 'Arte';
+    return this.lang === 'en' ? 'Other' : 'Otros';
   }
 }

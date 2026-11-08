@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // RxJs 
@@ -34,6 +34,7 @@ import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
   templateUrl: './cv.component.html',
   styleUrls: ['./cv.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     FormsModule,

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { GenericDropdownComponent } from './generic-dropdown.component';
@@ -12,7 +12,7 @@ describe('GenericDropdownComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GenericDropdownComponent],
-      providers: [HarshifyPipe, provideHttpClient(), provideHttpClientTesting()],
+      providers: [HarshifyPipe, provideHttpClient(withXhr()), provideHttpClientTesting()],
     })
     .compileComponents();
 

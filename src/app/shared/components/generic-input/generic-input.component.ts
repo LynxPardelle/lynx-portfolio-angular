@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 /* Interfaces */
 import { ISpanInput } from '../../interfaces/spanInput';
 import { IOptionDropdown } from '../../interfaces/optionDropdown';
@@ -7,6 +7,7 @@ import { IButton } from '../../interfaces/button';
   selector: 'generic-input',
   templateUrl: './generic-input.component.html',
   styleUrls: ['./generic-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GenericInputComponent implements OnInit {

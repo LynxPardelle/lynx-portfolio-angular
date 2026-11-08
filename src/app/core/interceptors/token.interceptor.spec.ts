@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { TokenInterceptor } from './token.interceptor';
@@ -8,7 +8,7 @@ describe('TokenInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
       TokenInterceptor,
-      provideHttpClient(),
+      provideHttpClient(withXhr()),
       provideHttpClientTesting(),
     ]
   }));

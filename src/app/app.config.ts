@@ -4,7 +4,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { provideHttpClient, withInterceptors, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay, withNoIncrementalHydration } from '@angular/platform-browser';
 
 // State Management (NgRx)
 import { provideStore } from '@ngrx/store';
@@ -59,7 +59,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideAnimations(),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
     { provide: LOCALE_ID, useValue: 'es' },
     
     // State Management (NgRx) with optimizations
@@ -81,7 +81,7 @@ export const appConfig: ApplicationConfig = {
     
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: './assets/i18n/',
+        prefix: '/assets/i18n/',
         suffix: '.json',
       }),
       fallbackLang: 'en',

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 /* Interfaces */
 import { IArticle, IArticleSubCat } from '../../interfaces/blog';
 /* Services */
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
   selector: 'blog-subcat-edit',
   templateUrl: './blog-subcat-edit.component.html',
   styleUrls: ['./blog-subcat-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BlogSubcatEditComponent implements OnInit {

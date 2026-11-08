@@ -5,6 +5,7 @@ import {
   Output,
   TemplateRef,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -34,6 +35,7 @@ import {
   styleUrls: ['./file-uploader.component.scss'],
   providers: [WebService],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, NgxUploaderModule],
 })
 export class FileUploaderComponent implements OnInit {

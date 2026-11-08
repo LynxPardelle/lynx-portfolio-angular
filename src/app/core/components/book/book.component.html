@@ -92,7 +92,7 @@
           </svg>
         </button>
       </div>
-      } @if ( mediaUrl(bookimg?.img) && bookimg?.img?.title )
+      } @if ( mediaUrl($safeNavigationMigration(bookimg?.img)) && bookimg?.img?.title )
       {
       <img
         class="portfolio-book-image obj-fit-cover w-100"

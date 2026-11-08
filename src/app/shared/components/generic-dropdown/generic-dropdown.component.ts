@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 /* Interfaces */
 import { IOptionDropdown } from '../../interfaces/optionDropdown';
@@ -13,6 +13,7 @@ import { HarshifyPipe } from '../../pipes/harshify.pipe';
   templateUrl: './generic-dropdown.component.html',
   styleUrls: ['./generic-dropdown.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, HarshifyPipe],
 })
 export class GenericDropdownComponent implements OnInit {

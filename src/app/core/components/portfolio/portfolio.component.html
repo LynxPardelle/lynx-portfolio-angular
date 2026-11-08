@@ -1,0 +1,77 @@
+<section class="portfolio-shell">
+  @switch (view) {
+    @case ('cv') {
+      <p class="eyebrow">{{ 'app.cv' | translate }}</p>
+      <h1>Alec Jonathan Montaño Romero</h1>
+      <p class="lead">{{ 'portfolio.headline' | translate }}</p>
+      <p>{{ 'portfolio.summary' | translate }}</p>
+      <p>{{ 'portfolio.languages' | translate }}</p>
+      <nav class="portfolio-links" [attr.aria-label]="'portfolio.contact' | translate">
+        <a href="https://github.com/LynxPardelle">GitHub</a>
+        <a href="https://linkedin.com/in/alecjmr">LinkedIn</a>
+        <a href="mailto:lynxpardelle@lynxpardelle.com">{{ 'portfolio.contact' | translate }}</a>
+      </nav>
+      <h2>{{ 'portfolio.experience' | translate }}</h2>
+      <ol class="timeline">
+        @for (role of roles; track role.key) {
+          <li>
+            <h3>{{ role.name }}</h3>
+            <p class="role">{{ role.role }} · {{ role.date }}@if (role.key === 'continental' || role.key === 'freelance') { — {{ 'portfolio.present' | translate }} }</p>
+            <p>{{ 'portfolio.role.' + role.key | translate }}</p>
+          </li>
+        }
+      </ol>
+      <h2>{{ 'portfolio.skills' | translate }}</h2>
+      <ul>
+        <li>Gen AI · Claude, Amazon Bedrock, RAG, MCP, Strands Agents, LLM evaluations</li>
+        <li>Full Stack · Angular, React, TypeScript, Node.js, NestJS, Python, Django</li>
+        <li>Data &amp; AWS · PostgreSQL, DynamoDB, Glue, Lambda, Step Functions, CDK, GitHub Actions</li>
+      </ul>
+      <h2>{{ 'portfolio.education' | translate }}</h2>
+      <ul>
+        <li>{{ 'portfolio.anthropic' | translate }}</li>
+        <li>{{ 'portfolio.bedu' | translate }}</li>
+        <li>{{ 'portfolio.coderhouse' | translate }}</li>
+        <li>{{ 'portfolio.gmartell' | translate }}</li>
+      </ul>
+      <a routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
+    }
+    @case ('projects') {
+      <h1>{{ 'portfolio.cases' | translate }}</h1>
+      <div class="case-grid">
+        @for (item of cases; track item) {
+          <article>
+            <p class="eyebrow">{{ 'portfolio.' + item + '.label' | translate }}</p>
+            <h2><a [routerLink]="['/proyectos', item]">{{ 'portfolio.' + item + '.title' | translate }}</a></h2>
+            <p>{{ 'portfolio.' + item + '.intro' | translate }}</p>
+          </article>
+        }
+      </div>
+    }
+    @default {
+      <a routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
+      <p class="eyebrow">{{ 'portfolio.' + view + '.label' | translate }}</p>
+      <h1>{{ 'portfolio.' + view + '.title' | translate }}</h1>
+      <p class="lead">{{ 'portfolio.' + view + '.intro' | translate }}</p>
+      @for (section of ['problem', 'decision', 'evidence']; track section) {
+        <h2>{{ 'portfolio.' + section | translate }}</h2>
+        <p>{{ 'portfolio.' + view + '.' + section | translate }}</p>
+      }
+      @if (view === 'aws') {
+        <figure class="architecture">
+          <figcaption>{{ 'portfolio.aws.diagram' | translate }}</figcaption>
+          <p><strong>{{ 'portfolio.before' | translate }}</strong> · Angular → Express → MongoDB</p>
+          <p><strong>{{ 'portfolio.after' | translate }}</strong> · CloudFront → Angular SSR / Lambda → API Gateway → DynamoDB</p>
+        </figure>
+        <a href="https://github.com/LynxPardelle/lynx-portfolio-angular">{{ 'portfolio.aws.repo' | translate }}</a>
+      } @else {
+        <ul>
+          <li>{{ 'portfolio.genai.cited' | translate }}</li>
+          <li>{{ 'portfolio.genai.insufficient' | translate }}</li>
+          <li>{{ 'portfolio.genai.review' | translate }}</li>
+        </ul>
+        <a routerLink="/blog">{{ 'portfolio.genai.blog' | translate }}</a>
+      }
+    }
+  }
+</section>

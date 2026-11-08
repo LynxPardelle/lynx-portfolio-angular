@@ -38,35 +38,16 @@
 </div>
 }
 
-@if (
-  main &&
-  main.welcome &&
-  main.welcome !== '' &&
-  main.welcomeEng &&
-  main.welcomeEng !== ''
-) {
-<div
-  class="mx-auto my-5 py-5 text-center w-75 ank ank-text-tlight"
->
-  @if (lang === 'es') {
-    @if (main.welcome && main.welcome !== '') {
-    <div
-      [innerHTML]="
-        Linkify(main.welcome, '#ffffff', '#f9c24f') | safeHtml
-      "
-    ></div>
-    }
-  } @else {
-    @if (main.welcomeEng && main.welcomeEng !== '') {
-    <div
-      [innerHTML]="
-        Linkify(main.welcomeEng, '#ffffff', '#f9c24f') | safeHtml
-      "
-    ></div>
-    }
-  }
-</div>
-}
+<section class="portfolio-intro">
+  <p class="portfolio-name">Alec Montaño / Lynx Pardelle</p>
+  <h1>{{ 'portfolio.headline' | translate }}</h1>
+  <p>{{ 'portfolio.summary' | translate }}</p>
+  <div class="portfolio-cases">
+    <a routerLink="/proyectos/aws">{{ 'portfolio.aws.label' | translate }}</a>
+    <a routerLink="/proyectos/genai">{{ 'portfolio.genai.label' | translate }}</a>
+  </div>
+  <a routerLink="/cv">{{ 'portfolio.cvLink' | translate }}</a>
+</section>
 
 <nav>
   <ul class="mx-auto w-75 d-flex flex-wrap justify-content-center ps-0 mb-0 ank ank-mt-5rem">
@@ -111,7 +92,6 @@
         {{ "app.cv" | translate }}
       </a>
     </li>
-    <!--
       <li class="mx-3">
       <a
         href="/blog"
@@ -121,7 +101,6 @@
         {{ "app.blog" | translate }}
       </a>
     </li>
-    -->
   </ul>
 </nav>
 

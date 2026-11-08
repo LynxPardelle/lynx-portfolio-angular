@@ -32,7 +32,8 @@ jobs:
     env:
       DEPLOY_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'dev' }}
       RELEASE_ID: ${{ github.event_name == 'workflow_dispatch' && inputs.release_id || github.sha }}
-      API_BASE_URL: https://api.lynxpardelle.com
+      API_BASE_URL: ${{ vars.API_BASE_URL || fromJSON('{"dev":"https://6rz4b6ydmh.execute-api.us-east-1.amazonaws.com","tst":"https://nnpwkjfa56.execute-api.us-east-1.amazonaws.com","prod":"https://api.lynxpardelle.com"}')[github.event_name == 'workflow_dispatch' && inputs.environment || 'dev'] }}
+      ASSISTANT_PUBLIC: ${{ vars.ASSISTANT_PUBLIC || '0' }}
       ARTIFACT_BUCKET: lynx-portfolio
       AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
     steps:
@@ -40,13 +41,13 @@ jobs:
 
       - uses: actions/setup-node@v6.4.0
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
       - run: npm ci
       - run: npm audit --omit=dev
       - run: npm test -- --watch=false --browsers=ChromeHeadless
-      - run: npm run package:ssr:lambda
+      - run: node tools/configure-api.mjs && npm run package:ssr:lambda
 
       - name: Validate AWS environment variables
         env:

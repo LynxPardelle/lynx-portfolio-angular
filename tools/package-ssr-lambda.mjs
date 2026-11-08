@@ -59,7 +59,7 @@ const manifest = {
   releaseId,
   sourceCommit,
   apiBaseUrl,
-  nodeRuntime: 'nodejs22.x',
+  nodeRuntime: 'nodejs24.x',
   browserPrefix: `${artifactBasePrefix}/releases/${releaseId}/browser`,
   serverBundleKey: `${artifactBasePrefix}/releases/${releaseId}/server/ssr-handler.zip`,
   checksums: {

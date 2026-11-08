@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 /* RxJs */
 import { Observable, map } from 'rxjs';
@@ -29,6 +29,7 @@ import { valuefyTemplate } from '../../utils/valuefy-template';
   selector: 'app-article',
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ArticleComponent implements OnInit {

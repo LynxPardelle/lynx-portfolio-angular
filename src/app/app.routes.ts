@@ -43,15 +43,31 @@ export const routes: Routes = [
   },
   {
     path: 'cv',
-    loadComponent: () =>
-      import('./core/components/cv/cv.component').then((m) => m.CvComponent),
+    data: { view: 'cv' },
+    title: 'CV · Alec Montaño',
+    loadComponent: () => import('./core/components/portfolio/portfolio.component').then((m) => m.PortfolioComponent),
   },
+  ...['projects', 'aws', 'genai'].map((view) => ({
+    path: view === 'projects' ? 'proyectos' : `proyectos/${view}`,
+    data: { view },
+    title: 'Proyectos · Lynx Pardelle',
+    loadComponent: () => import('./core/components/portfolio/portfolio.component').then((m) => m.PortfolioComponent),
+  })),
   {
-    path: 'blog',
+    path: 'blog/article/:id',
+    loadComponent: () => import('./blog/components/reader/blog-reader.component').then((m) => m.BlogReaderComponent),
+  },
+  ...['blog', 'blog/:page'].map((path) => ({
+    path,
     loadComponent: () =>
       import('./blog/components/blog/blog.component').then(
         (m) => m.BlogComponent
       ),
+  })),
+  {
+    path: 'admin/blog',
+    title: 'Editor del blog · Lynx Pardelle',
+    loadComponent: () => import('./blog/components/editorial/editorial.component').then((m) => m.EditorialComponent),
   },
   {
     path: 'auth',

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // Rxjs
 import { Observable } from 'rxjs';
@@ -30,6 +30,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   templateUrl: './music.component.html',
   styleUrls: ['./music.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     TooltipModule,

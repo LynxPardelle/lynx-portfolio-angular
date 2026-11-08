@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { IButton } from '../../interfaces/button';
 @Component({
   selector: 'generic-group-buttons',
   templateUrl: './generic-group-buttons.component.html',
   styleUrls: ['./generic-group-buttons.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GenericGroupButtonsComponent implements OnInit {

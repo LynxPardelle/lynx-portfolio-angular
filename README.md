@@ -46,7 +46,7 @@ A sophisticated, production-ready Angular portfolio application featuring **Serv
 ### Prerequisites
 - **Docker** & **Docker Compose** installed
 - **Make** (for convenient commands)
-- **Node.js 20.19+, 22.12+, or 24+** (for local development)
+- **Node.js 24.15+ LTS** (for local development)
 
 ### 🐳 Docker Setup (Recommended)
 
@@ -129,7 +129,7 @@ make inspect           # Inspect container configuration
 
 ```mermaid
 graph TB
-    A[node:22-alpine] --> B[Dependencies Stage]
+    A[node:24-alpine] --> B[Dependencies Stage]
     A --> C[Dev Dependencies Stage]
     B --> D[Development Stage]
     C --> E[Build Stage - SSR]
@@ -163,6 +163,8 @@ graph TB
 ## 🛠️ Development
 
 ### Local Development (Without Docker)
+
+The frontend uses the AWS development API. The historical Express repository is deprecated and is kept for reference. Tests mock API responses in the Angular HTTP test harness.
 
 ```bash
 # Install dependencies

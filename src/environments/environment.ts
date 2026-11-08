@@ -4,11 +4,8 @@
 
 export const environment = {
   production: false,
-  api: 
-  'http://host.docker.internal:6164/api',
-  /*
-  'https://api.lynxpardelle.com/api',
-  */
+  api: 'https://6rz4b6ydmh.execute-api.us-east-1.amazonaws.com/api',
+  assistant: '',
   url: 'http://localhost:6161',
 };
 
