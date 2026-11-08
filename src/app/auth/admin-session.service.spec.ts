@@ -33,9 +33,9 @@ describe('AdminSession', () => {
     flushMicrotasks();
     expect(destination).toBe('/admin/settings');
     expect(session.role()).toBe('admin');
-    for (const resource of ['drafts', 'settings']) {
+    for (const resource of ['editorial/drafts', 'editorial/settings', 'admin/example'] as const) {
       void session.request('GET', resource);
-      const request = http.expectOne(`${environment.api}/editorial/${resource}`);
+      const request = http.expectOne(`${environment.api}/${resource}`);
       expect(request.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
       request.flush({});
       flushMicrotasks();

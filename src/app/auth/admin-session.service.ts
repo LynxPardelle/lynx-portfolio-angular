@@ -6,7 +6,8 @@ import { environment } from '../../environments/environment';
 interface LoginConfig { domain: string; clientId: string }
 export interface EditorialPolicy { streak: number; auto: boolean }
 type Role = 'admin' | 'editor';
-const api = `${environment.api}/editorial`;
+type AdminApiPath = `${'editorial' | 'admin'}/${string}`;
+const api = environment.api;
 const callback = '/admin/blog';
 export const pkceKey = 'portfolio.editorial.pkce';
 
@@ -60,7 +61,7 @@ export class AdminSession {
     location.assign(`${this.config.domain}/logout?${query}`);
   }
 
-  async request<T>(method: string, path: string, body?: unknown) {
+  async request<T>(method: string, path: AdminApiPath, body?: unknown) {
     try {
       return await firstValueFrom(this.http.request<T>(method, `${api}/${path}`, {
         body, headers: { Authorization: `Bearer ${this.accessToken}` },
@@ -86,7 +87,7 @@ export class AdminSession {
   }
 
   private async getConfig() {
-    this.config ??= await firstValueFrom(this.http.get<LoginConfig>(`${api}/config`));
+    this.config ??= await firstValueFrom(this.http.get<LoginConfig>(`${api}/editorial/config`));
     return this.config;
   }
 

@@ -57,7 +57,7 @@ export class EditorialComponent {
 
   protected save() {
     return this.run(async () => {
-      const updated = await this.session.request<Draft>('PUT', `drafts/${encodeURIComponent(this.draft.slug)}`, this.payload());
+      const updated = await this.session.request<Draft>('PUT', `editorial/drafts/${encodeURIComponent(this.draft.slug)}`, this.payload());
       this.open(updated);
       await this.refresh();
       this.message.set('Borrador guardado.');
@@ -66,14 +66,14 @@ export class EditorialComponent {
 
   protected review() {
     return this.run(async () => {
-      const result = await this.session.request<Record<'es' | 'en', string>>('POST', 'preview', this.payload());
+      const result = await this.session.request<Record<'es' | 'en', string>>('POST', 'editorial/preview', this.payload());
       this.preview.set(result[this.previewLang]);
     });
   }
 
   protected action(action: 'publish' | 'withdraw' | 'reject') {
     return this.run(async () => {
-      this.open(await this.session.request<Draft>('POST', `drafts/${encodeURIComponent(this.draft.slug)}/${action}`, { version: this.draft.version }));
+      this.open(await this.session.request<Draft>('POST', `editorial/drafts/${encodeURIComponent(this.draft.slug)}/${action}`, { version: this.draft.version }));
       await this.refresh();
       this.message.set('Estado actualizado.');
     });
@@ -82,7 +82,7 @@ export class EditorialComponent {
   protected askBeta() {
     return this.run(async () => {
       this.beta.set('');
-      const result = await this.session.request<{ answer: string }>('POST', 'assistant', { question: this.question, lang: this.betaLang });
+      const result = await this.session.request<{ answer: string }>('POST', 'editorial/assistant', { question: this.question, lang: this.betaLang });
       this.beta.set(result.answer);
     });
   }
@@ -94,7 +94,7 @@ export class EditorialComponent {
   }
 
   private async refresh() {
-    const result = await this.session.request<{ drafts: Draft[] }>('GET', 'drafts');
+    const result = await this.session.request<{ drafts: Draft[] }>('GET', 'editorial/drafts');
     this.drafts.set(result.drafts);
   }
 

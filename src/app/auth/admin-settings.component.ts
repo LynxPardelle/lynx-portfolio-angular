@@ -39,7 +39,7 @@ export class AdminSettings {
     this.busy.set(true);
     this.message.set('');
     try {
-      this.policy.set(await this.session.request<EditorialPolicy>(method, 'settings', body));
+      this.policy.set(await this.session.request<EditorialPolicy>(method, 'editorial/settings', body));
       if (method === 'PUT') this.message.set('Configuración guardada.');
     } catch {
       this.message.set('No fue posible acceder a la configuración.');
