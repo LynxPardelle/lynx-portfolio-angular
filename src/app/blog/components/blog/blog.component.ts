@@ -2,10 +2,10 @@ import { DatePipe, isPlatformServer } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { afterNextRender, Component, DestroyRef, inject, makeStateKey, OnInit, PLATFORM_ID, signal, TransferState } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, combineLatest, map, of, startWith, Subject, switchMap, timeout } from 'rxjs';
-import { IArticle } from '../../interfaces/blog';
+import { BlogFilter, IArticle, taxonomyLabel, TaxonomyKind } from '../../interfaces/blog';
 import { BlogService } from '../../services/blog.service';
 import { BlogAssistantComponent } from '../assistant/blog-assistant.component';
 import { BlogTestReader } from './blog-test-reader.component';
@@ -15,6 +15,7 @@ interface Feed {
   articles: IArticle[];
   page: number;
   pages: number;
+  filter?: BlogFilter;
 }
 
 const empty: Feed = { status: 'ready', articles: [], page: 1, pages: 0 };
@@ -51,23 +52,26 @@ export class BlogComponent implements OnInit {
   protected reload() { this.retry.next(); }
 
   private load() {
-    combineLatest([this.route.params, this.retry.pipe(startWith(undefined))]).pipe(
-      switchMap(([params]) => {
+    combineLatest([this.route.params, this.route.queryParamMap || of(convertToParamMap({})), this.retry.pipe(startWith(undefined))]).pipe(
+      switchMap(([params, query]) => {
         const page = Math.max(1, Number(params['page']) || 1);
+        const kind = (['category', 'subcategory', 'tag'] as const).find((key) => query.get(key));
+        const filter = kind ? { kind, key: query.get(kind)! } : undefined;
         const previous = this.feed();
-        if (previous.page !== page || !this.transfer.hasKey(feedKey)) {
-          this.feed.set({ ...empty, page, status: 'loading' });
+        if (previous.page !== page || previous.filter?.key !== filter?.key ||
+            previous.filter?.kind !== filter?.kind || !this.transfer.hasKey(feedKey)) {
+          this.feed.set({ ...empty, page, filter, status: 'loading' });
         }
         this.transfer.remove(feedKey);
-        return this.blog.getArticles(page, 5, '-create_at', 'all', 'all', undefined).pipe(
+        return this.blog.getArticles(page, 5, '-create_at', 'all', 'all', undefined, filter).pipe(
           timeout(8000),
           map((result): Feed => {
             if (!Array.isArray(result?.articles)) throw new Error('Invalid article list.');
-            return { status: 'ready', page, articles: result.articles,
+            return { status: 'ready', page, filter, articles: result.articles,
               pages: Number.isInteger(result.pages) && result.pages > 0 ? result.pages : 0 };
           }),
           catchError((error) => of<Feed>({
-            ...empty, page, status: error instanceof HttpErrorResponse && error.status === 404 ? 'ready' : 'error',
+            ...empty, page, filter, status: error instanceof HttpErrorResponse && error.status === 404 ? 'ready' : 'error',
           })),
         );
       }),
@@ -82,5 +86,17 @@ export class BlogComponent implements OnInit {
     if (category === 'technology') return this.english ? 'Technology' : 'Tecnología';
     if (category === 'art') return this.english ? 'Art' : 'Arte';
     return this.english ? 'Other' : 'Otros';
+  }
+
+  protected filterLabel(filter: BlogFilter): string {
+    const term = this.articles.flatMap((article) => article.taxonomy || [])
+      .find(({ kind, key }) => kind === filter.kind && key === filter.key);
+    return taxonomyLabel(term || { ...filter, label: filter.key, labelEng: filter.key }, this.english);
+  }
+
+  protected filterKind(kind: TaxonomyKind): string {
+    if (kind === 'category') return this.english ? 'Category' : 'Categoría';
+    if (kind === 'subcategory') return this.english ? 'Subcategory' : 'Subcategoría';
+    return this.english ? 'Tag' : 'Etiqueta';
   }
 }

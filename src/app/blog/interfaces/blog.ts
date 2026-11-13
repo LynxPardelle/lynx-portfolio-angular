@@ -1,5 +1,24 @@
 import { IFile } from '../../core/interfaces/file.interface';
 
+export type TaxonomyKind = 'category' | 'subcategory' | 'tag';
+export interface ArticleTerm {
+  kind: TaxonomyKind;
+  key: string;
+  label: string;
+  labelEng: string;
+}
+
+export interface BlogFilter { kind: TaxonomyKind; key: string }
+
+export function taxonomyLabel(term: ArticleTerm, english: boolean): string {
+  if (term.kind === 'category' && term.label === term.key) {
+    if (term.key === 'technology') return english ? 'Technology' : 'Tecnología';
+    if (term.key === 'art') return english ? 'Art' : 'Arte';
+    if (term.key === 'other') return english ? 'Other' : 'Otros';
+  }
+  return (english ? term.labelEng : term.label).replaceAll('-', ' ');
+}
+
 export interface IArticle {
   _id: string;
   title: string;
@@ -23,6 +42,7 @@ export interface IArticle {
   bgColor: string;
   langs: string[];
   show: boolean;
+  taxonomy?: ArticleTerm[];
   create_at: Date;
   editorial?: { category: string; sources: string[]; eventDate: string; revision: number; origin: string };
 }

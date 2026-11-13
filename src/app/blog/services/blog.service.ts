@@ -70,13 +70,14 @@ export class BlogService {
     sort: string = '_id',
     rootAccess: string | undefined,
     type: string | undefined,
-    search: string | undefined
+    search: string | undefined,
+    filter?: import('../interfaces/blog').BlogFilter,
   ): Observable<any> {
     return this._http.get(
       `${this.urlBlog}articles/${page}/${ipp}/${sort}${
         rootAccess ? `/${rootAccess}` : ''
       }${type ? `/${type}` : ''}${search ? `/${encodeURIComponent(search)}` : ''}`,
-      { context: new HttpContext().set(publicRequest, true) },
+      { context: new HttpContext().set(publicRequest, true), params: filter ? { [filter.kind]: filter.key } : {} },
     );
   }
   getArticleCats(): Observable<any> {

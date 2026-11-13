@@ -2,6 +2,12 @@
   <header>
     <p class="portfolio-kicker">{{ english ? 'Notes and projects' : 'Notas y proyectos' }}</p>
     <h1>Blog</h1>
+    @if (feed().filter; as filter) {
+      <p>{{ filterKind(filter.kind) }} · {{ filterLabel(filter) }}</p>
+      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog">
+        {{ english ? 'See all articles' : 'Ver todos los artículos' }}
+      </a>
+    }
   </header>
   <blog-test-reader [english]="english" />
   @if (feed().status === 'ready' && (feed().pages > 0 || articles.length > 0)) {
@@ -29,6 +35,8 @@
         @default {
           @if (feed().pages > 0) {
             <p>{{ english ? 'There are no articles on this page.' : 'No hay artículos en esta página.' }}</p>
+          } @else if (feed().filter) {
+            <p>{{ english ? 'No articles match this filter.' : 'No hay artículos para este filtro.' }}</p>
           } @else {
             <p>{{ english ? 'No articles yet.' : 'No hay artículos.' }}</p>
           }
@@ -39,11 +47,11 @@
   @if (feed().status === 'ready' && feed().pages > 0 && (feed().page > 1 || feed().page < feed().pages)) {
     <nav aria-label="Blog">
       @if (feed().page > feed().pages) {
-        <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog">{{ english ? 'See available articles' : 'Ver artículos disponibles' }}</a>
+        <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog" queryParamsHandling="preserve">{{ english ? 'See available articles' : 'Ver artículos disponibles' }}</a>
       } @else if (feed().page > 1) {
-        <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page - 1]">{{ english ? 'Previous' : 'Anterior' }}</a>
+        <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page - 1]" queryParamsHandling="preserve">{{ english ? 'Previous' : 'Anterior' }}</a>
       }
-      @if (feed().page < feed().pages) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page + 1]">{{ english ? 'Next' : 'Siguiente' }}</a> }
+      @if (feed().page < feed().pages) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page + 1]" queryParamsHandling="preserve">{{ english ? 'Next' : 'Siguiente' }}</a> }
     </nav>
   }
 </section>
