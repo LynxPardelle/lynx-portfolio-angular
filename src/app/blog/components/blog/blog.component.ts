@@ -61,11 +61,11 @@ export class BlogComponent implements OnInit {
         this.transfer.remove(feedKey);
         return this.blog.getArticles(page, 5, '-create_at', 'all', 'all', undefined).pipe(
           timeout(8000),
-          map((result): Feed => ({
-            status: 'ready', page,
-            articles: Array.isArray(result?.articles) ? result.articles : [],
-            pages: Number.isFinite(result?.pages) ? result.pages : 0,
-          })),
+          map((result): Feed => {
+            if (!Array.isArray(result?.articles)) throw new Error('Invalid article list.');
+            return { status: 'ready', page, articles: result.articles,
+              pages: Number.isInteger(result.pages) && result.pages > 0 ? result.pages : 0 };
+          }),
           catchError((error) => of<Feed>({
             ...empty, page, status: error instanceof HttpErrorResponse && error.status === 404 ? 'ready' : 'error',
           })),

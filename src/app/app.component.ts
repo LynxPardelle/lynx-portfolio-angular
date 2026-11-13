@@ -14,7 +14,7 @@ import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { AdminSession } from './auth/admin-session.service';
 import { Location, isPlatformBrowser } from '@angular/common';
 /* RXJS */
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom, Observable, timeout } from 'rxjs';
 /* Environment */
 import { environment } from '../environments/environment';
 /* Services */
@@ -330,16 +330,18 @@ export class AppComponent implements OnInit, DoCheck {
   }
   async getSongs() {
     try {
-      let songs = await lastValueFrom(this._mainService.getSongs());
+      const songs = await lastValueFrom(this._mainService.getSongs().pipe(timeout(8000)));
 
-      if (!songs || !songs.songs) {
-        throw new Error('There is no songs.');
+      if (!Array.isArray(songs?.songs)) {
+        throw new Error('Invalid song list.');
       }
 
       this.songs = songs.songs;
 
-      this.playAudio(this.songs[0]);
-      this.pause();
+      if (this.songs.length) {
+        this.playAudio(this.songs[0]);
+        this.pause();
+      }
     } catch (err) {
       this._webService.consoleLog(
         err,

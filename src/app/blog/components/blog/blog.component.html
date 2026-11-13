@@ -4,7 +4,9 @@
     <h1>Blog</h1>
   </header>
   <blog-test-reader [english]="english" />
-  <blog-assistant />
+  @if (feed().status === 'ready' && (feed().pages > 0 || articles.length > 0)) {
+    <blog-assistant />
+  }
   @if (articles.length > 0) {
     <div class="blog-articles">
       @for (article of articles; track article._id) {
@@ -24,13 +26,23 @@
           <p>{{ english ? 'Could not load the blog.' : 'No se pudo cargar el blog.' }}</p>
           <button class="portfolio-btn" type="button" (click)="reload()">{{ english ? 'Try again' : 'Reintentar' }}</button>
         }
-        @default { <p>{{ english ? 'No articles yet.' : 'No hay artículos.' }}</p> }
+        @default {
+          @if (feed().pages > 0) {
+            <p>{{ english ? 'There are no articles on this page.' : 'No hay artículos en esta página.' }}</p>
+          } @else {
+            <p>{{ english ? 'No articles yet.' : 'No hay artículos.' }}</p>
+          }
+        }
       }
     </div>
   }
-  @if (feed().page > 1 || feed().page < feed().pages) {
+  @if (feed().status === 'ready' && feed().pages > 0 && (feed().page > 1 || feed().page < feed().pages)) {
     <nav aria-label="Blog">
-      @if (feed().page > 1) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page - 1]">{{ english ? 'Previous' : 'Anterior' }}</a> }
+      @if (feed().page > feed().pages) {
+        <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog">{{ english ? 'See available articles' : 'Ver artículos disponibles' }}</a>
+      } @else if (feed().page > 1) {
+        <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page - 1]">{{ english ? 'Previous' : 'Anterior' }}</a>
+      }
       @if (feed().page < feed().pages) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page + 1]">{{ english ? 'Next' : 'Siguiente' }}</a> }
     </nav>
   }

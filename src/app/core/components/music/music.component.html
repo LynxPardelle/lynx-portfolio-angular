@@ -42,6 +42,10 @@
 
 <section>
   <!-- Songs -->
+  <portfolio-content-status [status]="songsStatus()" [empty]="songs.length === 0" [english]="lang === 'en'"
+    [emptyText]="lang === 'en' ? 'There are no songs yet.' : 'Todavía no hay canciones.'"
+    [errorText]="lang === 'en' ? 'Could not load the songs.' : 'No se pudieron cargar las canciones.'"
+    (retry)="getSongs()" />
   @if (songs && songs.length > 0) {
   <article
     class="ank ank-bg-tdark__OPA__0_75 ank-boxShadow-4px__0__4px__midRed p-3"
@@ -225,6 +229,11 @@
   }
 
   <!-- Albums -->
+  <portfolio-content-status [status]="albumsStatus()" [empty]="albums.length === 0" [english]="lang === 'en'"
+    [emptyText]="lang === 'en' ? 'There are no albums yet.' : 'Todavía no hay álbumes.'"
+    [errorText]="lang === 'en' ? 'Could not load the albums.' : 'No se pudieron cargar los álbumes.'"
+    (retry)="getAlbums()" />
+  @if (albums.length > 0) {
   <article class="my-5">
     <h3 class="text-center my-3">Albums</h3>
 
@@ -340,6 +349,7 @@
       }
     </div>
   </article>
+  }
 </section>
 
 <!-- EditAlbum -->

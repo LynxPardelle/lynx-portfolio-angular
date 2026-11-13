@@ -41,7 +41,11 @@
 <h2 class="text-center ank ank-my-3rem">{{ "app.websites" | translate }}</h2>
 
 <section class="portfolio-websites-section">
-  @if (isLoading() && webSites().length === 0) {
+  <portfolio-content-status [status]="status()" [empty]="webSites().length === 0" [english]="lang() === 'en'"
+    [emptyText]="lang() === 'en' ? 'There are no websites yet.' : 'Todavía no hay sitios web.'"
+    [errorText]="lang() === 'en' ? 'Could not load the websites.' : 'No se pudieron cargar los sitios web.'"
+    (retry)="getWebSites()" />
+  @if (status() === 'loading' && webSites().length === 0) {
   @for (placeholder of loadingPlaceholders; track placeholder) {
   <article
     aria-hidden="true"

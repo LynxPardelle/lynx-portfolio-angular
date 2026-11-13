@@ -44,6 +44,10 @@
     <h2 class="text-center ank ank-my-3rem">Demo Reel</h2>
 
     <section>
+      <portfolio-content-status [status]="videosStatus()" [empty]="videos.length === 0" [english]="lang === 'en'"
+        [emptyText]="lang === 'en' ? 'There are no videos yet.' : 'Todavía no hay videos.'"
+        [errorText]="lang === 'en' ? 'Could not load the videos.' : 'No se pudieron cargar los videos.'"
+        (retry)="getVideos()" />
       @for (videoO of videos; track videoO; let i = $index) {
         <article
           class="ank ank-my-1_5rem position-relative"

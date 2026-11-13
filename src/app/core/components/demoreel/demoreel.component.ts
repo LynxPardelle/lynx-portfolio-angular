@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 /* RxJs */
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable, timeout } from 'rxjs';
+import { ContentStatus, ContentStatusComponent } from '../../../shared/components/content-status/content-status.component';
 /* Environment */
 import { environment } from '../../../../environments/environment';
 /* Interfaces */
@@ -34,6 +35,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    ContentStatusComponent,
     CommonModule,
     FormsModule,
     FileUploaderComponent,
@@ -45,6 +47,7 @@ export class DemoreelComponent implements OnInit, OnDestroy {
   public identity: any;
   public main!: Main;
   public videos: Video[] = [];
+  protected readonly videosStatus = signal<ContentStatus>('loading');
   public video: Video = new Video('', '', '', '', '', null, 0);
 
   /* Translate */
@@ -163,14 +166,16 @@ export class DemoreelComponent implements OnInit, OnDestroy {
   }
 
   async getVideos() {
+    this.videosStatus.set('loading');
     try {
-      let videos = await this._mainService.getVideos().toPromise();
+      const videos = await firstValueFrom(this._mainService.getVideos().pipe(timeout(8000)));
 
-      if (!videos || !videos.videos) {
+      if (!Array.isArray(videos?.videos)) {
         throw new Error('There is no videos.');
       }
 
       this.videos = videos.videos;
+      this.videosStatus.set('ready');
       this.refreshView();
       this._webService.consoleLog(
         this.videos,
@@ -178,6 +183,7 @@ export class DemoreelComponent implements OnInit, OnDestroy {
         this.customConsoleCSS
       );
     } catch (err) {
+      this.videosStatus.set('error');
       this._webService.consoleLog(
         err,
         this.document + ' 119',

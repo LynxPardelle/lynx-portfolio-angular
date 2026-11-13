@@ -18,7 +18,8 @@ import { FormsModule } from '@angular/forms';
 // Environment
 import { environment } from '../../../../environments/environment';
 // RxJs
-import { Observable, Subject, firstValueFrom, takeUntil, catchError, EMPTY } from 'rxjs';
+import { Observable, Subject, firstValueFrom, takeUntil, timeout } from 'rxjs';
+import { ContentStatus, ContentStatusComponent } from '../../../shared/components/content-status/content-status.component';
 // Interfaces
 import { IMain } from '../../interfaces/main';
 // Models
@@ -56,6 +57,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    ContentStatusComponent,
     FormsModule,
     FileUploaderComponent,
     TranslatePipe,
@@ -82,7 +84,7 @@ export class WebsitesComponent implements OnInit, OnDestroy {
   public readonly loadingPlaceholders = Array.from({ length: 8 }, (_, index) => index);
   
   // Loading states
-  public isLoading = signal<boolean>(true);
+  protected readonly status = signal<ContentStatus>('loading');
   public isSubmitting = signal<boolean>(false);
   public isDeleting = signal<boolean>(false);
   private webSitesRequestInFlight = false;
@@ -277,36 +279,28 @@ export class WebsitesComponent implements OnInit, OnDestroy {
     if (this.webSitesRequestInFlight) return; // Prevent concurrent calls
     
     this.webSitesRequestInFlight = true;
-    this.isLoading.set(true);
+    this.status.set('loading');
     try {
       const webSites = await firstValueFrom(
-        this.mainService.getWebSites().pipe(
-          catchError((error) => {
-            this.webService.consoleLog(
-              error,
-              this.document + ' getWebSites request error',
-              this.customConsoleCSS
-            );
-            return EMPTY;
-          })
-        )
+        this.mainService.getWebSites().pipe(timeout(8000))
       );
 
-      if (!webSites || !webSites.websites) {
+      if (!Array.isArray(webSites?.websites)) {
         throw new Error('No websites data received from server.');
       }
 
       this.webSites.set(webSites.websites);
+      this.status.set('ready');
       this.webService.consoleLog(
         this.webSites(),
         this.document + ' getWebSites success',
         this.customConsoleCSS
       );
     } catch (error) {
-      await this.handleApiError(error, 'getWebSites');
+      this.status.set('error');
+      this.webService.consoleLog(error, this.document + ' getWebSites error', this.customConsoleCSS);
     } finally {
       this.webSitesRequestInFlight = false;
-      this.isLoading.set(false);
     }
   }
 

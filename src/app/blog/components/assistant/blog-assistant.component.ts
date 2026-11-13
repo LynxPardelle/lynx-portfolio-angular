@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, timeout } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 interface Answer { answer: string; sources: { title: string; url: string }[] }
@@ -54,7 +54,7 @@ export class BlogAssistantComponent {
       const digest = Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, '0')).join('');
       const response = await firstValueFrom(this.http.post<Answer>(this.endpoint, payload, {
         headers: { 'Content-Type': 'application/json', 'x-amz-content-sha256': digest },
-      }));
+      }).pipe(timeout(25000)));
       this.answer.set(response.answer);
       this.sources.set(response.sources.filter((source) => /^\/blog\/article\/[a-zA-Z0-9_-]+$/.test(source.url)));
     } catch (error) {

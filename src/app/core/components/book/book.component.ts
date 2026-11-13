@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // RxJs
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable, timeout } from 'rxjs';
+import { ContentStatus, ContentStatusComponent } from '../../../shared/components/content-status/content-status.component';
 // Environment
 import { environment } from '../../../../environments/environment';
 // Interfaces
@@ -30,6 +31,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    ContentStatusComponent,
     FormsModule,
     FileUploaderComponent,
   ],
@@ -38,6 +40,7 @@ export class BookComponent implements OnInit, OnDestroy {
   public identity: any;
   public main!: Main;
   public bookImgs: BookImg[] = [];
+  protected readonly bookImgsStatus = signal<ContentStatus>('loading');
   public bookImg: BookImg = new BookImg('', '', '', null, 0, 0);
 
   // Translate
@@ -141,16 +144,19 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   async getBookImgs() {
+    this.bookImgsStatus.set('loading');
     try {
-      let bookImgs = await this._mainService.getBookImgs().toPromise();
+      const bookImgs = await firstValueFrom(this._mainService.getBookImgs().pipe(timeout(8000)));
 
-      if (!bookImgs || !bookImgs.bookImgs) {
+      if (!Array.isArray(bookImgs?.bookImgs)) {
         throw new Error('There is no bookImgs.');
       }
 
       this.bookImgs = bookImgs.bookImgs;
+      this.bookImgsStatus.set('ready');
       this.refreshView();
     } catch (err) {
+      this.bookImgsStatus.set('error');
       this._webService.consoleLog(
         err,
         this.document + ' 119',

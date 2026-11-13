@@ -1,6 +1,6 @@
 import { HttpBackend, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, timeout } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 interface LoginConfig { domain: string; clientId: string }
@@ -45,7 +45,7 @@ export class AdminSession {
     const { access_token } = await firstValueFrom(this.http.post<{ access_token: string }>(
       `${config.domain}/oauth2/token`, form.toString(),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-    ));
+    ).pipe(timeout(15000)));
     const role = this.readRole(access_token);
     if (!role) throw new Error('Tu cuenta requiere el grupo editor o admin.');
     this.accessToken = access_token;
@@ -65,7 +65,7 @@ export class AdminSession {
     try {
       return await firstValueFrom(this.http.request<T>(method, `${api}/${path}`, {
         body, headers: { Authorization: `Bearer ${this.accessToken}` },
-      }));
+      }).pipe(timeout(25000)));
     } catch (error) {
       if (error instanceof HttpErrorResponse && error.status === 401) this.clear();
       throw error;
@@ -87,7 +87,7 @@ export class AdminSession {
   }
 
   private async getConfig() {
-    this.config ??= await firstValueFrom(this.http.get<LoginConfig>(`${api}/editorial/config`));
+    this.config ??= await firstValueFrom(this.http.get<LoginConfig>(`${api}/editorial/config`).pipe(timeout(10000)));
     return this.config;
   }
 

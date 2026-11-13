@@ -1,7 +1,10 @@
 <section class="studio portfolio-surface">
   <p class="portfolio-kicker">Publicaciones</p>
   <h2>Editor del blog</h2>
-  <p role="status">{{ message() }}</p>
+  <p role="status">{{ busy() ? (draftsLoaded() ? 'Procesando…' : 'Cargando borradores…') : message() }}</p>
+  @if (!draftsLoaded() && !busy() && message()) {
+    <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="loadDrafts()">Reintentar</button>
+  }
     <div class="actions">
       <button class="portfolio-btn" type="button" [disabled]="busy()" (click)="open()">Nuevo borrador</button>
     </div>
@@ -12,7 +15,7 @@
           {{ item.es?.title || item.en?.title }} · {{ isPrivate(item) ? 'Prueba privada' : item.status }}
         </button></li>
       } @empty {
-        @if (!busy()) { <li>Por ahora no hay borradores.</li> }
+        @if (draftsLoaded() && !busy()) { <li>Por ahora no hay borradores.</li> }
       }
     </ul>
     <form class="portfolio-form" (ngSubmit)="save()">
@@ -33,8 +36,10 @@
       <label>Fuentes HTTPS, una por línea <textarea name="sources" [(ngModel)]="sourceText" rows="3"></textarea></label>
       <div class="actions">
         <button class="portfolio-btn" [disabled]="busy()" type="submit">Guardar borrador</button>
-        <label>Idioma de vista previa <select name="previewLang" [(ngModel)]="previewLang"><option value="es">Español</option><option value="en">English</option></select></label>
-        <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy()" type="button" (click)="review()">Previsualizar</button>
+        @if (canPreview) {
+          <label>Idioma de vista previa <select name="previewLang" [(ngModel)]="previewLang"><option value="es">Español</option><option value="en">English</option></select></label>
+          <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy()" type="button" (click)="review()">Previsualizar</button>
+        }
         @if (draft.version > 0) {
           @if (!editingPrivate && !isPrivate(draft)) {
             <button class="portfolio-btn portfolio-btn-secondary" [disabled]="busy() || draft.status === 'published'" type="button" (click)="action('publish')">Publicar versión guardada</button>
@@ -59,6 +64,7 @@
       }
     </form>
     @if (preview()) { <article [innerHTML]="preview()"></article> }
+    @if (publishedAvailable()) {
     <h3>Beta privada del asistente</h3>
     <form class="portfolio-form" (ngSubmit)="askBeta()">
       <label>Pregunta sobre el blog <input name="question" [(ngModel)]="question" maxlength="400" required></label>
@@ -66,4 +72,5 @@
       <button class="portfolio-btn" type="submit" [disabled]="busy()">Consultar</button>
       <p role="status">{{ beta() }}</p>
     </form>
+    }
 </section>

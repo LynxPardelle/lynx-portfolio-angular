@@ -37,6 +37,10 @@
 <h2 class="text-center ank ank-my-3rem">Book</h2>
 
 <section class="portfolio-book-section">
+  <portfolio-content-status [status]="bookImgsStatus()" [empty]="bookImgs.length === 0" [english]="lang === 'en'"
+    [emptyText]="lang === 'en' ? 'There are no works in the gallery yet.' : 'Todavía no hay obras en la galería.'"
+    [errorText]="lang === 'en' ? 'Could not load the gallery.' : 'No se pudo cargar la galería.'"
+    (retry)="getBookImgs()" />
   <article class="portfolio-book-grid mx-auto p-1 my-3 position-relative">
     @for (bookimg of bookImgs; track bookimg._id; let i = $index) {
     <div class="portfolio-book-item mx-auto p-1 position-relative">

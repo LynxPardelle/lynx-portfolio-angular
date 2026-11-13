@@ -51,6 +51,7 @@ export class AdminContent {
   protected readonly busy = computed(() => this.pending() > 0);
   protected readonly confirmDelete = signal(false);
   protected readonly message = signal('');
+  protected readonly recordsLoaded = signal(false);
   protected values: Record<string, Value> = {};
 
   constructor() {
@@ -113,7 +114,7 @@ export class AdminContent {
     });
   }
 
-  private async initialize() {
+  protected async initialize() {
     await this.run(async () => {
       const { collections } = await this.session.request<{ collections: Record<string, Collection> }>('GET', 'admin/content');
       this.sections.set(Object.entries(collections));
@@ -124,6 +125,7 @@ export class AdminContent {
       const collection = this.sections().some(([key]) => key === requested) ? requested : 'mains';
       this.selected.set(collection);
       this.records.set([]);
+      this.recordsLoaded.set(false);
       this.editing.set(false);
       void this.run(() => this.load(collection));
     });
@@ -134,11 +136,16 @@ export class AdminContent {
     }
   }
 
+  protected reloadCollection() {
+    return this.run(() => this.load(this.selected()));
+  }
+
   private async load(collection: string, activeId?: string) {
     const loadId = ++this.loadId;
     const { records } = await this.session.request<{ records: RecordEntry[] }>('GET', `admin/content/${collection}`);
     if (loadId !== this.loadId || this.selected() !== collection) return;
     this.records.set(records);
+    this.recordsLoaded.set(true);
     this.editing.set(false);
     const selected = activeId ? records.find((record) => record.id === activeId) : records[0];
     if (selected) this.open(selected);

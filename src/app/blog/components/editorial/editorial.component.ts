@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { afterNextRender, Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom, timeout } from 'rxjs';
 import { AdminSession } from '../../../auth/admin-session.service';
+import { BlogService } from '../../services/blog.service';
 
 interface Draft {
   slug: string;
@@ -28,9 +30,12 @@ const emptyDraft = (): Draft => ({ slug: '', category: 'other', eventDate: '', s
 })
 export class EditorialComponent {
   protected readonly session = inject(AdminSession);
+  private readonly blog = inject(BlogService);
   protected readonly busy = signal(false);
   protected readonly message = signal('');
   protected readonly drafts = signal<Draft[]>([]);
+  protected readonly draftsLoaded = signal(false);
+  protected readonly publishedAvailable = signal(false);
   protected readonly preview = signal('');
   protected readonly beta = signal('');
   protected readonly confirmDelete = signal(false);
@@ -47,11 +52,18 @@ export class EditorialComponent {
   protected previewLang: 'es' | 'en' = 'es';
 
   constructor() {
-    afterNextRender(() => void this.run(async () => {
+    afterNextRender(() => {
+      void this.loadDrafts();
+      void this.checkPublishedArticles();
+    });
+  }
+
+  protected loadDrafts() {
+    return this.run(async () => {
       await this.refresh();
       const [latest] = this.drafts();
       if (latest) this.open(latest);
-    }));
+    });
   }
 
   protected open(draft = emptyDraft()) {
@@ -75,11 +87,17 @@ export class EditorialComponent {
     return this.isPrivate({ ...this.draft, tags: this.labels(this.tagText) });
   }
 
+  protected get canPreview() {
+    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(this.draft.slug) &&
+      (!!this.titleEs.trim() && !!this.markdownEs.trim() || !!this.titleEn.trim() && !!this.markdownEn.trim());
+  }
+
   protected save() {
     return this.run(async () => {
       const updated = await this.session.request<Draft>('PUT', `editorial/drafts/${encodeURIComponent(this.draft.slug)}`, this.payload());
       this.open(updated);
       await this.refresh();
+      void this.checkPublishedArticles();
       this.message.set('Borrador guardado.');
     });
   }
@@ -95,6 +113,7 @@ export class EditorialComponent {
     return this.run(async () => {
       this.open(await this.session.request<Draft>('POST', `editorial/drafts/${encodeURIComponent(this.draft.slug)}/${action}`, { version: this.draft.version }));
       await this.refresh();
+      void this.checkPublishedArticles();
       this.message.set('Estado actualizado.');
     });
   }
@@ -104,6 +123,7 @@ export class EditorialComponent {
       await this.session.request('DELETE', `editorial/drafts/${encodeURIComponent(this.draft.slug)}`, { version: this.draft.version });
       this.open();
       await this.refresh();
+      void this.checkPublishedArticles();
       this.message.set('Artículo eliminado.');
     });
   }
@@ -130,6 +150,16 @@ export class EditorialComponent {
   private async refresh() {
     const result = await this.session.request<{ drafts: Draft[] }>('GET', 'editorial/drafts');
     this.drafts.set(result.drafts);
+    this.draftsLoaded.set(true);
+  }
+
+  private async checkPublishedArticles() {
+    try {
+      const result = await firstValueFrom(this.blog.getArticles(1, 1, '-create_at', 'all', 'all', undefined).pipe(timeout(8000)));
+      this.publishedAvailable.set(Array.isArray(result?.articles) && result.articles.length > 0);
+    } catch {
+      this.publishedAvailable.set(false);
+    }
   }
 
   private async run(task: () => Promise<void>) {

@@ -12,7 +12,8 @@ import { AdminSession } from './admin-session.service';
         <h1>Administración del portafolio</h1>
         <a routerLink="/">Volver al sitio</a>
       </header>
-      <p role="status">{{ message() }}</p>
+      @if (busy()) { <p role="status">Conectando con el acceso editorial…</p> }
+      @if (message()) { <p role="alert">{{ message() }}</p> }
       @if (session.role()) {
         <nav aria-label="Administración">
           <a class="portfolio-btn portfolio-btn-secondary" routerLinkActive="active" routerLink="/admin/blog">Editor del blog</a>

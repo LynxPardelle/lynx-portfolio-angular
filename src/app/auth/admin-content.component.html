@@ -9,7 +9,10 @@
            [routerLink]="['/admin/content', entry[0]]">{{ entry[1].label }}</a>
       }
     </nav>
-    <p role="status">{{ message() }}</p>
+    <p role="status">{{ busy() ? (recordsLoaded() ? 'Procesando…' : 'Cargando contenido…') : message() }}</p>
+    @if (!busy() && !sections().length && message()) {
+      <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="initialize()">Reintentar</button>
+    }
     @if (definition(); as current) {
       <div class="workspace">
         <aside>
@@ -22,7 +25,10 @@
             <button class="portfolio-btn portfolio-btn-secondary" type="button" [disabled]="busy()"
               [class.active]="active()?.id === record.id && editing()" (click)="open(record)">{{ label(record) }}</button>
           } @empty {
-            @if (!busy()) { <p>Esta colección está vacía.</p> }
+            @if (!busy() && recordsLoaded()) { <p>Esta colección está vacía.</p> }
+            @if (!busy() && !recordsLoaded()) {
+              <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="reloadCollection()">Reintentar</button>
+            }
           }
         </aside>
         @if (editing()) {

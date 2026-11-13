@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // Rxjs
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable, timeout } from 'rxjs';
+import { ContentStatus, ContentStatusComponent } from '../../../shared/components/content-status/content-status.component';
 // Environment
 import { environment } from '../../../../environments/environment';
 // Interfaces
@@ -32,6 +33,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    ContentStatusComponent,
     FormsModule,
     TooltipModule,
     FileUploaderComponent,
@@ -41,8 +43,10 @@ export class MusicComponent implements OnInit, OnDestroy {
   public identity: any;
   public main!: Main;
   public albums: Album[] = [];
+  protected readonly albumsStatus = signal<ContentStatus>('loading');
   public album: Album = new Album('', '', null, '', '', 0);
   public songs: Song[] = [];
+  protected readonly songsStatus = signal<ContentStatus>('loading');
   public song: Song = new Song('', '', null, 0, null, '', 0);
   public currentSong: Song = new Song('', '', null, 0, null, '', 0);
 
@@ -176,14 +180,16 @@ export class MusicComponent implements OnInit, OnDestroy {
   }
 
   async getAlbums() {
+    this.albumsStatus.set('loading');
     try {
-      let albums = await this._mainService.getAlbums().toPromise();
+      const albums = await firstValueFrom(this._mainService.getAlbums().pipe(timeout(8000)));
 
-      if (!albums || !albums.albums) {
+      if (!Array.isArray(albums?.albums)) {
         throw new Error('There is no albums.');
       }
 
       this.albums = albums.albums;
+      this.albumsStatus.set('ready');
       this.refreshView();
 
       this._webService.consoleLog(
@@ -192,6 +198,7 @@ export class MusicComponent implements OnInit, OnDestroy {
         this.customConsoleCSS
       );
     } catch (err) {
+      this.albumsStatus.set('error');
       this._webService.consoleLog(
         err,
         this.document + ' 119',
@@ -201,14 +208,16 @@ export class MusicComponent implements OnInit, OnDestroy {
   }
 
   async getSongs() {
+    this.songsStatus.set('loading');
     try {
-      let songs = await this._mainService.getSongs().toPromise();
+      const songs = await firstValueFrom(this._mainService.getSongs().pipe(timeout(8000)));
 
-      if (!songs || !songs.songs) {
-        throw new Error('There is no albums.');
+      if (!Array.isArray(songs?.songs)) {
+        throw new Error('Invalid song list.');
       }
 
       this.songs = songs.songs;
+      this.songsStatus.set('ready');
       this.refreshView();
 
       this._webService.consoleLog(
@@ -217,6 +226,7 @@ export class MusicComponent implements OnInit, OnDestroy {
         this.customConsoleCSS
       );
     } catch (err) {
+      this.songsStatus.set('error');
       this._webService.consoleLog(
         err,
         this.document + ' 148',

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, input, signal } from '@angular/core';
 import { AdminSession } from '../../../auth/admin-session.service';
 
@@ -24,6 +25,11 @@ interface TestDetail extends TestArticle { html: string; htmlEng: string }
         <h2>{{ english() ? 'Private previews' : 'Vistas previas privadas' }}</h2>
         @if (busy()) { <p role="status">{{ english() ? 'Loading…' : 'Cargando…' }}</p> }
         @if (error()) { <p role="alert">{{ error() }}</p> }
+        @if (error() && !articles()) {
+          <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="loadArticles()">
+            {{ english() ? 'Try again' : 'Reintentar' }}
+          </button>
+        }
         @if (articles(); as items) {
           <ul>
             @for (item of items; track item.slug) {
@@ -77,6 +83,10 @@ export class BlogTestReader {
       this.article.set(null);
       return;
     }
+    return this.loadArticles();
+  }
+
+  protected loadArticles() {
     return this.run(async () => {
       const result = await this.session.request<{ articles: TestArticle[] }>('GET', 'editorial/test-articles');
       this.articles.set(result.articles);
@@ -101,7 +111,11 @@ export class BlogTestReader {
     this.busy.set(true);
     this.error.set('');
     try { await action(); }
-    catch { this.error.set(this.english() ? 'Could not complete the request.' : 'No se pudo completar la solicitud.'); }
+    catch (error) {
+      this.error.set(error instanceof HttpErrorResponse && error.status === 404
+        ? (this.english() ? 'Test article not found.' : 'No se encontró el artículo de prueba.')
+        : (this.english() ? 'Could not complete the request.' : 'No se pudo completar la solicitud.'));
+    }
     finally { this.busy.set(false); }
   }
 }

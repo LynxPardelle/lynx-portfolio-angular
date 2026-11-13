@@ -13,6 +13,10 @@ import { AdminSession, EditorialPolicy } from './admin-session.service';
             {{ current.auto ? 'Pausar' : 'Activar' }} publicación automática
           </button>
         }
+        @if (!policy() && !busy() && message()) {
+          <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="load('GET')">Reintentar</button>
+        }
+        @if (busy()) { <p role="status">{{ policy() ? 'Guardando configuración…' : 'Cargando configuración…' }}</p> }
         <p role="status">{{ message() }}</p>
       } @else {
         <p>Esta sección requiere el rol de administrador.</p>
@@ -35,7 +39,7 @@ export class AdminSettings {
 
   protected toggle(policy: EditorialPolicy) { return this.load('PUT', { auto: !policy.auto }); }
 
-  private async load(method: 'GET' | 'PUT', body?: { auto: boolean }) {
+  protected async load(method: 'GET' | 'PUT', body?: { auto: boolean }) {
     this.busy.set(true);
     this.message.set('');
     try {
