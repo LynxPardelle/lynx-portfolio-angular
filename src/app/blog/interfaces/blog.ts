@@ -10,13 +10,16 @@ export interface ArticleTerm {
 
 export interface BlogFilter { kind: TaxonomyKind; key: string }
 
+const technologyLabels: Record<string, string> = { angular: 'Angular', 'node-js': 'Node.js', 'aws-lambda': 'AWS Lambda', ssr: 'SSR' };
+
 export function taxonomyLabel(term: ArticleTerm, english: boolean): string {
   if (term.kind === 'category' && term.label === term.key) {
     if (term.key === 'technology') return english ? 'Technology' : 'Tecnología';
     if (term.key === 'art') return english ? 'Art' : 'Arte';
     if (term.key === 'other') return english ? 'Other' : 'Otros';
   }
-  return (english ? term.labelEng : term.label).replaceAll('-', ' ');
+  const label = english ? term.labelEng : term.label;
+  return label === term.key ? (technologyLabels[term.key] ?? label.replaceAll('-', ' ')) : label;
 }
 
 export interface IArticle {

@@ -8,3 +8,11 @@
 :host .portfolio-main-content {
   padding-bottom: calc(7rem + env(safe-area-inset-bottom));
 }
+
+:host footer {
+  pointer-events: none;
+
+  :is(a, button) {
+    pointer-events: auto;
+  }
+}
