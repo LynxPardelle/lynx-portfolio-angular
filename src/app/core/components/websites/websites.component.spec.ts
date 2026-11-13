@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { importProvidersFrom } from '@angular/core';
 import { provideHttpClient, withXhr } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -38,6 +38,25 @@ describe('WebsitesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('distinguishes a failed request from an empty list and retries successfully', async () => {
+    const http = TestBed.inject(HttpTestingController);
+    const endpoint = (url: string) => url.endsWith('/api/main/web-sites');
+    const initial = http.expectOne((request) => endpoint(request.url));
+    expect(fixture.nativeElement.textContent).toContain('Cargando…');
+    initial.flush({}, { status: 503, statusText: 'Service unavailable' });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('No se pudieron cargar los sitios web.');
+    expect(fixture.nativeElement.textContent).not.toContain('Todavía no hay sitios web.');
+
+    fixture.nativeElement.querySelector('portfolio-content-status button').click();
+    http.expectOne((request) => endpoint(request.url)).flush({ websites: [] });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('Todavía no hay sitios web.');
+    expect(fixture.nativeElement.querySelector('portfolio-content-status button')).toBeNull();
   });
 
   it('rewrites S3-backed website media URLs to the public assets CDN', () => {
