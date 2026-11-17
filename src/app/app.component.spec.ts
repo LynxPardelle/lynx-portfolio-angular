@@ -1,8 +1,9 @@
+import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
@@ -88,6 +89,16 @@ describe('AppComponent', () => {
     expect(audio.play).toHaveBeenCalled();
     expect(playResult.catch).toHaveBeenCalled();
     expect(consoleError).not.toHaveBeenCalled();
+  });
+
+  it('preserves the requested section before the first router navigation completes', () => {
+    const router = TestBed.inject(Router);
+    const location = TestBed.inject(Location);
+    spyOn(location, 'path').and.returnValue('/music?ref=service#catalogue');
+    const app = TestBed.createComponent(AppComponent).componentInstance;
+
+    expect(router.navigated).toBeFalse();
+    expect(router.serializeUrl(app['alternateHref']('en'))).toBe('/en/music?ref=service#catalogue');
   });
 
   it('reserves bottom space for fixed footer controls', () => {

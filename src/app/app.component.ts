@@ -339,7 +339,9 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   protected alternateHref(language: PortfolioLanguage) {
-    const current = this.router.url;
+    const current = this.router.navigated
+      ? this.router.url
+      : this.request?.url || this._location.path(true) || '/';
     const route = portfolioRoute(current);
     const url = new URL(current, 'https://lynxpardelle.com');
     if (route.kind === 'private' || route.kind === 'missing') return this.router.parseUrl(portfolioPath('/', language));
