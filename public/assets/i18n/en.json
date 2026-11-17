@@ -52,5 +52,40 @@
   "portfolio.genai.insufficient": "Insufficient evidence · The assistant abstains when the blog does not cover the question.",
   "portfolio.genai.review": "Human review · A draft with insufficient sources stays in the private editor.",
   "portfolio.genai.blog": "Visit the blog",
-  "portfolio.cvLink": "View CV"
+  "portfolio.cvLink": "View CV",
+  "discovery": {
+    "music": {
+      "title": "Listen, learn and produce",
+      "intro": "Listen to my music project, explore training, or ask about individual lessons and mixing for your project."
+    },
+    "reel": {
+      "title": "Video, animation and training",
+      "intro": "Explore options for making a music video, animating a piece, or learning audiovisual production and editing."
+    },
+    "book": {
+      "title": "Design for music and events",
+      "intro": "Find cover art, logo and digital flyer services for a release, event or music project."
+    },
+    "webs": {
+      "title": "Services for publishing on the web",
+      "intro": "Explore options for showcasing your work, preparing a press kit, or creating a page for your project."
+    },
+    "links": {
+      "artist": "Listen to Lynx Pardelle",
+      "training": "Courses and music training",
+      "masterclasses": "Music and audio masterclasses",
+      "lessons": "Individual lessons",
+      "mixing": "Mixing services",
+      "video": "Music video production",
+      "animation": "Animation",
+      "production": "Audiovisual production course",
+      "cover": "Music cover art",
+      "logos": "Logo design",
+      "flyers": "Digital flyers",
+      "sites": "Website creation",
+      "landing": "Landing page design",
+      "presskits": "Online press kits",
+      "portfolios": "Online portfolios"
+    }
+  }
 }

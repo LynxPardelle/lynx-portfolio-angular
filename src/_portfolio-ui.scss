@@ -70,3 +70,9 @@
     &:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 2px; }
   }
 }
+
+.blog-article-body img {
+  max-inline-size: 100%;
+  block-size: auto;
+  border-radius: .5rem;
+}

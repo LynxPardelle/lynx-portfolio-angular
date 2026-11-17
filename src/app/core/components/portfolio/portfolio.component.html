@@ -34,7 +34,7 @@
         <li>{{ 'portfolio.coderhouse' | translate }}</li>
         <li>{{ 'portfolio.gmartell' | translate }}</li>
       </ul>
-      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
+      <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/proyectos')">{{ 'portfolio.cases' | translate }}</a>
     }
     @case ('projects') {
       <h1>{{ 'portfolio.cases' | translate }}</h1>
@@ -42,14 +42,14 @@
         @for (item of cases; track item) {
           <article>
             <p class="eyebrow">{{ 'portfolio.' + item + '.label' | translate }}</p>
-            <h2><a [routerLink]="['/proyectos', item]">{{ 'portfolio.' + item + '.title' | translate }}</a></h2>
+            <h2><a [routerLink]="publicHref('/proyectos/' + item)">{{ 'portfolio.' + item + '.title' | translate }}</a></h2>
             <p>{{ caseIntro(item) || ('portfolio.' + item + '.intro' | translate) }}</p>
           </article>
         }
       </div>
     }
     @default {
-      <a routerLink="/proyectos">{{ 'portfolio.cases' | translate }}</a>
+      <a [routerLink]="publicHref('/proyectos')">{{ 'portfolio.cases' | translate }}</a>
       <p class="eyebrow">{{ 'portfolio.' + view + '.label' | translate }}</p>
       <h1>{{ 'portfolio.' + view + '.title' | translate }}</h1>
       <p class="lead">{{ caseIntro(view) || ('portfolio.' + view + '.intro' | translate) }}</p>
@@ -70,7 +70,7 @@
           <li>{{ 'portfolio.genai.insufficient' | translate }}</li>
           <li>{{ 'portfolio.genai.review' | translate }}</li>
         </ul>
-        <a routerLink="/blog">{{ 'portfolio.genai.blog' | translate }}</a>
+        <a [routerLink]="publicHref('/blog')">{{ 'portfolio.genai.blog' | translate }}</a>
       }
     }
   }

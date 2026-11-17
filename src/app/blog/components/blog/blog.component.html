@@ -4,7 +4,7 @@
     <h1>Blog</h1>
     @if (feed().filter; as filter) {
       <p>{{ filterKind(filter.kind) }} · {{ filterLabel(filter) }}</p>
-      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog">
+      <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/blog')">
         {{ english ? 'See all articles' : 'Ver todos los artículos' }}
       </a>
     }
@@ -17,7 +17,7 @@
     <div class="blog-articles">
       @for (article of articles; track article._id) {
         <article>
-          <h2><a [routerLink]="['/blog/article', article.urltitle || article._id]">{{ english ? (article.titleEng || article.title) : article.title }}</a></h2>
+          <h2><a [routerLink]="[publicHref('/blog/article'), article.urltitle || article._id]">{{ english ? (article.titleEng || article.title) : article.title }}</a></h2>
           @if (article.create_at) { <time>{{ article.create_at | date:'mediumDate' }}</time> }
           @if (article.editorial?.category) { <p>{{ categoryLabel(article.editorial?.category || '') }}</p> }
           @if (article.editorial?.origin === 'desktop') { <p>{{ english ? 'Written with AI assistance' : 'Redactado con asistencia de IA' }}</p> }
@@ -47,11 +47,11 @@
   @if (feed().status === 'ready' && feed().pages > 0 && (feed().page > 1 || feed().page < feed().pages)) {
     <nav aria-label="Blog">
       @if (feed().page > feed().pages) {
-        <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog" queryParamsHandling="preserve">{{ english ? 'See available articles' : 'Ver artículos disponibles' }}</a>
+        <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/blog')" queryParamsHandling="preserve">{{ english ? 'See available articles' : 'Ver artículos disponibles' }}</a>
       } @else if (feed().page > 1) {
-        <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page - 1]" queryParamsHandling="preserve">{{ english ? 'Previous' : 'Anterior' }}</a>
+        <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref(feed().page === 2 ? '/blog' : '/blog/' + (feed().page - 1))" queryParamsHandling="preserve">{{ english ? 'Previous' : 'Anterior' }}</a>
       }
-      @if (feed().page < feed().pages) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="['/blog', feed().page + 1]" queryParamsHandling="preserve">{{ english ? 'Next' : 'Siguiente' }}</a> }
+      @if (feed().page < feed().pages) { <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/blog/' + (feed().page + 1))" queryParamsHandling="preserve">{{ english ? 'Next' : 'Siguiente' }}</a> }
     </nav>
   }
 </section>

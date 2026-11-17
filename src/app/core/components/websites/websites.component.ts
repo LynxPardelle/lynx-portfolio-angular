@@ -1,3 +1,4 @@
+import { RelatedServices } from '../../discovery/related-services.component';
 /**
  * WebsitesComponent - Enhanced with Angular 20 Features
  * 
@@ -49,7 +50,6 @@ import { FileUploaderComponent } from '../../../shared/components/file-uploader/
 import { assetUrl } from '../../../shared/utils/asset-url';
 // Pipes
 import { SafeHtmlPipe } from '../../../shared/pipes/safe-html';
-import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'websites',
   templateUrl: './websites.component.html',
@@ -57,10 +57,10 @@ import { TranslatePipe } from '@ngx-translate/core';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    RelatedServices,
     ContentStatusComponent,
     FormsModule,
     FileUploaderComponent,
-    TranslatePipe,
     SafeHtmlPipe,
   ],
 })

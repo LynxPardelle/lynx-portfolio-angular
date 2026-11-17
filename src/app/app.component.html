@@ -15,8 +15,8 @@
   >
     <!-- Icon -->
     <a
-      href="/"
-      [routerLink]="['/']"
+      [attr.href]="publicHref('/')"
+      [routerLink]="publicHref('/')"
       class="text-center ank ank-wmx-15per ank-wSEL__img-45px ank-hSEL__img-45px"
     >
       @if (main && main.logo && assetUrl(main.logo)) {
@@ -49,11 +49,11 @@
     </a>
     <!-- Title -->
     <a
-      href="/"
-      [routerLink]="['/']"
+      [attr.href]="publicHref('/')"
+      [routerLink]="publicHref('/')"
       class="ank ank-wmx-50per mx-auto titleLynx text-decoration-none"
     >
-      <h1 class="text-center h2">Lynx Pardelle</h1>
+      <span class="text-center h2">Lynx Pardelle</span>
     </a>
     <!-- Menu -->
     <button
@@ -103,22 +103,23 @@
         role="menu"
         aria-labelledby="button-lang-dropdown"
       >
-        <li>
-          <button
-            (click)="changeLang('es')"
-            class="dropdown-item btn portfolio-lang-item w-100 py-3 ank ank-text-tdark ank-bg-fullRed ank-btn-fullRed text-center border-0 rounded-0"
-          >
-            Español
-          </button>
-        </li>
-        <li>
-          <button
-            (click)="changeLang('en')"
-            class="dropdown-item btn portfolio-lang-item w-100 py-3 ank ank-text-tdark ank-bg-fullRed ank-btn-fullRed text-center border-0 rounded-0"
-          >
-            English
-          </button>
-        </li>
+        @for (option of languageOptions; track option.code) {
+          <li>
+            @if (privateRoute) {
+              <button type="button" (click)="setPrivateLanguage(option.code)" [attr.lang]="option.code"
+                [attr.aria-current]="lang === option.code ? 'true' : null"
+                class="dropdown-item btn portfolio-lang-item w-100 py-3 ank ank-text-tdark ank-bg-fullRed ank-btn-fullRed text-center border-0 rounded-0">
+                {{ option.label }}
+              </button>
+            } @else {
+              <a [routerLink]="alternateHref(option.code)" [attr.hreflang]="option.code" [attr.lang]="option.code"
+                [attr.aria-current]="lang === option.code ? 'true' : null"
+                class="dropdown-item btn portfolio-lang-item w-100 py-3 ank ank-text-tdark ank-bg-fullRed ank-btn-fullRed text-center border-0 rounded-0">
+                {{ option.label }}
+              </a>
+            }
+          </li>
+        }
       </ul>
     </div>
   </div>
@@ -150,8 +151,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/"
-          [routerLink]="['/']"
+          [attr.href]="publicHref('/')"
+          [routerLink]="publicHref('/')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.inicio" | translate }}
@@ -160,8 +161,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/webs"
-          [routerLink]="['/webs']"
+          [attr.href]="publicHref('/webs')"
+          [routerLink]="publicHref('/webs')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.websites" | translate }}
@@ -170,8 +171,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/reel"
-          [routerLink]="['/reel']"
+          [attr.href]="publicHref('/reel')"
+          [routerLink]="publicHref('/reel')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.demoreel" | translate }}
@@ -180,8 +181,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/book"
-          [routerLink]="['/book']"
+          [attr.href]="publicHref('/book')"
+          [routerLink]="publicHref('/book')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.book" | translate }}
@@ -190,8 +191,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/music"
-          [routerLink]="['/music']"
+          [attr.href]="publicHref('/music')"
+          [routerLink]="publicHref('/music')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.music" | translate }}
@@ -200,8 +201,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/cv"
-          [routerLink]="['/cv']"
+          [attr.href]="publicHref('/cv')"
+          [routerLink]="publicHref('/cv')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.cv" | translate }}
@@ -210,8 +211,8 @@
       <li class="text-center my-4 h3">
         <a
           class="d-block mx-auto ank ank-text-fullYellow text-decoration-none"
-          href="/blog"
-          [routerLink]="['/blog']"
+          [attr.href]="publicHref('/blog')"
+          [routerLink]="publicHref('/blog')"
           data-bs-dismiss="offcanvas"
         >
           {{ "app.blog" | translate }}
@@ -333,8 +334,8 @@
         </svg></button
       >}
       <a
-        href="/music"
-        [routerLink]="['/music']"
+        [attr.href]="publicHref('/music')"
+        [routerLink]="publicHref('/music')"
         class="btn w-10 ank ank-text-fullRed border-0 ank-w-40px ank-h-38px ank-boxShadow-0__0__10px__fullRed ank-p-6px ank-mx-6px rounded-circle"
       >
         <svg

@@ -1,3 +1,4 @@
+import { RelatedServices } from '../../discovery/related-services.component';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // RxJs
@@ -31,6 +32,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    RelatedServices,
     ContentStatusComponent,
     FormsModule,
     FileUploaderComponent,

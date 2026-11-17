@@ -41,7 +41,9 @@
       </div>
     }
 
-    <h2 class="text-center ank ank-my-3rem">Demo Reel</h2>
+    <h1 class="text-center ank ank-my-3rem">{{ lang === 'en' ? "Demo reel" : "Demo reel" }}</h1>
+
+<portfolio-related-services section="reel" />
 
     <section>
       <portfolio-content-status [status]="videosStatus()" [empty]="videos.length === 0" [english]="lang === 'en'"

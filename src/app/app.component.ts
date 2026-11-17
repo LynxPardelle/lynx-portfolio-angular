@@ -8,9 +8,12 @@ import {
   ChangeDetectionStrategy,
   Inject,
   PLATFORM_ID,
+  REQUEST,
+  ChangeDetectorRef,
   inject,
 } from '@angular/core';
-import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AdminSession } from './auth/admin-session.service';
 import { Location, isPlatformBrowser } from '@angular/common';
 /* RXJS */
@@ -41,6 +44,8 @@ import { LoadMain } from './state/actions/main.actions';
  */
 import { IdentitySelector } from './state/selectors/sesion.selector';
 import { assetUrl } from './shared/utils/asset-url';
+import { PortfolioDiscovery } from './core/discovery/portfolio-discovery.service';
+import { PortfolioLanguage, portfolioPath, portfolioRoute } from './core/discovery/public-discovery';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -64,8 +69,11 @@ import { assetUrl } from './shared/utils/asset-url';
 export class AppComponent implements OnInit, DoCheck {
   protected readonly adminSession = inject(AdminSession);
   private readonly router = inject(Router);
+  private readonly discovery = inject(PortfolioDiscovery);
+  private readonly request = inject(REQUEST, { optional: true });
+  private readonly changes = inject(ChangeDetectorRef);
   protected get editLink(): string {
-    const section = this.router.lastSuccessfulNavigation()?.finalUrl?.toString().split(/[/?#]/)[1] || '';
+    const section = portfolioRoute(this.router.url).path.split('/')[1] || '';
     const collections: Record<string, string> = { webs: 'websites', reel: 'videos', book: 'bookimgs', music: 'songs' };
     if (section === 'blog') return '/admin/blog';
     return `/admin/content/${collections[section] || 'mains'}`;
@@ -76,7 +84,10 @@ export class AppComponent implements OnInit, DoCheck {
   public currentSong: Song = new Song('', '', null, 0, null, '', 0);
   public bgDefaultClasses: string[] = [];
   /* Translate */
-  public lang: string = 'es';
+  public lang: PortfolioLanguage = 'es';
+  protected readonly languageOptions = [{ code: 'es', label: 'Español' }, { code: 'en', label: 'English' }] as const;
+  protected privateRoute = false;
+  private privateLanguage: PortfolioLanguage = 'es';
   /* Urls */
   public urlMain: string = environment.api + '/main/';
   public assetUrl = assetUrl;
@@ -175,16 +186,11 @@ export class AppComponent implements OnInit, DoCheck {
     this.main$ = store.select(MainMainSelector);
     this.identity$ = store.select(IdentitySelector);
 
-    if (typeof window !== 'undefined') {
-      this._translate.addLangs(['es', 'en']);
-      this._translate.setFallbackLang(this.lang);
-      this.lang =
-        this._translate.getBrowserLang() &&
-        this._translate.getBrowserLang() !== undefined &&
-        this._translate.getBrowserLang()!.match(/en|es/)
-          ? this._translate.getBrowserLang()!
-          : this.lang;
-    }
+    this._translate.addLangs(['es', 'en']);
+    this.syncRoute(this.request?.url || this._location.path());
+    this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
+      if (event instanceof NavigationEnd) this.syncRoute(event.urlAfterRedirects);
+    });
 
     // Identity
     this.identity = this._mainService.getIdentity();
@@ -196,18 +202,6 @@ export class AppComponent implements OnInit, DoCheck {
     });
 
     this.getSongs();
-
-    if (typeof window !== 'undefined') {
-      let lang = localStorage.getItem('lang');
-      this.lang = lang !== null && typeof lang === 'string' ? lang : this.lang;
-      this._translate.use(this.lang);
-      this._sharedService.emitChange({
-        from: 'app',
-        to: 'all',
-        property: 'lang',
-        thing: this.lang,
-      });
-    }
 
     this.store.dispatch(LoadMain());
     afterNextRender(() => {
@@ -283,18 +277,7 @@ export class AppComponent implements OnInit, DoCheck {
       thing: this.main,
     });
 
-    if (typeof window !== 'undefined') {
-      let lang = localStorage.getItem('lang');
-      this.lang = lang !== null && typeof lang === 'string' ? lang : this.lang;
-      this._translate.use(this.lang);
-
-      this._sharedService.emitChange({
-        from: 'app',
-        to: 'all',
-        property: 'lang',
-        thing: this.lang,
-      });
-    }
+    this._sharedService.emitChange({ from: 'app', to: 'all', property: 'lang', thing: this.lang });
   }
 
   /* State */
@@ -351,19 +334,30 @@ export class AppComponent implements OnInit, DoCheck {
     }
   }
 
-  changeLang(lang: string) {
-    if (typeof window !== 'undefined') {
-      this.lang = lang;
-      this._translate.use(lang);
+  protected publicHref(path: string): string {
+    return portfolioPath(path, this.lang);
+  }
 
-      localStorage.setItem('lang', this.lang);
-      this._sharedService.emitChange({
-        from: 'app',
-        to: 'all',
-        property: 'lang',
-        thing: this.lang,
-      });
-    }
+  protected alternateHref(language: PortfolioLanguage) {
+    const current = this.router.url;
+    const route = portfolioRoute(current);
+    const url = new URL(current, 'https://lynxpardelle.com');
+    if (route.kind === 'private' || route.kind === 'missing') return this.router.parseUrl(portfolioPath('/', language));
+    return this.router.parseUrl(portfolioPath(route.path, language) + url.search + url.hash);
+  }
+
+  protected setPrivateLanguage(language: PortfolioLanguage): void {
+    this.privateLanguage = language;
+    this.syncRoute(this.router.url);
+  }
+
+  private syncRoute(url: string): void {
+    const route = portfolioRoute(url);
+    this.privateRoute = route.kind === 'private';
+    this.lang = this.privateRoute ? this.privateLanguage : route.language;
+    if (this._translate.getCurrentLang() !== this.lang) this._translate.use(this.lang);
+    this.discovery.apply(url, undefined, this.lang);
+    this.changes.markForCheck();
   }
 
   copyToClipBoard(copyText: string) {

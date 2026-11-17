@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
+const publicRoutes: Routes = [
   {
     path: 'inicio',
     redirectTo: '',
@@ -44,13 +44,11 @@ export const routes: Routes = [
   {
     path: 'cv',
     data: { view: 'cv' },
-    title: 'CV · Alec Montaño',
     loadComponent: () => import('./core/components/portfolio/portfolio.component').then((m) => m.PortfolioComponent),
   },
   ...['projects', 'aws', 'genai'].map((view) => ({
     path: view === 'projects' ? 'proyectos' : `proyectos/${view}`,
     data: { view },
-    title: 'Proyectos · Lynx Pardelle',
     loadComponent: () => import('./core/components/portfolio/portfolio.component').then((m) => m.PortfolioComponent),
   })),
   {
@@ -64,6 +62,11 @@ export const routes: Routes = [
         (m) => m.BlogComponent
       ),
   })),
+];
+
+export const routes: Routes = [
+  { path: 'en', children: publicRoutes },
+  ...publicRoutes,
   {
     path: 'admin',
     loadComponent: () => import('./auth/admin-shell.component').then((m) => m.AdminShell),
