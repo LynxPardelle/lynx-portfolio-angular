@@ -34,7 +34,9 @@
 </div>
 }
 
-<h2 class="text-center ank ank-my-3rem">Book</h2>
+<h1 class="text-center ank ank-my-3rem">{{ lang === 'en' ? "Graphic design work" : "Book de diseño gráfico" }}</h1>
+
+<portfolio-related-services section="book" />
 
 <section class="portfolio-book-section">
   <portfolio-content-status [status]="bookImgsStatus()" [empty]="bookImgs.length === 0" [english]="lang === 'en'"

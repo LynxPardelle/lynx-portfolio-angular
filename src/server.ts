@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { portfolioRoute } from './app/core/discovery/public-discovery';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -40,22 +41,37 @@ app.use(
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.get('/{*splat}', (req, res) => {
-  angularApp
-    .handle(req)
-    .then((response) => {
-      if (response) {
-        writeResponseToNodeResponse(response, res);
-      } else {
-        // If Angular app doesn't handle the route, serve index.csr.html for client-side routing
-        res.sendFile(join(browserDistFolder, 'index.csr.html'));
-      }
-    })
-    .catch((error) => {
-      console.error('Angular SSR Error:', error);
-      // Fallback to serving index.csr.html for client-side routing
-      res.sendFile(join(browserDistFolder, 'index.csr.html'));
-    });
+app.get('/{*splat}', async (req, res) => {
+  const spanishAlias = req.path === '/es' || req.path.startsWith('/es/');
+  const path = spanishAlias ? req.path.slice(3) || '/' : req.path;
+  const page = portfolioRoute(path);
+  if ((page.kind === 'public' || page.kind === 'article') && req.path !== page.canonicalPath) {
+    const start = req.originalUrl.indexOf('?');
+    const query = start < 0 ? '' : req.originalUrl.slice(start);
+    res.redirect(308, page.canonicalPath + query);
+    return;
+  }
+
+  try {
+    const response = await angularApp.handle(req);
+    if (!response) {
+      res.set('X-Robots-Tag', 'noindex, nofollow');
+      res.status(404).sendFile(join(browserDistFolder, 'index.csr.html'));
+      return;
+    }
+    const status = page.kind === 'missing' && response.status === 200 ? 404 : response.status;
+    if (page.kind === 'private' || status >= 400) {
+      const headers = new Headers(response.headers);
+      headers.set('X-Robots-Tag', 'noindex, nofollow');
+      writeResponseToNodeResponse(new Response(response.body, { status, headers }), res);
+      return;
+    }
+    writeResponseToNodeResponse(response, res);
+  } catch (error) {
+    console.error('Angular SSR Error:', error);
+    res.set('X-Robots-Tag', 'noindex, nofollow');
+    res.status(500).sendFile(join(browserDistFolder, 'index.csr.html'));
+  }
 });
 
 /**

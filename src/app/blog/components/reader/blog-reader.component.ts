@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, RESPONSE_INIT } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, combineLatest, map, of, startWith, Subject, switchMap, timeout } from 'rxjs';
+import { catchError, combineLatest, filter, map, of, startWith, Subject, switchMap, timeout } from 'rxjs';
 import { ArticleTerm, IArticle, IArticleSection, taxonomyLabel, TaxonomyKind } from '../../interfaces/blog';
+import { PortfolioDiscovery } from '../../../core/discovery/portfolio-discovery.service';
+import { portfolioPath, portfolioRoute } from '../../../core/discovery/public-discovery';
 import { BlogService } from '../../services/blog.service';
 import { ContentStatusComponent } from '../../../shared/components/content-status/content-status.component';
 
@@ -17,7 +19,7 @@ const loading: ReaderState = { status: 'loading', article: null };
   imports: [RouterLink, ContentStatusComponent],
   template: `
     <article class="portfolio-surface">
-      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog">Blog</a>
+      <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/blog')">Blog</a>
       @if (state().article; as item) {
         <h1>{{ english ? (item.titleEng || item.title) : item.title }}</h1>
         @if (item.taxonomy?.length) {
@@ -28,7 +30,7 @@ const loading: ReaderState = { status: 'loading', article: null };
                 <dd>
                   @for (term of item.taxonomy || []; track term.kind + ':' + term.key) {
                     @if (term.kind === group.kind) {
-                      <a class="portfolio-btn portfolio-btn-secondary" routerLink="/blog"
+                      <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/blog')"
                         [queryParams]="filterParams(term)">{{ label(term, english) }}</a>
                     }
                   }
@@ -68,6 +70,13 @@ export class BlogReaderComponent {
     { kind: 'tag', es: 'Etiquetas', en: 'Tags' },
   ].map((group) => ({ ...group, matches: (term: { kind: TaxonomyKind }) => term.kind === group.kind }));
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly discovery = inject(PortfolioDiscovery);
+  private readonly response = inject(RESPONSE_INIT, { optional: true });
+  private readonly url = toSignal(this.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    map(event => event.urlAfterRedirects),
+  ), { initialValue: this.router.url });
   private readonly blog = inject(BlogService);
   private readonly translate = inject(TranslateService);
   private readonly retry = new Subject<void>();
@@ -85,7 +94,30 @@ export class BlogReaderComponent {
     )),
   ), { initialValue: loading });
 
+  constructor() {
+    effect(() => {
+      const url = this.url();
+      const route = portfolioRoute(url);
+      if (route.kind !== 'article') return;
+      const state = this.state();
+      const article = state.article;
+      if (!article) {
+        this.discovery.apply(url);
+        if (this.response && state.status !== 'loading') this.response.status = state.status === 'ready' ? 404 : 503;
+        return;
+      }
+      const english = route.language === 'en';
+      const hasTranslation = Boolean(article.titleEng?.trim() && (article.langs?.includes('en') || article.introEng?.trim()));
+      const title = english ? article.titleEng : article.title;
+      if (title?.trim() && (!english || hasTranslation)) {
+        const subtitle = (english ? article.subtitleEng : article.subtitle) || '';
+        this.discovery.apply(url, { title: title.trim(), description: subtitle.replace(/<[^>]*>/g, '').trim(), hasTranslation });
+      }
+    });
+  }
+
   protected get english() { return this.translate.getCurrentLang() === 'en'; }
+  protected publicHref(path: string) { return portfolioPath(path, this.english ? 'en' : 'es'); }
   protected filterParams(term: ArticleTerm) { return { [term.kind]: term.key }; }
   protected reload() { this.retry.next(); }
 }

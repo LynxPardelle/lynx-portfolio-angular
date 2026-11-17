@@ -6,6 +6,7 @@ import { ActivatedRoute, convertToParamMap, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, combineLatest, map, of, startWith, Subject, switchMap, timeout } from 'rxjs';
 import { BlogFilter, IArticle, taxonomyLabel, TaxonomyKind } from '../../interfaces/blog';
+import { portfolioPath } from '../../../core/discovery/public-discovery';
 import { BlogService } from '../../services/blog.service';
 import { BlogAssistantComponent } from '../assistant/blog-assistant.component';
 import { BlogTestReader } from './blog-test-reader.component';
@@ -40,6 +41,8 @@ export class BlogComponent implements OnInit {
   public get articles() { return this.feed().articles; }
   public get loading() { return this.feed().status === 'loading'; }
   protected get english() { return this.translate?.getCurrentLang() === 'en'; }
+
+  protected publicHref(path: string) { return portfolioPath(path, this.english ? 'en' : 'es'); }
 
   constructor() {
     afterNextRender(() => this.load());

@@ -38,7 +38,9 @@
 </div>
 }
 
-<h2 class="text-center ank ank-my-3rem">{{ "app.websites" | translate }}</h2>
+<h1 class="text-center ank ank-my-3rem">{{ lang() === 'en' ? "Web projects" : "Proyectos web" }}</h1>
+
+<portfolio-related-services section="webs" />
 
 <section class="portfolio-websites-section">
   <portfolio-content-status [status]="status()" [empty]="webSites().length === 0" [english]="lang() === 'en'"

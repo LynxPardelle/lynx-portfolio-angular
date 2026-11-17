@@ -39,22 +39,21 @@
 }
 
 <section class="portfolio-intro portfolio-surface">
-  <p class="portfolio-name">Alec Montaño / Lynx Pardelle</p>
+  <p class="portfolio-name">Alec Jonathan Montaño Romero / Lynx Pardelle</p>
   <h1>{{ copy('profileHeadline') || ('portfolio.headline' | translate) }}</h1>
   <p>{{ copy('profileSummary') || ('portfolio.summary' | translate) }}</p>
   <div class="portfolio-cases">
-    <a class="portfolio-btn portfolio-btn-secondary" routerLink="/proyectos/aws">{{ 'portfolio.aws.label' | translate }}</a>
-    <a class="portfolio-btn portfolio-btn-secondary" routerLink="/proyectos/genai">{{ 'portfolio.genai.label' | translate }}</a>
+    <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/proyectos/aws')">{{ 'portfolio.aws.label' | translate }}</a>
+    <a class="portfolio-btn portfolio-btn-secondary" [routerLink]="publicHref('/proyectos/genai')">{{ 'portfolio.genai.label' | translate }}</a>
   </div>
-  <a class="portfolio-btn" routerLink="/cv">{{ 'portfolio.cvLink' | translate }}</a>
+  <a class="portfolio-btn" [routerLink]="publicHref('/cv')">{{ 'portfolio.cvLink' | translate }}</a>
 </section>
 
 <nav>
   <ul class="mx-auto w-75 d-flex flex-wrap justify-content-center ps-0 mb-0 ank ank-mt-5rem">
     <li class="mx-3">
       <a
-        href="/webs"
-        [routerLink]="['/webs']"
+        [routerLink]="publicHref('/webs')"
         class="text-decoration-none fw-bold"
       >
         {{ "app.websites" | translate }}
@@ -62,8 +61,7 @@
     </li>
     <li class="mx-3">
       <a
-        href="/reel"
-        [routerLink]="['/reel']"
+        [routerLink]="publicHref('/reel')"
         class="text-decoration-none fw-bold"
       >
         {{ "app.demoreel" | translate }}
@@ -71,8 +69,7 @@
     </li>
     <li class="mx-3">
       <a
-        href="/book"
-        [routerLink]="['/book']"
+        [routerLink]="publicHref('/book')"
         class="text-decoration-none fw-bold"
       >
         {{ "app.book" | translate }}
@@ -80,22 +77,20 @@
     </li>
     <li class="mx-3">
       <a
-        href="/music"
-        [routerLink]="['/music']"
+        [routerLink]="publicHref('/music')"
         class="text-decoration-none fw-bold"
       >
         {{ "app.music" | translate }}
       </a>
     </li>
     <li class="mx-3">
-      <a href="/cv" [routerLink]="['/cv']" class="text-decoration-none fw-bold">
+      <a [routerLink]="publicHref('/cv')" class="text-decoration-none fw-bold">
         {{ "app.cv" | translate }}
       </a>
     </li>
       <li class="mx-3">
       <a
-        href="/blog"
-        [routerLink]="['/blog']"
+        [routerLink]="publicHref('/blog')"
         class="text-decoration-none fw-bold"
       >
         {{ "app.blog" | translate }}

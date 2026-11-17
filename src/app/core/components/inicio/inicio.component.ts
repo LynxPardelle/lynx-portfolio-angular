@@ -1,3 +1,4 @@
+import { portfolioPath } from '../../discovery/public-discovery';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -44,6 +45,7 @@ export class InicioComponent implements OnInit {
   protected copy(key: PortfolioCopyKey) { return portfolioCopy(this.main, key, this.lang); }
   // Translate
   public lang: string = 'es';
+  protected publicHref(path: string) { return portfolioPath(path, this.lang === 'en' ? 'en' : 'es'); }
   // Urls
   public urlMain: string = environment.api + '/main/';
   public assetUrl = assetUrl;

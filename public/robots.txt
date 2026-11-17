@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+# Private portfolio routes return a noindex directive in the response.
 Sitemap: https://lynxpardelle.com/sitemap.xml

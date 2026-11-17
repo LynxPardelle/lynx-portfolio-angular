@@ -1,3 +1,4 @@
+import { RelatedServices } from '../../discovery/related-services.component';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,6 +36,7 @@ import { assetUrl } from '../../../shared/utils/asset-url';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    RelatedServices,
     ContentStatusComponent,
     CommonModule,
     FormsModule,

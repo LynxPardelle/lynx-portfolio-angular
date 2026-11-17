@@ -52,5 +52,40 @@
   "portfolio.genai.insufficient": "Evidencia insuficiente · El asistente se abstiene ante una pregunta que el blog no cubre.",
   "portfolio.genai.review": "Revisión humana · Un borrador sin fuentes suficientes queda en el editor privado.",
   "portfolio.genai.blog": "Ir al blog",
-  "portfolio.cvLink": "Ver CV"
+  "portfolio.cvLink": "Ver CV",
+  "discovery": {
+    "music": {
+      "title": "Escucha, aprende y produce",
+      "intro": "Escucha mi proyecto musical, consulta las opciones de formación o solicita clases y apoyo de mezcla para tu proyecto."
+    },
+    "reel": {
+      "title": "Video, animación y formación",
+      "intro": "Consulta opciones para producir un videoclip, animar una pieza o aprender edición y producción audiovisual."
+    },
+    "book": {
+      "title": "Diseño para música y eventos",
+      "intro": "Encuentra servicios de portadas, logotipos y flyers digitales para una publicación, evento o proyecto musical."
+    },
+    "webs": {
+      "title": "Servicios para publicar en la web",
+      "intro": "Consulta opciones para presentar tu trabajo, preparar un press kit o crear una página para tu proyecto."
+    },
+    "links": {
+      "artist": "Escuchar a Lynx Pardelle",
+      "training": "Cursos y formación musical",
+      "masterclasses": "Masterclasses de música y audio",
+      "lessons": "Clases personalizadas",
+      "mixing": "Servicio de mezcla",
+      "video": "Producción de videoclips",
+      "animation": "Animación",
+      "production": "Curso de producción audiovisual",
+      "cover": "Portadas musicales",
+      "logos": "Diseño de logotipos",
+      "flyers": "Flyers digitales",
+      "sites": "Creación de sitios web",
+      "landing": "Diseño de landing pages",
+      "presskits": "Press kits en línea",
+      "portfolios": "Portafolios en línea"
+    }
+  }
 }
