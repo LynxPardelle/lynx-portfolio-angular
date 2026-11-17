@@ -3,6 +3,7 @@ import { importProvidersFrom } from '@angular/core';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -19,6 +20,7 @@ describe('MusicComponent', () => {
         provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         provideRouter([]),
+        provideTranslateService(),
         provideMockStore({
           initialState: { main: { loading: false }, sesion: { active: false } },
         }),
