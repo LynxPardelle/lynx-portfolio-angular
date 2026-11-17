@@ -5,6 +5,9 @@ import { firstValueFrom, timeout } from 'rxjs';
 import { AdminSession } from '../../../auth/admin-session.service';
 import { BlogService } from '../../services/blog.service';
 
+type ArticleLanguage = 'es' | 'en';
+interface ArticleText { title: string; markdown: string }
+
 interface Draft {
   slug: string;
   category: 'technology' | 'art' | 'other' | 'test';
@@ -12,8 +15,8 @@ interface Draft {
   tags?: string[];
   eventDate: string;
   sources: string[];
-  es?: { title: string; markdown: string };
-  en?: { title: string; markdown: string };
+  es?: ArticleText;
+  en?: ArticleText;
   origin?: string;
   status?: string;
   version: number;
@@ -32,6 +35,7 @@ export class EditorialComponent {
   protected readonly session = inject(AdminSession);
   private readonly blog = inject(BlogService);
   protected readonly busy = signal(false);
+  protected readonly translating = signal(false);
   protected readonly message = signal('');
   protected readonly drafts = signal<Draft[]>([]);
   protected readonly draftsLoaded = signal(false);
@@ -90,6 +94,38 @@ export class EditorialComponent {
   protected get canPreview() {
     return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(this.draft.slug) &&
       (!!this.titleEs.trim() && !!this.markdownEs.trim() || !!this.titleEn.trim() && !!this.markdownEn.trim());
+  }
+
+  protected get translationSource(): ArticleLanguage | null {
+    if (this.draft.origin && this.draft.origin !== 'manual') return null;
+    if (this.titleEs.trim() && this.markdownEs.trim() && !this.titleEn.trim() && !this.markdownEn.trim()) return 'es';
+    if (this.titleEn.trim() && this.markdownEn.trim() && !this.titleEs.trim() && !this.markdownEs.trim()) return 'en';
+    return null;
+  }
+
+  protected async translate() {
+    const source = this.translationSource;
+    if (this.busy() || !source) return;
+    const { title, markdown } = this.payload()[source]!;
+    this.translating.set(true);
+    try {
+      await this.run(async () => {
+        const result = await this.session.request<ArticleText>('POST', 'editorial/translate', { source, title, markdown });
+        if (source === 'es') {
+          this.titleEn = result.title;
+          this.markdownEn = result.markdown;
+          this.previewLang = 'en';
+        } else {
+          this.titleEs = result.title;
+          this.markdownEs = result.markdown;
+          this.previewLang = 'es';
+        }
+        this.preview.set('');
+        this.message.set('Traducción generada. Revísala antes de guardar el borrador.');
+      });
+    } finally {
+      this.translating.set(false);
+    }
   }
 
   protected save() {

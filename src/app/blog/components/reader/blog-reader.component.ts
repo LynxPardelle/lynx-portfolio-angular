@@ -40,7 +40,7 @@ const loading: ReaderState = { status: 'loading', article: null };
           </dl>
         }
         @if (item.editorial?.origin === 'desktop') { <p>{{ english ? 'Written with AI assistance' : 'Redactado con asistencia de IA' }}</p> }
-        <div [innerHTML]="english ? item.introEng : item.intro"></div>
+        <div class="blog-article-body" [innerHTML]="english ? item.introEng : item.intro"></div>
         @for (section of item.sections; track section._id) {
           <h2>{{ english ? section.titleEng : section.title }}</h2>
           <div [innerHTML]="english ? section.textEng : section.text"></div>

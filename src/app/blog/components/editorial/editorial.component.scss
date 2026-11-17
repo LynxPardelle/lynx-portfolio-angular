@@ -5,3 +5,7 @@
 .studio article { padding: 1rem; border: 1px solid var(--portfolio-line); overflow-wrap: anywhere; }
 .studio-hint { color: var(--portfolio-muted); margin: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; }
+.article-languages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 1rem; }
+.article-languages fieldset { display: grid; gap: .75rem; min-width: 0; border: 1px solid var(--portfolio-line); border-radius: .6rem; padding: .9rem; }
+.article-languages legend { float: none; width: auto; margin: 0; padding-inline: .4rem; font-size: 1rem; font-weight: 700; }
+.translation-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem 1rem; }

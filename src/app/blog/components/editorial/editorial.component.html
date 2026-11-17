@@ -1,7 +1,7 @@
 <section class="studio portfolio-surface">
   <p class="portfolio-kicker">Publicaciones</p>
   <h2>Editor del blog</h2>
-  <p role="status">{{ busy() ? (draftsLoaded() ? 'Procesando…' : 'Cargando borradores…') : message() }}</p>
+  <p role="status">{{ busy() ? (translating() ? 'Generando traducción…' : draftsLoaded() ? 'Procesando…' : 'Cargando borradores…') : message() }}</p>
   @if (!draftsLoaded() && !busy() && message()) {
     <button class="portfolio-btn portfolio-btn-secondary" type="button" (click)="loadDrafts()">Reintentar</button>
   }
@@ -29,10 +29,26 @@
       <p class="studio-hint">Separa las etiquetas y subcategorías con comas. Usa guiones entre palabras.</p>
       @if (editingPrivate) { <p class="studio-hint">Prueba privada · visible únicamente para administradores.</p> }
       <label>Fecha del hecho <input type="date" name="date" [(ngModel)]="draft.eventDate"></label>
-      <label>Título en español <input name="titleEs" [(ngModel)]="titleEs" maxlength="160"></label>
-      <label>Texto en español (Markdown) <textarea name="es" [(ngModel)]="markdownEs" maxlength="15000" rows="7"></textarea></label>
-      <label>Título en inglés <input name="titleEn" [(ngModel)]="titleEn" maxlength="160"></label>
-      <label>Texto en inglés (Markdown) <textarea name="en" [(ngModel)]="markdownEn" maxlength="15000" rows="7"></textarea></label>
+      <div class="article-languages">
+        <fieldset [disabled]="translating()">
+          <legend>Español</legend>
+          <label>Título en español <input name="titleEs" [(ngModel)]="titleEs" maxlength="160"></label>
+          <label>Texto en español (Markdown) <textarea name="es" [(ngModel)]="markdownEs" maxlength="15000" rows="7"></textarea></label>
+        </fieldset>
+        <fieldset [disabled]="translating()">
+          <legend>English</legend>
+          <label>Título en inglés <input name="titleEn" [(ngModel)]="titleEn" maxlength="160"></label>
+          <label>Texto en inglés (Markdown) <textarea name="en" [(ngModel)]="markdownEn" maxlength="15000" rows="7"></textarea></label>
+        </fieldset>
+      </div>
+      @if (!draft.origin || draft.origin === 'manual') {
+        <div class="translation-controls">
+          <button class="portfolio-btn portfolio-btn-secondary" type="button" [disabled]="busy() || !translationSource" (click)="translate()">
+            {{ translationSource === 'es' ? 'Traducir al inglés' : translationSource === 'en' ? 'Traducir al español' : 'Generar traducción' }}
+          </button>
+          <p class="studio-hint">Completa el título y el texto en un idioma y deja el otro vacío. Puedes editar el resultado antes de guardar.</p>
+        </div>
+      }
       <label>Fuentes HTTPS, una por línea <textarea name="sources" [(ngModel)]="sourceText" rows="3"></textarea></label>
       <div class="actions">
         <button class="portfolio-btn" [disabled]="busy()" type="submit">Guardar borrador</button>
